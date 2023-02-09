@@ -53,6 +53,7 @@ export const signUp = async (req, res, next) => {
 * REGULAR LOGIN   *
 ********************/
 export const login = async (req, res) => {
+
     //get user info from header
     const token = getToken({ _id: req.user._id })
     const refreshToken = getRefreshToken({ _id: req.user._id })
@@ -63,7 +64,9 @@ export const login = async (req, res) => {
         await user.save();
 
         //due to COOKIE_OPTIONS, this creates a signed cookie and can be accessed in req.signedCookies 
-        res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
+        // res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
+        res.cookie("refreshToken", refreshToken, {signed: true})
+
         res.status(200).json({ success: true, token, user })
     } catch (error) {
         res.status(500).json(error)
@@ -75,10 +78,14 @@ export const login = async (req, res) => {
 *  LOG OUT  *
 ****************/
 export const logOut = async (req, res) => {
+    
 
     //get current token from header 
     const { signedCookies = {} } = req
     const { refreshToken } = signedCookies
+
+    // console.log("logout")
+    // console.log(refreshToken)
 
     try {
         const user = await userModel.findById(req.user._id);
@@ -93,7 +100,9 @@ export const logOut = async (req, res) => {
         req.logout()
         // console.log(req.user)
 
-        res.clearCookie("refreshToken", COOKIE_OPTIONS)
+        // res.clearCookie("refreshToken", COOKIE_OPTIONS)
+        res.clearCookie("refreshToken", {signed: true})
+
         res.status(200).json({ logOut: true })
 
     } catch (error) {
@@ -121,9 +130,12 @@ export const getMyInfo = (req, res) => {
 
 
 export const refreshToken = (req, res, next) => {
+
     const { signedCookies = {} } = req
     const { refreshToken } = signedCookies
 
+    // console.log("refreshToken")
+    // console.log(refreshToken)
 
     if (refreshToken) {
         try {
@@ -139,7 +151,7 @@ export const refreshToken = (req, res, next) => {
 
                         if (tokenIndex === -1) {
                             res.statusCode = 401
-                            res.send("Unauthorized")
+                            res.send("Didn't find match token in user DB")
                         } else {
                             const token = getToken({ _id: userId })
                             // If the refresh token exists, then create new one and replace it.
@@ -150,25 +162,28 @@ export const refreshToken = (req, res, next) => {
                                     res.statusCode = 500
                                     res.send(err)
                                 } else {
-                                    res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS)
+                                    // res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS)
+                                    res.cookie("refreshToken", newRefreshToken, {signed: true})
+
                                     res.send({ success: true, token })
                                 }
                             })
                         }
                     } else {
                         res.statusCode = 401
-                        res.send("Unauthorized")
+                        res.send("the token we got don't have a match user")
                     }
                 },
                 err => next(err)
             )
         } catch (err) {
             res.statusCode = 401
-            res.send("Unauthorized")
+            console.log(err)
+            res.send("Some error happen")
         }
     } else {
         res.statusCode = 401
-        res.send("Unauthorized")
+        res.send("None Token receied.")
     }
 }
 
