@@ -1,13 +1,18 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+
 import "./Register.css"
 import * as AuthAPI from "../../API/AuthAPI.js"
 import { Link } from "react-router-dom";
-
+import { AuthContext } from '../../context/AuthProvider';
+import * as AuthAction from "../../actions/AuthAction"
 
 const Register = () => {
 
+  const { isFetching, dispatch, user } = useContext(AuthContext);
+
+
   const initData = {
-    Email: "",
+    email: "",
     username: "",
     password: "",
     confirmPassword: ""
@@ -20,12 +25,13 @@ const Register = () => {
       { ...formData, [e.target.name]: e.target.value }
     )
   }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (checkForm()) {
-      await AuthAPI.signUp(formData)
-      window.open(process.env.REACT_APP_URL, "_self");
+      AuthAction.signUp(formData, dispatch)
     }
   }
 
@@ -35,11 +41,11 @@ const Register = () => {
   const checkForm = () => {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if (formData.Email.length === 0) {
+    if (formData.email.length === 0) {
       setBadInfo(1)
       return false;
     }
-    else if (!re.test(formData.Email)) {
+    else if (!re.test(formData.email)) {
       setBadInfo(6)
       return false;
     }
@@ -96,8 +102,8 @@ const Register = () => {
               required
               type="email"
               placeholder='E-mail'
-              value={formData.Email}
-              name="Email"
+              value={formData.email}
+              name="email"
               onChange={changeData} />
           </div>
 

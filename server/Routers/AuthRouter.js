@@ -11,7 +11,7 @@ const router = express();
 router.post('/register', AuthController.checkAlreadyRegistered, AuthController.signUp, passport.authenticate("local"), AuthController.login)
 router.post('/login', passport.authenticate("local"), AuthController.login)
 
-router.post('/refreshToken', AuthController.refreshToken)
+router.get('/refreshToken', passport.authenticate("jwt", { session: false }), AuthController.refreshToken)
 router.get("/myProfile", passport.authenticate("jwt", { session: false }), AuthController.getMyInfo)
 router.get("/logout", passport.authenticate("jwt", { session: false }), AuthController.logOut )
 
