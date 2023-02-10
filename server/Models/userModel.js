@@ -14,17 +14,50 @@ const UserSchema = mongoose.Schema(
         username: {
             type: String,
             required: true,
-            unique : true
+            unique: true
         },
         email: {
             type: String,
             required: true,
-            unique : true
+            unique: true
         },
-        // password: {
-        //     type: String,
-        //     required: true
-        // },
+        displayname: {
+            type: String,
+            required: true,
+        },
+        icon: {
+            type: String,
+        },
+        postsCreated: {
+            type: Array,
+        },
+        votes: {
+            type: Array,
+        },
+        points: {
+            type: Number, default: 0
+        },
+        allTimePoint: {
+            time: {
+                type: String,
+            },
+            highestPoints: {
+                type: Number,
+                default: 0
+            }
+        },
+        likedPost: {
+            type: Array,
+        },
+        likedCategory: {
+            type: Array,
+        },
+        viewHistory: {
+            type: Array,
+        },
+
+
+
         isAdmin: {
             type: Boolean,
             default: false
