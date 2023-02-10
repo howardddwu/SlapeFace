@@ -19,7 +19,10 @@ router.get('/getAll', async (req, res, next) => {
 
 // ADD new prophecy into DB
 router.post('/add', async (req, res) => {
-  console.log(req)
+  const OptionObjects = {
+    option: req.body.option,
+    voters: req.body.voters
+  }
   const prophecyData = {
     title: req.body.title,
     description: req.body.description,
@@ -27,8 +30,7 @@ router.post('/add', async (req, res) => {
     //下面2个前端处理后添加
     //endTime: req.body.endTime,
     //verifiedTime: req.body.verifiedTime, 
-    isVerified: req.body.isVerified,
-    options: req.body.options,
+    options: OptionObjects,
     category: req.body.category,
   }
   const newProphecy = new prophecyModel(prophecyData)
