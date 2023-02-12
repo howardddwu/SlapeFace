@@ -16,6 +16,7 @@ import * as passportJWT from "./Strategies/jwtStrategy.js"
 //routes:
 import AuthRoute from './Routers/AuthRouter.js'
 import CommentRoute from "./Routers/CommentRouter.js"
+import RankRoute from "./Routers/RankRouter.js"
 //Controllers:
 import ProphecyController from './Controllers/ProphecyController.js'
 
@@ -81,4 +82,5 @@ app.use('/auth', AuthRoute)
 
 app.use('/prophecy', ProphecyController)
 app.use('/comment', CommentRoute)
+app.use('/rank', RankRoute)
 
