@@ -1,0 +1,12 @@
+
+.RankDetailContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.RankDetailPic{
+    width: 10rem;
+    border-radius: 50%;
+}

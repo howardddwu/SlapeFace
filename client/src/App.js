@@ -9,6 +9,7 @@ import Home from './pages/Home/Home';
 
 import { AuthContext } from './context/AuthProvider';
 import * as AuthAction from './actions/AuthAction';
+import Rank from './pages/Rank/Rank';
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
       const iferr = await AuthAction.refreshToken(token, dispatch)
       console.log("t for error, f for success ", iferr)
 
-      if(iferr){
+      if (iferr) {
         //logout(clean user data) and exit function
         return
       }
@@ -74,7 +75,12 @@ function App() {
           path="/signup"
           // element={<Register />}
           element={user ? <Navigate to="/home" /> : <Register />}
+        />
 
+        <Route
+          exact
+          path="/ranking"
+          element={ <Rank />}
         />
 
       </Routes>

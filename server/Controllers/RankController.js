@@ -28,7 +28,7 @@ export const getAllRank = async (req, res) => {
             let temp = {
                 username: item.username,
                 displayname: item.displayname,
-                highestPoints: item.allTimePoint.highestPoints
+                points: item.allTimePoint.highestPoints
             }
             result[index] = temp
         })

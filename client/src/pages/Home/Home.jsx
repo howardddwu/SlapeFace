@@ -1,8 +1,9 @@
 import React from 'react'
-import { useState, useEffect,  useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../context/AuthProvider';
 import * as AuthAction from "../../actions/AuthAction"
 import { myInfo } from '../../API/AuthAPI';
+import { Link } from "react-router-dom";
 
 import Prophecy from './Prophecy'
 
@@ -10,18 +11,13 @@ const Home = () => {
 
   const { isFetching, dispatch, user, token } = useContext(AuthContext);
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     await AuthAction.logOut(token, dispatch)
     // window.location.reload()
   }
 
-  const refreshToken = async() => {
-    await AuthAction.refreshToken(token, dispatch)
-  }
+  const handleMyInfo = async () => {
 
-
-  const handleMyInfo = async() => {
-    
     const res = await myInfo(token);
     console.log(res)
     // window.location.reload()
@@ -92,7 +88,7 @@ const Home = () => {
   return (
     <div>
       <h1>User's home page</h1>
-       {user &&
+      {user &&
         <div>
           <h3>User Info:</h3>
           <p>{user.username}</p>
@@ -104,15 +100,16 @@ const Home = () => {
         className='button infoButton'
         onClick={handleLogout}>Log Out
       </button>
-      {/* <button
-        className='button infoButton'
-        onClick={refreshToken}>Refresh Token
-      </button> */}
+      <Link className='trouble' to="/ranking">
+        <button className='button infoButton'>
+          Rank
+        </button>
+      </Link>
       <button
         className='button infoButton'
         onClick={handleMyInfo}>My Info
       </button>
-      
+
       <button onClick={sortByParticipated}>HOT</button>
       <button onClick={sortByTime}>NEW</button>
       <div>
