@@ -1,0 +1,27 @@
+.RankContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+.buttonsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.RankRowsContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 1rem;
+}
+
+.RankRows{
+    border: 1px solid;
+    border-radius: 8px;
+}
+.RankRows:hover{
+    cursor: pointer;
+}

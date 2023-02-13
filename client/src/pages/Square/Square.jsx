@@ -18,6 +18,12 @@ const Square = () => {
           Sign in
         </button>
       </Link>
+
+      <Link className='trouble' to="/ranking">
+        <button className='button infoButton'>
+          Rank
+        </button>
+      </Link>
     </div>
 
   )

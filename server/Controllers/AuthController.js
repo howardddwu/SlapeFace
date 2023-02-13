@@ -33,11 +33,11 @@ export const checkAlreadyRegistered = async (req, res, next) => {
 * function to register a regular user  *
 ****************************************/
 export const signUp = async (req, res, next) => {
-    const { username, password, email } = req.body
+    const { username, password, email, displayname } = req.body
 
     try {
         await userModel.register(
-            new userModel({ username: username, email: email }),
+            new userModel({ username: username, email: email, displayname: displayname }),
             password
         )
 

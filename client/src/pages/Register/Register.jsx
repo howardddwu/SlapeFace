@@ -14,6 +14,7 @@ const Register = () => {
   const initData = {
     email: "",
     username: "",
+    displayname: "",
     password: "",
     confirmPassword: ""
   }
@@ -51,6 +52,10 @@ const Register = () => {
     }
     if (formData.username.length === 0) {
       setBadInfo(2)
+      return false;
+    }
+    if (formData.displayname.length === 0) {
+      setBadInfo(7)
       return false;
     }
     else if ((formData.password.length === 0)) {
@@ -95,6 +100,9 @@ const Register = () => {
           {badInfo === 6 &&
             <span className='authDesc failAuth'>Invalid E-mail form!</span>
           }
+          {badInfo === 7 &&
+            <span className='authDesc failAuth'>Display Name cannot be empty!</span>
+          }
 
           <div className='infoInputWraper'>
             <input
@@ -116,6 +124,18 @@ const Register = () => {
               placeholder='username'
               value={formData.username}
               name="username"
+              onChange={changeData} />
+          </div>
+
+          <div className='infoInputWraper'>
+
+            <input
+              className="infoInput"
+              required
+              type="text"
+              placeholder='displayname'
+              value={formData.displayname}
+              name="displayname"
               onChange={changeData} />
           </div>
 

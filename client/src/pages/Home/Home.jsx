@@ -1,8 +1,9 @@
 import React from 'react'
 import { useState, useEffect, useContext } from 'react'
-import { AuthContext } from '../../context/AuthProvider'
-import * as AuthAction from '../../actions/AuthAction'
-import { myInfo } from '../../API/AuthAPI'
+import { AuthContext } from '../../context/AuthProvider';
+import * as AuthAction from "../../actions/AuthAction"
+import { myInfo } from '../../API/AuthAPI';
+import { Link } from "react-router-dom";
 
 import Prophecy from '../../components/Prophecy'
 
@@ -14,12 +15,9 @@ const Home = () => {
     // window.location.reload()
   }
 
-  const refreshToken = async () => {
-    await AuthAction.refreshToken(token, dispatch)
-  }
-
   const handleMyInfo = async () => {
-    const res = await myInfo(token)
+
+    const res = await myInfo(token);
     console.log(res)
     // window.location.reload()
   }
@@ -88,23 +86,26 @@ const Home = () => {
   return (
     <div>
       <h1>User's home page</h1>
-      {user && (
+      {user &&
         <div>
           <h3>User Info:</h3>
           <p>{user.username}</p>
           <p>{user.email}</p>
         </div>
-      )}
+      }
 
-      <button className="button infoButton" onClick={handleLogout}>
-        Log Out
-      </button>
-      {/* <button
+      <button
         className='button infoButton'
-        onClick={refreshToken}>Refresh Token
-      </button> */}
-      <button className="button infoButton" onClick={handleMyInfo}>
-        My Info
+        onClick={handleLogout}>Log Out
+      </button>
+      <Link className='trouble' to="/ranking">
+        <button className='button infoButton'>
+          Rank
+        </button>
+      </Link>
+      <button
+        className='button infoButton'
+        onClick={handleMyInfo}>My Info
       </button>
 
       <button onClick={sortByParticipated}>HOT</button>

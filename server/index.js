@@ -15,7 +15,8 @@ import * as passportJWT from "./Strategies/jwtStrategy.js"
 
 //routes:
 import AuthRoute from './Routers/AuthRouter.js'
-
+import CommentRoute from "./Routers/CommentRouter.js"
+import RankRoute from "./Routers/RankRouter.js"
 //Controllers:
 import ProphecyController from './Controllers/ProphecyController.js'
 import CommentController from './Controllers/CommentController.js'
@@ -81,5 +82,8 @@ app.get("/", function (req, res) {
 app.use('/auth', AuthRoute)
 
 app.use('/prophecy', ProphecyController)
-
 app.use('/comment', CommentController)
+
+app.use('/rank', RankRoute)
+
+
