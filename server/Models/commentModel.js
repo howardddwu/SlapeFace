@@ -1,14 +1,15 @@
 import mongoose from "mongoose"
 
-
-
+// Prophecy Schema
 const CommentSchema = mongoose.Schema({
+  userId: { type: mongoose.SchemaTypes.ObjectId, required: true },
+  prophecyId: { type: mongoose.SchemaTypes.ObjectId, required: true },
+  parentCommentId: { type: String, required: true },
   content: { type: String, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  prophecyId: { type: mongoose.Schema.Types.ObjectId},
-  replyArr: { type: Array},
-  upVotes: { type: Array },
-},  { timestamps: true })
+  reply: { type: Boolean, required: true },
+  createAt: { type: Date, default: Date.now },
+  upVotes: { type: Array, default: [] },
+}, { collection: 'comments' })
 
 
 const CommentModel = mongoose.model('comments', CommentSchema)

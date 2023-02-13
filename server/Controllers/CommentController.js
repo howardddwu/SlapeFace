@@ -1,88 +1,77 @@
-import CommentModel from "../Models/commentModel.js";
 
+import express from "express"
+import mongoose from "mongoose"
+import commentModel from '../Models/commentModel.js'
 
+const router = express.Router()
 
+// Get all comments from DB
+router.get('/getAll', async (req, res, next) => {
+  commentModel.find((err, CommentData) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log("Data received!")
+      res.end(JSON.stringify(CommentData))
 
-export const createPcomment = async (req, res) => {
-
-    const { content } = req.body
-    const userId = req.params.userId;
-    const prophecyId = req.params.pId;
-
-    try {
-        const comment = await new CommentModel({
-            content, userId, prophecyId
-        }).save()
-        res.status(200).json(comment)
-
-    } catch (err) {
-        res.status(500).json(err)
     }
-}
+  })
+})
 
+//DELETE COMMENTS FROM DB
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const id = req.params.id
+    const data = await commentModel.findByIdAndDelete(id)
+    res.send('Comment has been deleted')
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+    res.send("Post doesn't exist")
+  }
+})
 
-export const createCcomment = async (req, res) => {
+//UPDATE/EDIT COMMENTS FROM DB
+router.patch("/edit/:id", async (req, res) => {
+  try {
+    const id = req.params.id
+    const updatedComment = req.body
+    const options = { new: true }
 
-    const { content } = req.body
-    const userId = req.params.userId;
-    const targetCommentId = req.params.cId;
+    const result = await commentModel.findByIdAndUpdate(
+      id, updatedComment, options
+    )
 
-    try {
-        const comment = await new CommentModel({
-            content, userId
-        }).save()
-
-        //add new created comment's id to target Comment replyArr
-        CommentModel.updateOne(
-            { _id: targetCommentId },
-            { $push: { replyArr: comment._id.toString() } },
-            function (error, success) {
-                if (error) {
-                    console.log(error);
-                }
-            }
-        );
-        res.status(200).json(comment)
-
-    } catch (err) {
-        res.status(500).json(err)
-    }
-}
-
-
-
-//get all comments that belong to a Prophecy (new to old)
-export const getAllProphecyComments = async (req, res) => {
-
-}
-
-
-//get all comments that belong to a comment (new to old)
-export const getAllcommentsOfComments = async (req, res) => {
-
-}
-
-
-export const deleteComment = async (req, res) => {
-
-}
+    res.send(result)
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+    res.send({ error: "Post doesn't exist" })
+  }
+})
 
 
 
+// ADD comments into DB
+router.post('/add', async (req, res) => {
+
+  const userComment = {
+    userId: req.body.userId,
+    prophecyId: mongoose.Types.ObjectId(req.body.prophecyId),
+    parentCommentId: req.body.parentCommentId,
+    content: req.body.content,
+    reply: req.body.reply
+  }
+  const newComment = new commentModel(userComment)
+  try {
+    await newComment.save(async (err, newCommentResult) => {
+      console.log('New comment created!')
+      res.end("comment created")
+    })
+  } catch (err) {
+    console.log(err)
+    res.end('Comment not added!')
+  }
+})
 
 
-
-
-//for testing use
-export const clearCommentDB = async (req, res) => {
-    try {
-        await CommentModel.deleteMany({}, function(err) { 
-            console.log('collection removed') 
-         })
-        res.status(200).json("comment DB cleared.")
-    } catch (error) {
-        res.status(200).json("comment DB cleared.")
-    }
-}
-
+export default router
 

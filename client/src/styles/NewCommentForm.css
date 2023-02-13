@@ -1,0 +1,39 @@
+.NewCommentForm {
+  margin: 2%;
+}
+
+.NewCommentForm-button {
+  font-size: 15px;
+  color: white;
+  align-items: center;
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #dc9de5 0,
+    #1473e0 100%
+  );
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(152, 134, 190, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+  height: 45px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 5px;
+  border: 1px solid rgb(11, 53, 63);
+}
+
+.NewCommentForm-button:hover:enabled {
+  cursor: pointer;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+.NewCommentForm-button:disabled {
+  cursor: default;
+  opacity: 0.7;
+}

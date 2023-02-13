@@ -5,11 +5,10 @@ import * as AuthAction from "../../actions/AuthAction"
 import { myInfo } from '../../API/AuthAPI';
 import { Link } from "react-router-dom";
 
-import Prophecy from './Prophecy'
+import Prophecy from '../../components/Prophecy'
 
 const Home = () => {
-
-  const { isFetching, dispatch, user, token } = useContext(AuthContext);
+  const { isFetching, dispatch, user, token } = useContext(AuthContext)
 
   const handleLogout = async () => {
     await AuthAction.logOut(token, dispatch)
@@ -22,7 +21,6 @@ const Home = () => {
     console.log(res)
     // window.location.reload()
   }
-
 
   // Prophecy 部分还需要：
   // 1. 限制显示数量（预防太多数据）
