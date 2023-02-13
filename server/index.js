@@ -18,6 +18,7 @@ import AuthRoute from './Routers/AuthRouter.js'
 
 //Controllers:
 import ProphecyController from './Controllers/ProphecyController.js'
+import CommentController from './Controllers/CommentController.js'
 
 //============================================================================================
 
@@ -80,3 +81,5 @@ app.get("/", function (req, res) {
 app.use('/auth', AuthRoute)
 
 app.use('/prophecy', ProphecyController)
+
+app.use('/comment', CommentController)

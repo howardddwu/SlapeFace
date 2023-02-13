@@ -1,0 +1,95 @@
+.ConfirmModal {
+  width: auto;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+}
+
+.modalContainer {
+  width: auto;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title button {
+  background-color: initial;
+  border-width: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.title button:hover {
+  background-color: rgb(235, 235, 235);
+}
+
+.body {
+  font-size: medium;
+  margin-bottom: 10px;
+}
+
+.body .body-message {
+  padding-bottom: 20px;
+}
+
+.body-content {
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(197, 195, 195);
+  border-radius: 3px;
+  padding: 20px;
+}
+
+.body-content .user {
+  float: left;
+  margin-right: 10px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.body-content .createAt {
+  color: gray;
+  padding-bottom: 10px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer button {
+  float: right;
+  width: 100px;
+  height: 40px;
+  margin: 10px;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.footer #cancel {
+  color: black;
+  border-style: solid;
+  background-color: white;
+}
+.footer #cancel:hover {
+  background-color: rgb(235, 233, 233);
+}
+
+.footer #delete {
+  background-color: rgba(243, 46, 89, 0.459);
+}
+
+.footer #delete:hover {
+  background-color: rgba(243, 46, 89, 0.658);
+}

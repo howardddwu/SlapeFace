@@ -1,0 +1,144 @@
+.comment {
+  margin: 0.5%;
+  width: auto;
+  height: 100px;
+  margin-left: 2%;
+}
+
+.comment-detail {
+  padding-top: 0.5%;
+  width: 90%;
+  float: left;
+  border-bottom: #eee 1px solid;
+  padding-bottom: 10px;
+}
+
+.comment:hover .comment-menu {
+  visibility: visible;
+}
+
+.comment-menu {
+  display: block;
+  width: 5%;
+  float: left;
+  height: 100%;
+  visibility: hidden;
+}
+
+.comment-menu:hover .comment-menu-container {
+  visibility: visible;
+}
+
+.comment-menu-button {
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #cdc0fc8c;
+}
+
+.comment-menu-container {
+  background-color: rgba(161, 140, 236, 0.575);
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  visibility: hidden;
+  cursor: pointer;
+  border-radius: 10%;
+  width: 60px;
+  font-size: 12px;
+}
+
+.comment-info {
+  font-size: 11px;
+}
+.comment-content {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.comment-info-user {
+  float: left;
+  margin-right: 10px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.comment-info-createAt {
+  color: gray;
+}
+
+.comment-reply {
+  font-size: 16px;
+  font-style: bold;
+  background-color: #cdc0fc00;
+}
+
+#comment-button-showReply {
+  color: rgb(24, 109, 238);
+  padding-top: 0.5%;
+  font-size: 13px;
+  width: 85px;
+  cursor: pointer;
+}
+
+#comment-button-hideReply {
+  color: rgb(18, 61, 126);
+  padding-top: 0.5%;
+  font-size: 13px;
+  width: 85px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#comment-button-addReply {
+  padding: 5px;
+}
+
+#comment-button-addReply:hover {
+  background-color: #a682e97e;
+}
+
+#comment-button-edit {
+  padding: 5px;
+}
+
+#comment-button-edit:hover {
+  background-color: #a682e97e;
+}
+
+#comment-button-delete {
+  padding: 5px;
+  color: rgb(170, 6, 6);
+}
+
+#comment-button-delete:hover {
+  background-color: #a682e97e;
+}
+.comment-reply-container {
+  visibility: hidden;
+}
+
+.comment-vote {
+  font-size: 10px;
+  margin-bottom: 20px;
+}
+.comment-upvote {
+  float: left;
+  margin-right: 10px;
+  color: rgba(72, 0, 131, 0.788);
+}
+
+.comment-downvote {
+  float: left;
+  color: rgba(72, 0, 131, 0.788);
+}
+
+.comment-content-replyto {
+  float: left;
+  margin-right: 4px;
+  color: rgb(17, 96, 161);
+}
+
+.comment-content-reply {
+  float: left;
+  margin-right: 4px;
+}

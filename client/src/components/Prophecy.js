@@ -1,5 +1,7 @@
 import React from 'react'
-import '../../styles/Prophecy.css'
+
+import Comments from './Comments'
+import '../styles/Prophecy.css'
 
 const Prophecy = (props) => {
 
@@ -33,6 +35,7 @@ const Prophecy = (props) => {
 
       <div>Number Vote: {data.numUser}</div>
       <div>{modifyCreatedTime(data.createdTime)}</div>
+      <Comments ProphecyId={data._id} />
     </div>
   )
 }

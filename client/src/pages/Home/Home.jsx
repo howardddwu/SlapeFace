@@ -1,32 +1,28 @@
 import React from 'react'
-import { useState, useEffect,  useContext } from 'react'
-import { AuthContext } from '../../context/AuthProvider';
-import * as AuthAction from "../../actions/AuthAction"
-import { myInfo } from '../../API/AuthAPI';
+import { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../../context/AuthProvider'
+import * as AuthAction from '../../actions/AuthAction'
+import { myInfo } from '../../API/AuthAPI'
 
-import Prophecy from './Prophecy'
+import Prophecy from '../../components/Prophecy'
 
 const Home = () => {
+  const { isFetching, dispatch, user, token } = useContext(AuthContext)
 
-  const { isFetching, dispatch, user, token } = useContext(AuthContext);
-
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     await AuthAction.logOut(token, dispatch)
     // window.location.reload()
   }
 
-  const refreshToken = async() => {
+  const refreshToken = async () => {
     await AuthAction.refreshToken(token, dispatch)
   }
 
-
-  const handleMyInfo = async() => {
-    
-    const res = await myInfo(token);
+  const handleMyInfo = async () => {
+    const res = await myInfo(token)
     console.log(res)
     // window.location.reload()
   }
-
 
   // Prophecy 部分还需要：
   // 1. 限制显示数量（预防太多数据）
@@ -92,27 +88,25 @@ const Home = () => {
   return (
     <div>
       <h1>User's home page</h1>
-       {user &&
+      {user && (
         <div>
           <h3>User Info:</h3>
           <p>{user.username}</p>
           <p>{user.email}</p>
         </div>
-      }
+      )}
 
-      <button
-        className='button infoButton'
-        onClick={handleLogout}>Log Out
+      <button className="button infoButton" onClick={handleLogout}>
+        Log Out
       </button>
       {/* <button
         className='button infoButton'
         onClick={refreshToken}>Refresh Token
       </button> */}
-      <button
-        className='button infoButton'
-        onClick={handleMyInfo}>My Info
+      <button className="button infoButton" onClick={handleMyInfo}>
+        My Info
       </button>
-      
+
       <button onClick={sortByParticipated}>HOT</button>
       <button onClick={sortByTime}>NEW</button>
       <div>
