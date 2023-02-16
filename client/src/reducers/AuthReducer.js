@@ -69,7 +69,7 @@ const AuthReducer = (state, action) => {
             };
 
 
-            
+
         case "REFRESH_START":
             return {
                 ...state,
@@ -84,6 +84,27 @@ const AuthReducer = (state, action) => {
                 error: false,
             };
         case "REFRESH_FAILURE":
+            return {
+                ...state,
+                isFetching: false,
+                error: true,
+            };
+
+
+        case "EDITPROFILE_START":
+            return {
+                ...state,
+                isFetching: true,
+                error: false,
+            };
+        case "EDITPROFILE_SUCCESS":
+            return {
+                ...state,
+                user: action.payload,
+                isFetching: false,
+                error: false,
+            };
+        case "EDITPROFILE_FAILURE":
             return {
                 ...state,
                 isFetching: false,

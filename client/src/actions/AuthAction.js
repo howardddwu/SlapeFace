@@ -7,14 +7,6 @@ export const logIn = async (userData, dispatch) => {
     try {
         const res = await AuthApi.logIn(userData);
 
-        // const {data} = res;
-        // console.log(data)
-        // console.log(data.token)
-        // dispatch({ type: "LOGIN_SUCCESS", payload: data.user, token: data.token });
-        // localStorage.setItem("user", data.user)
-        // localStorage.setItem("token", data.token)
-
-
         if (res.status === 200) {
             const { data } = res;
             console.log("LOGIN_SUCCESS")
@@ -91,9 +83,9 @@ export const refreshToken = async (token, dispatch) => {
         console.log(res)
 
         if (res.status === 200) {
-            const{data} = res
+            const { data } = res
             console.log("REFRESH_SUCCESS")
-            dispatch({ type: "REFRESH_SUCCESS", token: data.token});
+            dispatch({ type: "REFRESH_SUCCESS", token: data.token });
             return false
         }
         else {

@@ -103,6 +103,11 @@ const Home = () => {
           Rank
         </button>
       </Link>
+      <Link className='trouble' to="/profile">
+        <button className='button infoButton'>
+          Profile
+        </button>
+      </Link>
       <button
         className='button infoButton'
         onClick={handleMyInfo}>My Info

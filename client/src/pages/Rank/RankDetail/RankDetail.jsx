@@ -5,12 +5,12 @@ import "./RankDetail.css"
 
 const RankDetail = ({ item, rank }) => {
 
-    const { img, username, displayname, points } = item;
+    const { icon, username, displayname, points } = item;
 
     return (
         <div>
             <div className='RankDetailContainer'>
-                {img ? <img className='RankDetailPic' src={img} alt="" /> : <img className='RankDetailPic' src={pic1} alt="" />}
+                <img className='RankDetailPic' src={icon ? icon : pic1} alt="" />
                 <span>Rank: {rank}</span>
                 <span>Score: {points}</span>
                 <span>username: {username}</span>
