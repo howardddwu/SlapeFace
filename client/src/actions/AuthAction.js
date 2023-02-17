@@ -34,13 +34,21 @@ export const signUp = async (userData, dispatch) => {
     dispatch({ type: "SIGNUP_START" })
 
     try {
-        const { data } = await AuthApi.signUp(userData);
-        console.log(data)
-        dispatch({ type: "LOGIN_SUCCESS", payload: data.user, token: data.token });
+        const res = await AuthApi.signUp(userData);
+
+        if (res.status === 200) {
+            const { data } = res;
+            dispatch({ type: "LOGIN_SUCCESS", payload: data.user, token: data.token });
+            return false;
+        }
+        else {
+            dispatch({ type: "SIGNUP_FAILURE" });
+            return true;
+        }
 
     } catch (error) {
-        console.log(error)
         dispatch({ type: "SIGNUP_FAILURE", payload: error });
+        return true;
     }
 }
 
@@ -55,16 +63,11 @@ export const logOut = async (token, dispatch) => {
         if (res.status === 200) {
             console.log("LOGOUT_SUCCESS")
             await dispatch({ type: "LOGOUT_SUCCESS" });
-            //window.location.reload()
-
-
         }
         else {
             console.log("LOGOUT_FAILURE")
             dispatch({ type: "LOGOUT_FAILURE" });
         }
-
-
     } catch (error) {
         console.log(error)
         console.log("LOGOUT_FAILURE")
