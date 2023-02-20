@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as NewsAPI from "../../API/NewsAPI.js"
 import { NewsRow } from './NewsRow.jsx'
+import "./News.css"
 
 const News = () => {
 
@@ -20,10 +21,10 @@ const News = () => {
     useEffect(() => { fetchNews() }, [])
 
     return (
-        <div>
+        <div className='NewsContainer'>
             
             {articles && articles.map( (item, index) => 
-                <div id={index} key={index}>
+                <div id={index} key={index} className="NewsRows">
                     <NewsRow article={item} />
                 </div>
             
