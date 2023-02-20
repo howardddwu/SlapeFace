@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-
+import News from '../../components/News/News';
 
 const Square = () => {
 
@@ -24,6 +24,9 @@ const Square = () => {
           Rank
         </button>
       </Link>
+
+
+      <News/>
     </div>
 
   )

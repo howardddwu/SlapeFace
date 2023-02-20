@@ -21,6 +21,8 @@ import UserRoute from "./Routers/UserRouter.js"
 import ProphecyController from './Controllers/ProphecyController.js'
 import CommentController from './Controllers/CommentController.js'
 
+
+import * as News from "./News/NewsController.js"
 //============================================================================================
 
 
@@ -86,5 +88,18 @@ app.use('/comment', CommentController)
 
 app.use('/rank', RankRoute)
 app.use('/user', UserRoute)
+app.use('/news', News.NewsRouter)
 
+
+
+
+News.firstTimeFetch();
+
+var hours = 6;
+var the_interval = hours * 60 * 60 * 1000;
+
+setInterval( async function() {
+  console.log("Six hour fetch news. ");
+  await News.fetchData();
+}, the_interval);
 
