@@ -17,7 +17,7 @@ function ConfirmModal (props) {
         <div className="body">
           <div className="body-message">Are you sure you want to delete this comment?</div>
           <div className="body-content">
-            <div className='user'>{comment.userId}</div>
+            <div className='user'>{comment.userDisplayName}</div>
             <div className='createAt'>{new Date(comment.createAt).toLocaleString()}</div>
             <div className="comment-content">{comment.content}</div>
           </div>

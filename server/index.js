@@ -15,7 +15,6 @@ import * as passportJWT from "./Strategies/jwtStrategy.js"
 
 //routes:
 import AuthRoute from './Routers/AuthRouter.js'
-import CommentRoute from "./Routers/CommentRouter.js"
 import RankRoute from "./Routers/RankRouter.js"
 //Controllers:
 import ProphecyController from './Controllers/ProphecyController.js'

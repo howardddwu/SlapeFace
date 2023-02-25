@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../context/AuthProvider'
 import Comment from './Comment'
 import NewCommentForm from './NewCommentForm'
 import '../styles/Comments.css'
@@ -8,11 +8,7 @@ const secondBetweenUpdate = 10
 
 function Comments (props) {
 
-
-  let userId = "63e85e4e16c1b7492006a6e5"
-  //let userId= localStorage.getItem('userId')
-  //userId= userFname.substring(1, userId.length - 1)
-
+  const { user } = useContext(AuthContext)
 
   //getting lastLessonViewedId from lesson page.
   //whenever it update, means the lesson changed, then we getting the comments from new lesson
@@ -23,11 +19,11 @@ function Comments (props) {
   // Only stored top level comments
   const [TopLevelComments, setTopLevelComment] = useState([])
   // Used to assign number of comments that is display
-  const [count, setCount] = useState({ prev: 0, next: 7 })
+  const [count, setCount] = useState({ prev: 0, next: 2 })
   // Check if there are more comments which is not showing
   const [hasMore, setHasMore] = useState(true)
-  // Comments that is showing
-  //const [current, setCurrent] = useState([])   !!!!
+  // Amount of Comments that will be display
+  const [current, setCurrent] = useState([])
   // If sortByCreateTime = true, then comment is sorting based on the time posted
   // If sortByCreateTime = false, then comment is displaying based on the upvotes
   const [sortByCreateTime, setSortByCreateTime] = useState(true)
@@ -88,10 +84,10 @@ function Comments (props) {
             }
 
             setTopLevelComment(CommentList)
-            //下面的code用于限制comment显示数量，需要时再添加  !!!!
-            // setCurrent(CommentList.slice(0, count.next))
-            // CommentList.length <= 7 || count.next >= CommentList.length ? setHasMore(false) : setHasMore(true)
-            // console.log("Data recieved")
+            //limit amount of comment display
+            setCurrent(CommentList.slice(0, count.next))
+            CommentList.length <= 2 || count.next >= CommentList.length ? setHasMore(false) : setHasMore(true)
+            console.log("Data recieved")
           }
         })
         .catch(error => console.log('error', error))
@@ -105,7 +101,7 @@ function Comments (props) {
     const type = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: userId, prophecyId: ProphecyId, parentCommentId: "undefined", content: content, reply: false })
+      body: JSON.stringify({ userId: user._id, userDisplayName: user.displayname, prophecyId: ProphecyId, parentCommentId: "undefined", content: content, reply: false })
 
     }
     await fetch(`${process.env.REACT_APP_API_URL}/comment/add`, type)
@@ -129,7 +125,7 @@ function Comments (props) {
     const type = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: userId, prophecyId: ProphecyId, parentCommentId: comment._id, content: content, reply: true })
+      body: JSON.stringify({ userId: user._id, userDisplayName: user.displayname, prophecyId: ProphecyId, parentCommentId: comment._id, content: content, reply: true })
 
     }
     await fetch(`${process.env.REACT_APP_API_URL}/comment/add`, type)
@@ -177,6 +173,19 @@ function Comments (props) {
       .catch(
         error => console.log('error', error)
       )
+
+    // delete replies under this comment
+    await fetch(`${process.env.REACT_APP_API_URL}/comment/deleteReplies/` + comment._id, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(() =>
+        console.log('Delete successful')
+      )
+      .catch(
+        error => console.log('error', error)
+      )
+
 
     // Use to force update
     setForceUpdate(forceUpdate + 1)
@@ -228,8 +237,8 @@ function Comments (props) {
     setSortByCreateTime(true)
     let commentlist = TopLevelComments.sort((objA, objB) => (Number(new Date(objA.createAt)) - Number(new Date(objB.createAt)))).reverse()
     setTopLevelComment(commentlist)
-    // setCurrent(TopLevelComments.slice(0, count.next))
-    // TopLevelComments.length <= 5 || count.next >= TopLevelComments.length ? setHasMore(false) : setHasMore(true)
+    setCurrent(TopLevelComments.slice(0, count.next))
+    TopLevelComments.length <= 2 || count.next >= TopLevelComments.length ? setHasMore(false) : setHasMore(true)
   }
 
   // sort comment by upvote
@@ -242,30 +251,30 @@ function Comments (props) {
       return (Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))) * -1
     })
     setTopLevelComment(commentlist)
-    // setCurrent(TopLevelComments.slice(0, count.next))
-    // TopLevelComments.length <= 5 || count.next >= TopLevelComments.length ? setHasMore(false) : setHasMore(true)
+    setCurrent(TopLevelComments.slice(0, count.next))
+    TopLevelComments.length <= 2 || count.next >= TopLevelComments.length ? setHasMore(false) : setHasMore(true)
   }
 
-  // load next 5 comments
-  // function onLoadMore () {
-  //   // add next 5 comments into the "current"(comments that is showing)
-  //   setCurrent(current.concat(TopLevelComments.slice(count.prev + 7, count.next + 7)))
-  //   //move to the position of next 5 comments in list of all comments
-  //   setCount((prevState) => ({ prev: prevState.prev + 7, next: prevState.next + 7 }))
-  //   // when reach the end of list
-  //   if (current.length >= TopLevelComments.length - 7) {
-  //     setHasMore(false)
-  //     return
-  //   }
-  // }
+  //load next 2 comments
+  function onLoadMore () {
+    // add next 2 comments into the "current"(comments that is showing)
+    setCurrent(current.concat(TopLevelComments.slice(count.prev + 2, count.next + 2)))
+    // move to the position of next 2 comments in list of all comments
+    setCount((prevState) => ({ prev: prevState.prev + 2, next: prevState.next + 2 }))
+    // when reach the end of list
+    if (current.length >= TopLevelComments.length - 2) {
+      setHasMore(false)
+      return
+    }
+  }
 
   // load 7 comments at a time 限制comment显示数量时使用的html
   // {current.map(item => (
   // <Comment key={item._id} commentData={item} getReplies={getReplies(item)} forceUpdate={forceUpdate} setForceUpdate={setForceUpdate} />))}
-  // {hasMore && <h3 className="comments-loadMore" onClick={onLoadMore}>loading more ...</h3>}
+  // 
   return (
     <div className="Comments">
-      <h3>Comments</h3>
+      <h4>Comments</h4>
       <NewCommentForm submit="Comment" initText=" " onClickSubmit={addComment} />
       {sortByCreateTime && <div className='comments-display'>
         <button className='comments-display-bytime-active' onClick={sortByTime}>Display by time</button> | <button className='comments-display-byvote' onClick={sortByVote}>Display by vote</button>
@@ -274,7 +283,7 @@ function Comments (props) {
         <button className='comments-display-bytime' onClick={sortByTime}>Display by time</button> | <button className='comments-display-byvote-active' onClick={sortByVote}>Display by vote</button>
       </div>}
       <div className='comments-container'>
-        {TopLevelComments.map(item => (
+        {current.map(item => (
           <Comment
             key={item._id}
             commentData={item}
@@ -282,7 +291,9 @@ function Comments (props) {
             addReply={addReply}
             editComment={editComment}
             deleteComment={deleteComment}
-            updateVote={updateVotes} />))}
+            updateVote={updateVotes}
+            bordercss={{ "borderBottom": '#eee 1px solid' }} />))}
+        {hasMore && <h3 className="comments-loadMore" onClick={onLoadMore}>loading more ...</h3>}
       </div>
 
     </div>

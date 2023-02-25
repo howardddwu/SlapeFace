@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa'
-import { useParams } from 'react-router-dom'
+import { useState, useContext } from 'react'
+import { AuthContext } from '../context/AuthProvider'
+import { FaArrowUp } from 'react-icons/fa'
 import NewCommentForm from './NewCommentForm'
 import { v4 as uuid } from 'uuid' // getting unqiue id for comment
 import '../styles/Comment.css'
@@ -8,7 +8,9 @@ import ConfirmModal from './ConfirmModal'
 
 function Comment (props) {
 
-  const { commentData, getReplies, addReply, editComment, deleteComment, updateVote } = props
+  const { user } = useContext(AuthContext)
+
+  const { commentData, getReplies, addReply, editComment, deleteComment, updateVote, bordercss } = props
 
   const [showReplyVisible, setShowReplyVisible] = useState(false)
   //display the form for add reply
@@ -22,10 +24,7 @@ function Comment (props) {
   const [forceUpdate, setForceUpdate] = useState(0)
 
   // only defaultUser allow to edit and delete
-  let userId = "63e85e4e16c1b7492006a6e5"
-  //let userId= localStorage.getItem('userId')
-  //userId= userFname.substring(1, userId.length - 1)
-  const EditDelete = Boolean(commentData.userId === userId)
+  const EditDelete = Boolean(commentData.userId === user._id)
 
   function displayReply () {
     setShowReplyVisible(!showReplyVisible)
@@ -105,13 +104,13 @@ function Comment (props) {
 
   function upVote () {
     // if user did not upvote this comment, add upvote
-    if (!commentData.upVotes.includes(userId)) {
-      commentData.upVotes.push(userId)
+    if (!commentData.upVotes.includes(user._id)) {
+      commentData.upVotes.push(user._id)
       console.log("upvote add")
     }
     // if user already upvote this comment, then remove upvote(the second time user click on upvote, cancel it)
     else {
-      commentData.upVotes = commentData.upVotes.filter(item => item !== userId)
+      commentData.upVotes = commentData.upVotes.filter(item => item !== user._id)
       console.log("upvote remove")
     }
 
@@ -119,20 +118,34 @@ function Comment (props) {
 
   }
 
-  //还需要用userid查询username !!!!
   return (
     <div className="comment">
-      <div className='comment-detail'>
-        <div className="comment-info">
-          <div className='comment-info-user'>{commentData.userId}</div>
-          <div className='comment-info-createAt'>{sortCommentDate(commentData.createAt)}</div>
+      <div className='comment-detail' style={bordercss}>
+        <div className="comment-container">
+          <div className="comment-infocontent-container">
+            <div className="comment-info">
+              <div className='comment-info-user'>{commentData.userDisplayName}</div>
+              <div className='comment-info-createAt'>{sortCommentDate(commentData.createAt)}</div>
+            </div>
+
+            {(!isEditing && (commentData.parent === undefined || commentData.parent.reply === false)) && <div className="comment-content">{commentData.content}</div>}
+            {(!isEditing && commentData.parent !== undefined && commentData.parent.reply === true) &&
+              <div className="comment-content-reply">
+                Reply
+                <div className="comment-content-replyto">@{commentData.parent.userDisplayName}: </div>
+                <div className="comment-content">
+                  {commentData.content}
+                </div>
+              </div>}
+          </div>
+
+          <div className='comment-vote'>
+            <button className="upvote-button" onClick={upVote}> <FaArrowUp /> </button>  {commentData.upVotes.length}
+          </div>
         </div>
 
-        {(!isEditing && (commentData.parent === undefined || commentData.parent.reply === false)) && <div className="comment-content">{commentData.content}</div>}
-        {(!isEditing && commentData.parent !== undefined && commentData.parent.reply === true) &&
-          <div className="comment-content">
-            <div className="comment-content-reply"> Reply </div><div className="comment-content-replyto">@{commentData.parent.userId} : </div>  {commentData.content}
-          </div>}
+
+
 
 
         {isEditing &&
@@ -143,12 +156,6 @@ function Comment (props) {
             submit="Update"
             onClickSubmit={editComment}
             initText={commentData.content} />}
-
-        <div className='comment-vote'>
-          <div className='comment-upvote'>
-            <button className="upvote-button" onClick={upVote}> <FaArrowUp /> </button>  {commentData.upVotes.length}
-          </div>
-        </div>
 
         {(!commentData.reply && getReplies.length !== 0 && !showReplyVisible) &&
           <div id="comment-button-showReply" onClick={displayReply}>View all replies</div>}
@@ -178,6 +185,7 @@ function Comment (props) {
             initText=" " />}
       </div>
 
+
       <div className='comment-menu'>
         <button className="comment-menu-button">...</button>
         <div className="comment-menu-container">
@@ -186,6 +194,7 @@ function Comment (props) {
           {EditDelete && <div id="comment-button-delete" onClick={() => setOpenModal(true)}> Delete</div>}
         </div>
       </div>
+
       {OpenModal && <ConfirmModal comment={commentData} closeModal={setOpenModal} deleteComment={deleteComment} />}
 
 
