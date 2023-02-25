@@ -99,8 +99,14 @@ const Home = () => {
       <Link className="trouble" to="/ranking">
         <button className="button infoButton">Rank</button>
       </Link>
-      <button className="button infoButton" onClick={handleMyInfo}>
-        My Info
+      <Link className='trouble' to="/profile">
+        <button className='button infoButton'>
+          Profile
+        </button>
+      </Link>
+      <button
+        className='button infoButton'
+        onClick={handleMyInfo}>My Info
       </button>
 
       <button onClick={sortByParticipated}>HOT</button>

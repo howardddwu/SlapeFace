@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon index.js --ignore News/NewsDB.json",
     "server": "node index.js",
     "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\""

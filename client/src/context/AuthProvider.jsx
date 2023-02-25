@@ -8,9 +8,14 @@ import AuthReducer from "../reducers/AuthReducer";
 const verifyUser = (string) => {
   //assign result with "user" or "token" accordingly
   let result = localStorage.getItem(string);
-  if (string === "user")
-    result = JSON.parse(localStorage.getItem("user"))
-  
+  if (string === "user") {
+    try {
+      result = JSON.parse(localStorage.getItem("user"))
+    } catch (error) {
+      return null;
+    }
+  }
+
   // get token from local
   let token = localStorage.getItem("token");
 

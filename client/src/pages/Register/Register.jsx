@@ -32,7 +32,9 @@ const Register = () => {
     e.preventDefault()
 
     if (checkForm()) {
-      AuthAction.signUp(formData, dispatch)
+      const ifErr = await AuthAction.signUp(formData, dispatch)
+      if(ifErr)
+        setBadInfo(8)
     }
   }
 
@@ -102,6 +104,9 @@ const Register = () => {
           }
           {badInfo === 7 &&
             <span className='authDesc failAuth'>Display Name cannot be empty!</span>
+          }
+          {badInfo === 8 &&
+            <span className='authDesc failAuth'>Username or Email has been used already.</span>
           }
 
           <div className='infoInputWraper'>

@@ -10,6 +10,7 @@ import Home from './pages/Home/Home';
 import { AuthContext } from './context/AuthProvider';
 import * as AuthAction from './actions/AuthAction';
 import Rank from './pages/Rank/Rank';
+import Profile from './pages/Profile/Profile';
 
 function App() {
 
@@ -80,7 +81,14 @@ function App() {
         <Route
           exact
           path="/ranking"
-          element={ <Rank />}
+          element={<Rank />}
+        />
+
+        <Route
+          exact
+          path="/profile"
+          // element={ <Home /> }
+          element={user ? <Profile /> : <Navigate to="/login" />}
         />
 
       </Routes>

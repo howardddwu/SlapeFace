@@ -11,6 +11,7 @@ export const getWeeklyRank = async (req, res) => {
             let temp = {
                 username: item.username,
                 displayname: item.displayname,
+                icon: item.icon,
                 points: item.points
             }
             result[index] = temp
@@ -28,6 +29,7 @@ export const getAllRank = async (req, res) => {
             let temp = {
                 username: item.username,
                 displayname: item.displayname,
+                icon: item.icon,
                 points: item.allTimePoint.highestPoints
             }
             result[index] = temp
