@@ -10,10 +10,11 @@ import {
     Input,
     Select,
     Upload,
-    message
+    message,
+    TreeSelect
 } from 'antd';
 
-import { categoryList } from "../../Category.js"
+import { categoryList, treeData } from "../../Category.js"
 import pic1 from "../../DefaultProfile_1.jpg"
 import * as UserAction from "../../actions/UserAction.js"
 
@@ -69,13 +70,13 @@ const UserProfile = () => {
             ifErr = await UserAction.editProfile(userInfo, user._id, dispatch)
         else {
             let { icon, ...finalForm } = userInfo;
-            ifErr = await UserAction.editProfile(finalForm, user._id,dispatch)
+            ifErr = await UserAction.editProfile(finalForm, user._id, dispatch)
         }
-        if(ifErr){
+        if (ifErr) {
             message.error('Something went wrong, please re-login or try later');
         }
-        else{
-            window.location.reload()        
+        else {
+            window.location.reload()
         }
 
     }
@@ -174,7 +175,7 @@ const UserProfile = () => {
                     </Form.Item>
 
 
-                    <Form.Item label="Liked Category">
+                    {/* <Form.Item label="Liked Category">
                         <Select
                             mode="multiple"
                             defaultValue={userInfo.likedCategory}
@@ -183,7 +184,26 @@ const UserProfile = () => {
                             onChange={handleCategory}
                         >
                         </Select>
+                    </Form.Item> */}
+
+
+                    <Form.Item label="Liked Category">
+                        <TreeSelect
+                            showSearch
+                            value={userInfo.likedCategory}
+                            dropdownStyle={{
+                                maxHeight: 400,
+                                overflow: 'auto',
+                            }}
+                            placeholder="Please select"
+                            allowClear
+                            multiple
+                            treeDefaultExpandAll
+                            onChange={handleCategory}
+                            treeData={treeData}
+                        />
                     </Form.Item>
+
 
 
                     <Form.Item label="Upload" valuePropName="fileList">
