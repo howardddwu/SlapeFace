@@ -35,7 +35,10 @@ const Prophecy = (props) => {
 
       <div>Number Vote: {data.numUser}</div>
       <div>{modifyCreatedTime(data.createdTime)}</div>
+
       <Comments ProphecyId={data._id} />
+
+
     </div>
   )
 }

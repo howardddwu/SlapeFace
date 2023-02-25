@@ -1,11 +1,14 @@
 .Prophecy {
-  margin: 1%;
-  padding: 2%;
+  margin: 0.5%;
+  padding: 1.2%;
   border-style: solid;
+  height: 35vh;
+  width: 32vh;
 }
 
 .Prophecy-votes {
   padding: 0.5%;
   margin-bottom: 1%;
   border-style: solid;
+  height: 30%;
 }

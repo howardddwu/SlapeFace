@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState, useEffect, useContext } from 'react'
-import { AuthContext } from '../../context/AuthProvider';
-import * as AuthAction from "../../actions/AuthAction"
-import { myInfo } from '../../API/AuthAPI';
-import { Link } from "react-router-dom";
+import { AuthContext } from '../../context/AuthProvider'
+import * as AuthAction from '../../actions/AuthAction'
+import { myInfo } from '../../API/AuthAPI'
+import { Link } from 'react-router-dom'
 
 import Prophecy from '../../components/Prophecy'
 
@@ -16,8 +16,7 @@ const Home = () => {
   }
 
   const handleMyInfo = async () => {
-
-    const res = await myInfo(token);
+    const res = await myInfo(token)
     console.log(res)
     // window.location.reload()
   }
@@ -86,22 +85,19 @@ const Home = () => {
   return (
     <div>
       <h1>User's home page</h1>
-      {user &&
+      {user && (
         <div>
           <h3>User Info:</h3>
           <p>{user.username}</p>
           <p>{user.email}</p>
         </div>
-      }
+      )}
 
-      <button
-        className='button infoButton'
-        onClick={handleLogout}>Log Out
+      <button className="button infoButton" onClick={handleLogout}>
+        Log Out
       </button>
-      <Link className='trouble' to="/ranking">
-        <button className='button infoButton'>
-          Rank
-        </button>
+      <Link className="trouble" to="/ranking">
+        <button className="button infoButton">Rank</button>
       </Link>
       <Link className='trouble' to="/profile">
         <button className='button infoButton'>

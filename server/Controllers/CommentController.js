@@ -23,7 +23,21 @@ router.delete("/delete/:id", async (req, res) => {
   try {
     const id = req.params.id
     const data = await commentModel.findByIdAndDelete(id)
-    res.send('Comment has been deleted')
+    res.end('Comment has been deleted')
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+    res.end("Post doesn't exist")
+  }
+})
+
+//DELETE Replies FROM DB
+router.delete("/deleteReplies/:parentid", async (req, res) => {
+  try {
+    const query = { 'parentCommentId': req.params.parentid }
+    console.log(query)
+    const data = await commentModel.deleteMany(query)
+    console.log(data)
+    res.send(data.deletedCount + 'Replies has been deleted')
   } catch (error) {
     res.status(400).json({ message: error.message })
     res.send("Post doesn't exist")
@@ -54,7 +68,8 @@ router.patch("/edit/:id", async (req, res) => {
 router.post('/add', async (req, res) => {
 
   const userComment = {
-    userId: req.body.userId,
+    userId: mongoose.Types.ObjectId(req.body.userId),
+    userDisplayName: req.body.userDisplayName,
     prophecyId: mongoose.Types.ObjectId(req.body.prophecyId),
     parentCommentId: req.body.parentCommentId,
     content: req.body.content,

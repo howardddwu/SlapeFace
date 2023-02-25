@@ -1,7 +1,11 @@
 .Comments {
-  overflow: scroll;
+  height: 30%;
 }
 
+.comments-container {
+  height: 100%;
+  overflow: scroll;
+}
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
@@ -25,7 +29,7 @@
 }
 
 .comments-loadMore {
-  margin: 2%;
+  margin: 0.5%;
   text-align: center;
   cursor: pointer;
   color: gray;
@@ -36,7 +40,7 @@
 }
 
 .comments-display {
-  margin-left: 2%;
+  margin-left: 0.5%;
   height: 20px;
   margin-bottom: 20px;
 }

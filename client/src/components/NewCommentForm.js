@@ -40,9 +40,9 @@ function NewCommentForm (props) {
   return (
     <div className="NewCommentForm">
       <form onSubmit={submitComment} action="/addComment">
-        <textarea rows="4" cols="50" value={text} onChange={(e) => setText(e.target.value)} />
-        <button className="NewCommentForm-button" disabled={buttonDisable}>{submit}</button>
-        {isEditing && <button className="NewCommentForm-button" onClick={closeForm}>Cancel</button>}
+        <textarea rows="1" cols="5" value={text} onChange={(e) => setText(e.target.value)} />
+        <button disabled={buttonDisable}>{submit}</button>
+        {isEditing && <button onClick={closeForm}>Cancel</button>}
       </form>
     </div>
   )
