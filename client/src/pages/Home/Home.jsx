@@ -1,85 +1,86 @@
-import React from 'react'
-import { useState, useEffect, useContext } from 'react'
-import { AuthContext } from '../../context/AuthProvider'
-import * as AuthAction from '../../actions/AuthAction'
-import { myInfo } from '../../API/AuthAPI'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../context/AuthProvider";
+import * as AuthAction from "../../actions/AuthAction";
+import { myInfo } from "../../API/AuthAPI";
+import { Link } from "react-router-dom";
 
-import Prophecy from '../../components/Prophecy'
+import Prophecy from "../../components/Prophecy";
+import CreateProphecyButton from "../../components/createProphecyButton";
 
 const Home = () => {
-  const { isFetching, dispatch, user, token } = useContext(AuthContext)
+  const { isFetching, dispatch, user, token } = useContext(AuthContext);
 
   const handleLogout = async () => {
-    await AuthAction.logOut(token, dispatch)
+    await AuthAction.logOut(token, dispatch);
     // window.location.reload()
-  }
+  };
 
   const handleMyInfo = async () => {
-    const res = await myInfo(token)
-    console.log(res)
+    const res = await myInfo(token);
+    console.log(res);
     // window.location.reload()
-  }
+  };
 
   // Prophecy 部分还需要：
   // 1. 限制显示数量（预防太多数据）
   // 2. 允许用户参与投票
-  const [prophecies, setProphecies] = useState([])
+  const [prophecies, setProphecies] = useState([]);
 
-  const [sortByCreateTime, setSortByCreateTime] = useState(false)
+  const [sortByCreateTime, setSortByCreateTime] = useState(false);
   // Get All comments from DB
   useEffect(() => {
     async function getData() {
       await fetch(`${process.env.REACT_APP_API_URL}/prophecy/getAll`)
         .then((res) => {
           if (res.ok) {
-            return res.json()
+            return res.json();
           }
         })
         .then((jsondata) => {
-          setProphecies(jsondata)
+          setProphecies(jsondata);
           //default : store by number of user participated(HOT)
           jsondata = jsondata.sort((objA, objB) => {
-            if (objA.numUser > objB.numUser) return -1
-            if (objB.numUser > objA.numUser) return 1
+            if (objA.numUser > objB.numUser) return -1;
+            if (objB.numUser > objA.numUser) return 1;
             //if prophecies having same number of user participated, then display it by time
             return (
               (Number(new Date(objA.createAt)) -
                 Number(new Date(objB.createAt))) *
               -1
-            )
-          })
-          setProphecies(jsondata)
+            );
+          });
+          setProphecies(jsondata);
         })
-        .catch((error) => console.log('error', error))
+        .catch((error) => console.log("error", error));
     }
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   // sort prophecies by created time
   function sortByTime() {
-    setSortByCreateTime(true)
+    setSortByCreateTime(true);
     let propheciesList = prophecies
       .sort(
         (objA, objB) =>
           Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))
       )
-      .reverse()
-    setProphecies(propheciesList)
+      .reverse();
+    setProphecies(propheciesList);
   }
 
   // sort prophecies by number of user participate
   function sortByParticipated() {
-    setSortByCreateTime(false)
+    setSortByCreateTime(false);
     let propheciesList = prophecies.sort((objA, objB) => {
-      if (objA.numUser > objB.numUser) return -1
-      if (objB.numUser > objA.numUser) return 1
+      if (objA.numUser > objB.numUser) return -1;
+      if (objB.numUser > objA.numUser) return 1;
       //if prophecies having same number of user participated, then display it by time
       return (
         (Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))) * -1
-      )
-    })
-    setProphecies(propheciesList)
+      );
+    });
+    setProphecies(propheciesList);
   }
 
   return (
@@ -99,14 +100,11 @@ const Home = () => {
       <Link className="trouble" to="/ranking">
         <button className="button infoButton">Rank</button>
       </Link>
-      <Link className='trouble' to="/profile">
-        <button className='button infoButton'>
-          Profile
-        </button>
+      <Link className="trouble" to="/profile">
+        <button className="button infoButton">Profile</button>
       </Link>
-      <button
-        className='button infoButton'
-        onClick={handleMyInfo}>My Info
+      <button className="button infoButton" onClick={handleMyInfo}>
+        My Info
       </button>
 
       <button onClick={sortByParticipated}>HOT</button>
@@ -116,8 +114,9 @@ const Home = () => {
           <Prophecy key={item._id} data={item}></Prophecy>
         ))}
       </div>
+      <CreateProphecyButton />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
