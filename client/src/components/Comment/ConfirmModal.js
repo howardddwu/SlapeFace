@@ -1,5 +1,5 @@
 import React from "react"
-import '../styles/ConfirmModal.css'
+import '../../styles/ConfirmModal.css'
 
 function ConfirmModal (props) {
   const { comment, closeModal, deleteComment } = props

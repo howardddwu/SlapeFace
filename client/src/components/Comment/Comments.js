@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
-import { AuthContext } from '../context/AuthProvider'
+import { AuthContext } from '../../context/AuthProvider'
 import Comment from './Comment'
 import NewCommentForm from './NewCommentForm'
-import '../styles/Comments.css'
+import '../../styles/Comments.css'
 
 const secondBetweenUpdate = 10
 

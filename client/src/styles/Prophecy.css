@@ -2,8 +2,12 @@
   margin: 0.5%;
   padding: 1.2%;
   border-style: solid;
-  height: 35vh;
-  width: 32vh;
+  min-height: 35vh;
+  width: 40vh;
+/* 
+  display: flex;
+  flex-direction: column; */
+  
 }
 
 .Prophecy-votes {

@@ -17,6 +17,7 @@ import {
 import { categoryList, treeData } from "../../Category.js"
 import pic1 from "../../DefaultProfile_1.jpg"
 import * as UserAction from "../../actions/UserAction.js"
+import ChangPassword from './ChangPassword';
 
 
 
@@ -25,18 +26,18 @@ const UserProfile = () => {
     const { isFetching, dispatch, user } = useContext(AuthContext);
 
     //============================= Major option for select bar =================================
-    const categoryOptions = [];
-    for (let category of categoryList) {
-        categoryOptions.push({
-            value: category,
-            label: category,
-        });
-    }
-    categoryOptions.sort(function (a, b) {
-        if (a.label < b.label) { return -1; }
-        if (a.label > b.label) { return 1; }
-        return 0;
-    })
+    // const categoryOptions = [];
+    // for (let category of categoryList) {
+    //     categoryOptions.push({
+    //         value: category,
+    //         label: category,
+    //     });
+    // }
+    // categoryOptions.sort(function (a, b) {
+    //     if (a.label < b.label) { return -1; }
+    //     if (a.label > b.label) { return 1; }
+    //     return 0;
+    // })
     //=======================================================================
 
     const [componentDisabled, setComponentDisabled] = useState(true);
@@ -230,6 +231,9 @@ const UserProfile = () => {
                 </Form>
 
             </div>
+
+
+            <ChangPassword/>
 
         </div>
     )

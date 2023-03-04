@@ -1,119 +1,135 @@
 import React from 'react'
-import { Link } from "react-router-dom";
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, } from 'react'
+import { useNavigate } from "react-router-dom";
 
-import ChangPassword from './ChangPassword';
 
 import UserProfile from './UserProfile'
-import Prophecy from "../../components/Prophecy.js"
+import Prophecy from "../../components/Prophecy/Prophecy.js"
+import { getData, getUserProphecy, sortByParticipated, sortByTime } from '../../API/ProphecyAPI';
+import "./Profile.css"
+import { AuthContext } from '../../context/AuthProvider';
 
+import {
+    IdcardOutlined,
+    HomeOutlined,
+    FileTextOutlined,
+} from '@ant-design/icons';
+import { Menu } from 'antd';
 
+function getItem(label, key, icon, children, type) {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+    };
+}
 
+const items = [
+    getItem('Posts', '1', <FileTextOutlined />),
+    getItem('Profile', '2', <IdcardOutlined />),
+    getItem('Home', '3', <HomeOutlined />),
+];
 
 
 const Profile = () => {
 
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
 
-    // Prophecy 部分还需要：
-    // 1. 限制显示数量（预防太多数据）
-    // 2. 允许用户参与投票
+    //======================== Page Decision ==============================
+    const [page, setPage] = useState("1")
+    const handlePage = ({ item, key, keyPath, domEvent }) => {
+        setPage(key)
+    }
+
+    useEffect(() => {
+        if (page === "3") {
+            navigate("/");
+        }
+    }, [page])
+
+    //======================== Menu UI ==============================
+    const [collapsed, setCollapsed] = useState(false);
+    const showMenu = () => {
+        window.innerWidth <= 910 ? setCollapsed(true) : setCollapsed(false);
+    };
+    window.addEventListener("resize", showMenu);
+    React.useEffect(() => showMenu(), []);
+
+
+
     const [prophecies, setProphecies] = useState([])
 
     const [sortByCreateTime, setSortByCreateTime] = useState(false)
     // Get All comments from DB
     useEffect(() => {
-        async function getData() {
-            await fetch(`${process.env.REACT_APP_API_URL}/prophecy/getAll`)
-                .then((res) => {
-                    if (res.ok) {
-                        return res.json()
-                    }
-                })
-                .then((jsondata) => {
-                    setProphecies(jsondata)
-                    //default : store by number of user participated(HOT)
-                    jsondata = jsondata.sort((objA, objB) => {
-                        if (objA.numUser > objB.numUser) return -1
-                        if (objB.numUser > objA.numUser) return 1
-                        //if prophecies having same number of user participated, then display it by time
-                        return (
-                            (Number(new Date(objA.createAt)) -
-                                Number(new Date(objB.createAt))) *
-                            -1
-                        )
-                    })
-                    setProphecies(jsondata)
-                })
-                .catch((error) => console.log('error', error))
-        }
-        getData()
+        // getData(setProphecies)
+        getUserProphecy(user._id, setProphecies)
+        // const res = await getUserProphecy(user._id)
+        // console.log(res)
     }, [])
 
     // sort prophecies by created time
-    function sortByTime() {
-        setSortByCreateTime(true)
-        let propheciesList = prophecies
-            .sort(
-                (objA, objB) =>
-                    Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))
-            )
-            .reverse()
-        setProphecies(propheciesList)
+    function ByTime() {
+        sortByTime(prophecies, setProphecies, setSortByCreateTime)
     }
 
     // sort prophecies by number of user participate
-    function sortByParticipated() {
-        setSortByCreateTime(false)
-        let propheciesList = prophecies.sort((objA, objB) => {
-            if (objA.numUser > objB.numUser) return -1
-            if (objB.numUser > objA.numUser) return 1
-            //if prophecies having same number of user participated, then display it by time
-            return (
-                (Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))) * -1
-            )
-        })
-        setProphecies(propheciesList)
+    function ByParticipated() {
+        sortByParticipated(prophecies, setProphecies, setSortByCreateTime)
     }
 
 
 
 
     return (
-        <div>
-
-            <div style={{ marginBottom: "30px" }}>
-                <UserProfile />
-            </div>
+        <div className='ProfileContainer'>
 
 
-            <div style={{ marginBottom: "30px" }}>
-                <ChangPassword />
-            </div>
+            {page === "1" &&
+                <div className='ProfileProphecy' style={{ marginBottom: "30px" }}>
 
-
-            <div style={{ marginBottom: "30px" }}>
-                <Link className='trouble' to="/home">
-                    <button className='button infoButton'>
-                        Home
-                    </button>
-                </Link>
-            </div>
-
-
-            <div style={{ marginBottom: "30px" }}>
-
-                <button onClick={sortByParticipated}>HOT</button>
-                <button onClick={sortByTime}>NEW</button>
-                <div>
-                    {prophecies.map((item) => (
-                        <Prophecy key={item._id} data={item}></Prophecy>
-                    ))}
+                    <button onClick={ByParticipated}>HOT</button>
+                    <button onClick={ByTime}>NEW</button>
+                    <div>
+                        {prophecies.map((item) => (
+                            <Prophecy key={item._id} data={item}></Prophecy>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            }
+            {page === "2" && <UserProfile className='ProfileProphecy' />}
 
+
+
+            <div className="ProfileMenuWrapper" >
+                <Menu
+                    className="ProfileMenu"
+                    defaultSelectedKeys={[page]}
+                    mode="inline"
+                    inlineCollapsed={collapsed}
+                    items={items}
+                    onClick={handlePage}
+                />
+            </div>
 
         </div>
     )
 }
 
 export default Profile
+
+
+
+{/* <div style={{ marginBottom: "30px" }}>
+
+<button onClick={ByParticipated}>HOT</button>
+<button onClick={ByTime}>NEW</button>
+<div>
+    {prophecies.map((item) => (
+        <Prophecy key={item._id} data={item}></Prophecy>
+    ))}
+</div>
+</div> */}

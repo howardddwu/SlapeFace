@@ -19,8 +19,6 @@ function App() {
 
   const verifyUser = useCallback(async () => {
 
-    console.log("verifyUser")
-    console.log(isLogin)
     if (token) {
       console.log("refresh")
       const iferr = await AuthAction.refreshToken(token, dispatch)

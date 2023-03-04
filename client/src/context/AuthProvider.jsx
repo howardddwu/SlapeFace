@@ -35,7 +35,6 @@ const verifyUser = (string) => {
   }
 
   //there is no token, return null
-  console.log("no token in local")
   return null
 }
 

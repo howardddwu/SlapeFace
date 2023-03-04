@@ -1,24 +1,21 @@
 import React from 'react'
 import { useState, useEffect, useContext } from 'react'
-import { AuthContext } from '../../context/AuthProvider'
-import * as AuthAction from '../../actions/AuthAction'
-import { myInfo } from '../../API/AuthAPI'
 import { Link } from 'react-router-dom'
 
-import Prophecy from '../../components/Prophecy'
+import { AuthContext } from '../../context/AuthProvider'
+import * as AuthAction from '../../actions/AuthAction'
+import { sortByParticipated, sortByTime } from '../../API/ProphecyAPI';
+import * as SearchAPI from "../../API/SearchAPI"
+import SearchBar from '../../components/SearchBar/SearchBar';
+import Prophecy from '../../components/Prophecy/Prophecy'
+import News from '../../components/News/News'
+import "./Home.css"
 
 const Home = () => {
   const { isFetching, dispatch, user, token } = useContext(AuthContext)
 
   const handleLogout = async () => {
     await AuthAction.logOut(token, dispatch)
-    // window.location.reload()
-  }
-
-  const handleMyInfo = async () => {
-    const res = await myInfo(token)
-    console.log(res)
-    // window.location.reload()
   }
 
   // Prophecy 部分还需要：
@@ -27,95 +24,77 @@ const Home = () => {
   const [prophecies, setProphecies] = useState([])
 
   const [sortByCreateTime, setSortByCreateTime] = useState(false)
+
+
   // Get All comments from DB
   useEffect(() => {
-    async function getData() {
-      await fetch(`${process.env.REACT_APP_API_URL}/prophecy/getAll`)
-        .then((res) => {
-          if (res.ok) {
-            return res.json()
-          }
-        })
-        .then((jsondata) => {
-          setProphecies(jsondata)
-          //default : store by number of user participated(HOT)
-          jsondata = jsondata.sort((objA, objB) => {
-            if (objA.numUser > objB.numUser) return -1
-            if (objB.numUser > objA.numUser) return 1
-            //if prophecies having same number of user participated, then display it by time
-            return (
-              (Number(new Date(objA.createAt)) -
-                Number(new Date(objB.createAt))) *
-              -1
-            )
-          })
-          setProphecies(jsondata)
-        })
-        .catch((error) => console.log('error', error))
-    }
-    getData()
+    SearchAPI.SearchProphecy({ searchKey: "", category: [], }, setProphecies)
   }, [])
 
   // sort prophecies by created time
-  function sortByTime() {
-    setSortByCreateTime(true)
-    let propheciesList = prophecies
-      .sort(
-        (objA, objB) =>
-          Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))
-      )
-      .reverse()
-    setProphecies(propheciesList)
+  function ByTime() {
+    sortByTime(prophecies, setProphecies, setSortByCreateTime)
   }
 
   // sort prophecies by number of user participate
-  function sortByParticipated() {
-    setSortByCreateTime(false)
-    let propheciesList = prophecies.sort((objA, objB) => {
-      if (objA.numUser > objB.numUser) return -1
-      if (objB.numUser > objA.numUser) return 1
-      //if prophecies having same number of user participated, then display it by time
-      return (
-        (Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))) * -1
-      )
-    })
-    setProphecies(propheciesList)
+  function ByParticipated() {
+    sortByParticipated(prophecies, setProphecies, setSortByCreateTime)
   }
 
+
+
   return (
-    <div>
-      <h1>User's home page</h1>
-      {user && (
-        <div>
-          <h3>User Info:</h3>
-          <p>{user.username}</p>
-          <p>{user.email}</p>
-        </div>
-      )}
+    <div className='HomeContainer'>
 
-      <button className="button infoButton" onClick={handleLogout}>
-        Log Out
-      </button>
-      <Link className="trouble" to="/ranking">
-        <button className="button infoButton">Rank</button>
-      </Link>
-      <Link className='trouble' to="/profile">
-        <button className='button infoButton'>
-          Profile
-        </button>
-      </Link>
-      <button
-        className='button infoButton'
-        onClick={handleMyInfo}>My Info
-      </button>
-
-      <button onClick={sortByParticipated}>HOT</button>
-      <button onClick={sortByTime}>NEW</button>
-      <div>
-        {prophecies.map((item) => (
-          <Prophecy key={item._id} data={item}></Prophecy>
-        ))}
+      <div className='HomeLeft'>
+        <News />
       </div>
+
+
+      <div className='HomeMiddle'>
+
+        <div className='SearchWraper'>
+          <SearchBar setProphecies={setProphecies} />
+        </div>
+
+        <div style={{ marginTop: "30px" }}>
+          <button onClick={ByParticipated}>HOT</button>
+          <button onClick={ByTime}>NEW</button>
+          <div>
+            {prophecies.map((item) => (
+              <Prophecy key={item._id} data={item}></Prophecy>
+            ))}
+          </div>
+        </div>
+      </div>
+
+
+      <div className='HomeRight'>
+
+        <h1>User's home page</h1>
+        {user && (
+          <div>
+            <h3>User Info:</h3>
+            <p>{user.username}</p>
+            <p>{user.email}</p>
+          </div>
+        )}
+
+        <Link className="trouble" to="/ranking">
+          <button className="button infoButton">Rank</button>
+        </Link>
+        <Link className='trouble' to="/profile">
+          <button className='button infoButton'>
+            Profile
+          </button>
+        </Link>
+        <button className="button infoButton" onClick={handleLogout}>
+          Log Out
+        </button>
+
+      </div>
+
+
     </div>
   )
 }

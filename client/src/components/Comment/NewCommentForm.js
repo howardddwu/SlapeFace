@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import '../styles/NewCommentForm.css'
+import '../../styles/NewCommentForm.css'
 function NewCommentForm (props) {
 
   const { submit, commentData, onClickSubmit, initText, setIsEditing, setAddReplyVisible } = props

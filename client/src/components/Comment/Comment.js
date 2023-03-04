@@ -1,13 +1,15 @@
 import { useState, useContext } from 'react'
-import { AuthContext } from '../context/AuthProvider'
+import { AuthContext } from '../../context/AuthProvider'
 import { FaArrowUp } from 'react-icons/fa'
 import NewCommentForm from './NewCommentForm'
 import { v4 as uuid } from 'uuid' // getting unqiue id for comment
-import '../styles/Comment.css'
+import '../../styles/Comment.css'
 import ConfirmModal from './ConfirmModal'
+import { useNavigate } from 'react-router-dom'
 
-function Comment (props) {
-
+function Comment(props) {
+  
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext)
 
   const { commentData, getReplies, addReply, editComment, deleteComment, updateVote, bordercss } = props
@@ -24,24 +26,24 @@ function Comment (props) {
   const [forceUpdate, setForceUpdate] = useState(0)
 
   // only defaultUser allow to edit and delete
-  const EditDelete = Boolean(commentData.userId === user._id)
+  const EditDelete = user && Boolean(commentData.userId === user._id)
 
-  function displayReply () {
+  function displayReply() {
     setShowReplyVisible(!showReplyVisible)
   }
 
-  function createReply () {
+  function createReply() {
     setAddReplyVisible(!addReplyVisible)
     setIsEditing(false)
   }
-  function editingComment () {
+  function editingComment() {
     setIsEditing(!isEditing)
     setAddReplyVisible(false)
   }
 
-  function sortCommentDate (comment_date_info) {
+  function sortCommentDate(comment_date_info) {
 
-    function lastDayOfMonth (year, month) {
+    function lastDayOfMonth(year, month) {
       return new Date(year, month + 1, 0).getDate()
     }
     const comment_date = new Date(comment_date_info)
@@ -102,19 +104,24 @@ function Comment (props) {
     }
   }
 
-  function upVote () {
-    // if user did not upvote this comment, add upvote
-    if (!commentData.upVotes.includes(user._id)) {
-      commentData.upVotes.push(user._id)
-      console.log("upvote add")
-    }
-    // if user already upvote this comment, then remove upvote(the second time user click on upvote, cancel it)
-    else {
-      commentData.upVotes = commentData.upVotes.filter(item => item !== user._id)
-      console.log("upvote remove")
-    }
+  function upVote() {
+    if (user) {
+      // if user did not upvote this comment, add upvote
+      if (!commentData.upVotes.includes(user._id)) {
+        commentData.upVotes.push(user._id)
+        console.log("upvote add")
+      }
+      // if user already upvote this comment, then remove upvote(the second time user click on upvote, cancel it)
+      else {
+        commentData.upVotes = commentData.upVotes.filter(item => item !== user._id)
+        console.log("upvote remove")
+      }
 
-    updateVote({ upVotes: commentData.upVotes }, commentData)
+      updateVote({ upVotes: commentData.upVotes }, commentData)
+    }
+    else{
+      navigate("/login")
+    }
 
   }
 

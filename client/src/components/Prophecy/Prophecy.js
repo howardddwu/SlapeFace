@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Comments from './Comments'
-import '../styles/Prophecy.css'
+import Comments from '../Comment/Comments'
+import '../../styles/Prophecy.css'
 
 const Prophecy = (props) => {
 
@@ -24,6 +24,7 @@ const Prophecy = (props) => {
   // 3. 评论点赞区
   return (
     <div className='Prophecy'>
+      
       {data.result === -1 && <div>Close</div>}
       {data.result !== -1 && <div>Open</div>}
       <h2>{data.title}</h2>

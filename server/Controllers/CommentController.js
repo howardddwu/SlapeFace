@@ -11,7 +11,7 @@ router.get('/getAll', async (req, res, next) => {
     if (err) {
       console.log(err)
     } else {
-      console.log("Data received!")
+      // console.log("Data received!")
       res.end(JSON.stringify(CommentData))
 
     }
@@ -86,6 +86,93 @@ router.post('/add', async (req, res) => {
     res.end('Comment not added!')
   }
 })
+
+
+
+
+
+
+//get all comment that belong to a prophecy
+const getProphecyComment = async (req, res) => {
+  const prophecyId = req.params.prophecyId;
+
+  try {
+
+    const CommentsWithUsername = await commentModel.aggregate([
+      {
+        $match: {
+          prophecyId: mongoose.Types.ObjectId(prophecyId), 
+          parentCommentId: "undefined" 
+        }
+      },
+
+      {
+        $lookup: {
+          from: "users",
+
+          let: { "searchId": "$userId" },
+          "pipeline": [
+            { "$match": { "$expr": { "$eq": [ "$_id", "$$searchId"] } } },
+            { "$project": { "username": 1, "displayname": 2, "icon": 3} }
+          ],
+          as: "user"
+        }
+      },
+    ])
+    res.status(200).json(CommentsWithUsername);
+
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+router.get("/getProphecyComment/:prophecyId", getProphecyComment)
+
+
+
+//get all replies that belong to a comment. 
+const getReplyComment = async (req, res) => {
+  const prophecyId = req.params.prophecyId;
+  const parentCommentId = req.params.parentCommentId;
+
+  try {
+
+    const RepliesWithUsername = await commentModel.aggregate([
+      {
+        $match: {
+          prophecyId: mongoose.Types.ObjectId(prophecyId), 
+          parentCommentId: parentCommentId
+        }
+      },
+
+      {
+        $lookup: {
+          from: "users",
+
+          let: { "searchId": "$userId" },
+          "pipeline": [
+            { "$match": { "$expr": { "$eq": [ "$_id", "$$searchId"] } } },
+            { "$project": { "username": 1, "displayname": 2, "icon": 3} }
+          ],
+          as: "user"
+        }
+      },
+    ])
+    res.status(200).json(RepliesWithUsername);
+
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+
+router.get("/getReplyComment/:prophecyId/:parentCommentId", getReplyComment)
+
+
+
+
+
+
 
 
 export default router
