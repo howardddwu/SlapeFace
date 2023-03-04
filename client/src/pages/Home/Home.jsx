@@ -10,6 +10,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import Prophecy from '../../components/Prophecy/Prophecy'
 import News from '../../components/News/News'
 import "./Home.css"
+import CreateProphecyButton from '../../components/createProphecyButton'
 
 const Home = () => {
   const { isFetching, dispatch, user, token } = useContext(AuthContext)
@@ -55,6 +56,10 @@ const Home = () => {
 
         <div className='SearchWraper'>
           <SearchBar setProphecies={setProphecies} />
+        </div>
+
+        <div style={{ marginTop: "30px" }}>
+          <CreateProphecyButton/>
         </div>
 
         <div style={{ marginTop: "30px" }}>
