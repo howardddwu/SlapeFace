@@ -1,13 +1,11 @@
 .Prophecy {
-  margin: 0.5%;
-  padding: 1.2%;
-  border-style: solid;
+  margin-top: 1%;
+  padding: 2%;
+  border: solid 1px;
   min-height: 35vh;
-  width: 40vh;
-/* 
+  /* 
   display: flex;
   flex-direction: column; */
-  
 }
 
 .Prophecy-votes {
@@ -15,4 +13,13 @@
   margin-bottom: 1%;
   border-style: solid;
   height: 30%;
+}
+
+.Prophecy-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.Prophecy-title {
+  width: 90%;
 }
