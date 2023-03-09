@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import Chart from 'chart.js/auto'
 import Comments from '../Comment/Comments'
 import '../../styles/Prophecy.css'
+import VotingModal from './VotingModal'
 
 const Prophecy = (props) => {
 
   const { data } = props
-  //console.log(data)
 
+  const [OpenVotingModal, setOpenVotingModal] = useState(false)
+  //console.log(data)
 
   function modifyCreatedTime (createdTime) {
     const monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -57,9 +59,16 @@ const Prophecy = (props) => {
     },
   }
 
+  function votingProphecy () {
+    setOpenVotingModal(true)
+  }
 
-  //还需要：
-  // 1. 以视图方式显示每个选项投票人数
+  function submitVote (optionIndex) {
+    console.log(optionIndex)
+    setOpenVotingModal(false)
+
+    //加api
+  }
   return (
     <div className='Prophecy'>
 
@@ -74,8 +83,14 @@ const Prophecy = (props) => {
 
 
       <Bar data={votingData} options={options} />
-      <div>Number Vote: {data.numUser}</div>
-      <div>{modifyCreatedTime(data.createdTime)}</div>
+      <div className='Prophecy-detail'>
+        <div className='Prophecy-info'>
+          <div>Number Vote: {data.numUser}</div>
+          <div>{modifyCreatedTime(data.createdTime)}</div>
+        </div>
+        <button onClick={votingProphecy}>Participate</button>
+      </div>
+      {OpenVotingModal && <VotingModal Prophecy={data} closeModal={setOpenVotingModal} submit={submitVote} />}
 
       <Comments ProphecyId={data._id} />
 
