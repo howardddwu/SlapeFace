@@ -23,3 +23,12 @@
 .Prophecy-title {
   width: 90%;
 }
+
+.Prophecy-detail {
+  display: flex;
+  flex-direction: row;
+}
+
+.Prophecy-info {
+  width: 80%;
+}
