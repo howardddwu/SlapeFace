@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../context/AuthProvider'
 import Comment from './Comment'
 import NewCommentForm from './NewCommentForm'
+import pic1 from "../../DefaultProfile_1.jpg"
 import '../../styles/Comments.css'
 
 const secondBetweenUpdate = 10
@@ -97,11 +98,12 @@ function Comments (props) {
 
   // Add Comment
   async function addComment (content) {
+    let userIcon = user.icon ? user.icon : pic1
     //!!!!! Call api request here !!!!//
     const type = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user._id, userDisplayName: user.displayname, prophecyId: ProphecyId, parentCommentId: "undefined", content: content, reply: false })
+      body: JSON.stringify({ userId: user._id, userDisplayName: user.displayname, userIcon: userIcon, prophecyId: ProphecyId, parentCommentId: "undefined", content: content, reply: false })
 
     }
     await fetch(`${process.env.REACT_APP_API_URL}/comment/add`, type)
@@ -120,12 +122,13 @@ function Comments (props) {
     console.log("reply added")
     console.log(content)
     console.log(comment._id)
+    let userIcon = user.icon ? user.icon : pic1
 
     //!!!!! Call api request here !!!!//
     const type = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user._id, userDisplayName: user.displayname, prophecyId: ProphecyId, parentCommentId: comment._id, content: content, reply: true })
+      body: JSON.stringify({ userId: user._id, userDisplayName: user.displayname, userIcon: userIcon, prophecyId: ProphecyId, parentCommentId: comment._id, content: content, reply: true })
 
     }
     await fetch(`${process.env.REACT_APP_API_URL}/comment/add`, type)

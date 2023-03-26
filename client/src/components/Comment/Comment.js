@@ -7,9 +7,9 @@ import '../../styles/Comment.css'
 import ConfirmModal from './ConfirmModal'
 import { useNavigate } from 'react-router-dom'
 
-function Comment(props) {
-  
-  const navigate = useNavigate();
+function Comment (props) {
+
+  const navigate = useNavigate()
   const { user } = useContext(AuthContext)
 
   const { commentData, getReplies, addReply, editComment, deleteComment, updateVote, bordercss } = props
@@ -28,22 +28,22 @@ function Comment(props) {
   // only defaultUser allow to edit and delete
   const EditDelete = user && Boolean(commentData.userId === user._id)
 
-  function displayReply() {
+  function displayReply () {
     setShowReplyVisible(!showReplyVisible)
   }
 
-  function createReply() {
+  function createReply () {
     setAddReplyVisible(!addReplyVisible)
     setIsEditing(false)
   }
-  function editingComment() {
+  function editingComment () {
     setIsEditing(!isEditing)
     setAddReplyVisible(false)
   }
 
-  function sortCommentDate(comment_date_info) {
+  function sortCommentDate (comment_date_info) {
 
-    function lastDayOfMonth(year, month) {
+    function lastDayOfMonth (year, month) {
       return new Date(year, month + 1, 0).getDate()
     }
     const comment_date = new Date(comment_date_info)
@@ -104,7 +104,7 @@ function Comment(props) {
     }
   }
 
-  function upVote() {
+  function upVote () {
     if (user) {
       // if user did not upvote this comment, add upvote
       if (!commentData.upVotes.includes(user._id)) {
@@ -119,7 +119,7 @@ function Comment(props) {
 
       updateVote({ upVotes: commentData.upVotes }, commentData)
     }
-    else{
+    else {
       navigate("/login")
     }
 
@@ -127,6 +127,9 @@ function Comment(props) {
 
   return (
     <div className="comment">
+      <div className='comment-icon-container'>
+        <img src={commentData.userIcon} alt="" className='comment-icon' />
+      </div>
       <div className='comment-detail' style={bordercss}>
         <div className="comment-container">
           <div className="comment-infocontent-container">
