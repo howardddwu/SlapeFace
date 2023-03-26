@@ -70,6 +70,7 @@ router.post('/add', async (req, res) => {
   const userComment = {
     userId: mongoose.Types.ObjectId(req.body.userId),
     userDisplayName: req.body.userDisplayName,
+    userIcon: req.body.userIcon,
     prophecyId: mongoose.Types.ObjectId(req.body.prophecyId),
     parentCommentId: req.body.parentCommentId,
     content: req.body.content,
@@ -94,15 +95,15 @@ router.post('/add', async (req, res) => {
 
 //get all comment that belong to a prophecy
 const getProphecyComment = async (req, res) => {
-  const prophecyId = req.params.prophecyId;
+  const prophecyId = req.params.prophecyId
 
   try {
 
     const CommentsWithUsername = await commentModel.aggregate([
       {
         $match: {
-          prophecyId: mongoose.Types.ObjectId(prophecyId), 
-          parentCommentId: "undefined" 
+          prophecyId: mongoose.Types.ObjectId(prophecyId),
+          parentCommentId: "undefined"
         }
       },
 
@@ -112,14 +113,14 @@ const getProphecyComment = async (req, res) => {
 
           let: { "searchId": "$userId" },
           "pipeline": [
-            { "$match": { "$expr": { "$eq": [ "$_id", "$$searchId"] } } },
-            { "$project": { "username": 1, "displayname": 2, "icon": 3} }
+            { "$match": { "$expr": { "$eq": ["$_id", "$$searchId"] } } },
+            { "$project": { "username": 1, "displayname": 2, "icon": 3 } }
           ],
           as: "user"
         }
       },
     ])
-    res.status(200).json(CommentsWithUsername);
+    res.status(200).json(CommentsWithUsername)
 
   } catch (error) {
     res.status(400).json(error)
@@ -132,15 +133,15 @@ router.get("/getProphecyComment/:prophecyId", getProphecyComment)
 
 //get all replies that belong to a comment. 
 const getReplyComment = async (req, res) => {
-  const prophecyId = req.params.prophecyId;
-  const parentCommentId = req.params.parentCommentId;
+  const prophecyId = req.params.prophecyId
+  const parentCommentId = req.params.parentCommentId
 
   try {
 
     const RepliesWithUsername = await commentModel.aggregate([
       {
         $match: {
-          prophecyId: mongoose.Types.ObjectId(prophecyId), 
+          prophecyId: mongoose.Types.ObjectId(prophecyId),
           parentCommentId: parentCommentId
         }
       },
@@ -151,14 +152,14 @@ const getReplyComment = async (req, res) => {
 
           let: { "searchId": "$userId" },
           "pipeline": [
-            { "$match": { "$expr": { "$eq": [ "$_id", "$$searchId"] } } },
-            { "$project": { "username": 1, "displayname": 2, "icon": 3} }
+            { "$match": { "$expr": { "$eq": ["$_id", "$$searchId"] } } },
+            { "$project": { "username": 1, "displayname": 2, "icon": 3 } }
           ],
           as: "user"
         }
       },
     ])
-    res.status(200).json(RepliesWithUsername);
+    res.status(200).json(RepliesWithUsername)
 
   } catch (error) {
     res.status(400).json(error)

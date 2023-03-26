@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 const CommentSchema = mongoose.Schema({
   userId: { type: mongoose.SchemaTypes.ObjectId, required: true },
   userDisplayName: { type: String, required: true },
+  userIcon: { type: String, required: true },
   prophecyId: { type: mongoose.SchemaTypes.ObjectId, required: true },
   parentCommentId: { type: String, required: true },
   content: { type: String, required: true },
