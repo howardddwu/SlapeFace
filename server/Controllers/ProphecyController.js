@@ -11,14 +11,14 @@ const router = express.Router()
 //get user's all votes with user's username, displayname and pic
 const getUserProphecy = async (req, res) => {
 
-  const userId = req.params.userId;
+  const userId = req.params.userId
 
   try {
-    let prophecies = await prophecyModel.find({author: userId})
+    let prophecies = await prophecyModel.find({ author: userId })
     let user = await userModel.findById(userId)
-    let {username, displayname, icon} = user
+    let { username, displayname, icon } = user
 
-    res.status(200).json(prophecies.concat({username, displayname, icon}))
+    res.status(200).json(prophecies.concat({ username, displayname, icon }))
 
   } catch (error) {
     res.status(400).json(error)
@@ -69,8 +69,25 @@ router.post('/add', async (req, res) => {
   }
 })
 
+// UPDATE and adding new vote into DB + UPDATE numUser
+router.patch("/addVote/:id", async (req, res) => {
+  try {
+    const id = req.params.id
+    const updated = req.body
+    const options = { new: true }
 
-router.get("/get/:userId", getUserProphecy);
+    const result = await prophecyModel.findByIdAndUpdate(
+      id, updated, options
+    )
+
+    res.send(result)
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+    res.send({ error: "prophecy doesn't exist" })
+  }
+})
+
+router.get("/get/:userId", getUserProphecy)
 
 
 export default router

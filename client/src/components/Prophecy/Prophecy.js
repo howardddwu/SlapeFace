@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { AuthContext } from '../../context/AuthProvider'
 import { Bar } from "react-chartjs-2"
 import Chart from 'chart.js/auto'
 import Comments from '../Comment/Comments'
@@ -8,9 +9,30 @@ import VotingModal from './VotingModal'
 const Prophecy = (props) => {
 
   const { data } = props
+  const { user } = useContext(AuthContext)
 
   const [OpenVotingModal, setOpenVotingModal] = useState(false)
+  const [userParticipated, setUserParticipated] = useState(checkUserParticipated())
+  const [userChoice, setUserChoice] = useState(getUserChoice())
   //console.log(data)
+
+  function checkUserParticipated () {
+    for (let i = 0; i < data.options.length; i++) {
+      if (data.options[i].VoterId.includes(user._id)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  function getUserChoice () {
+    for (let i = 0; i < data.options.length; i++) {
+      if (data.options[i].VoterId.includes(user._id)) {
+        return data.options[i].option
+      }
+    }
+    return ""
+  }
 
   function modifyCreatedTime (createdTime) {
     const monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -63,11 +85,27 @@ const Prophecy = (props) => {
     setOpenVotingModal(true)
   }
 
-  function submitVote (optionIndex) {
+  async function submitVote (optionIndex) {
     console.log(optionIndex)
     setOpenVotingModal(false)
+    console.log(data.options)
+    data.options[optionIndex].VoterId.push(user._id)
 
-    //加api
+    await fetch(`${process.env.REACT_APP_API_URL}/prophecy/addVote/` + data._id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ options: data.options, numUser: data.numUser + 1 })
+    })
+      .then(
+        console.log('success')
+      )
+      .catch(
+        error => console.log('error', error)
+      )
+
+    setUserParticipated(true)
+    setUserChoice(data.options[optionIndex].option)
+
   }
   return (
     <div className='Prophecy'>
@@ -88,7 +126,12 @@ const Prophecy = (props) => {
           <div>Number Vote: {data.numUser}</div>
           <div>{modifyCreatedTime(data.createdTime)}</div>
         </div>
-        <button onClick={votingProphecy}>Participate</button>
+        {userParticipated &&
+          <div className='Prophecy-userParticipate'>
+            <div>Voted !</div>
+            <div>Your Choices: {userChoice}</div>
+          </div>}
+        {data.result === -1 && (!userParticipated && <button onClick={votingProphecy}>Participate</button>)}
       </div>
       {OpenVotingModal && <VotingModal Prophecy={data} closeModal={setOpenVotingModal} submit={submitVote} />}
 
