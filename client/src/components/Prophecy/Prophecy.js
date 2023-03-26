@@ -11,9 +11,11 @@ const Prophecy = (props) => {
   const { data } = props
   const { user } = useContext(AuthContext)
 
+
   const [OpenVotingModal, setOpenVotingModal] = useState(false)
   const [userParticipated, setUserParticipated] = useState(checkUserParticipated())
   const [userChoice, setUserChoice] = useState(getUserChoice())
+  const [forceUpdate, setForceUpdate] = useState(0)
   //console.log(data)
 
   function checkUserParticipated () {
@@ -88,9 +90,8 @@ const Prophecy = (props) => {
   async function submitVote (optionIndex) {
     console.log(optionIndex)
     setOpenVotingModal(false)
-    console.log(data.options)
     data.options[optionIndex].VoterId.push(user._id)
-
+    //add user votes into prophecy options
     await fetch(`${process.env.REACT_APP_API_URL}/prophecy/addVote/` + data._id, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -103,8 +104,24 @@ const Prophecy = (props) => {
         error => console.log('error', error)
       )
 
+
+    user.votes.push(data._id)
+    // add this prophecy into user model under votes(indicated user particiated this prophecy)
+    await fetch(`${process.env.REACT_APP_API_URL}/user/editProfile/` + user._id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ votes: user.votes })
+    })
+      .then(
+        console.log('success')
+      )
+      .catch(
+        error => console.log('error', error)
+      )
+
     setUserParticipated(true)
     setUserChoice(data.options[optionIndex].option)
+    setForceUpdate(forceUpdate + 1)
 
   }
   return (
