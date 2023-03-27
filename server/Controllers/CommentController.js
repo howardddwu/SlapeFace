@@ -69,8 +69,6 @@ router.post('/add', async (req, res) => {
 
   const userComment = {
     userId: mongoose.Types.ObjectId(req.body.userId),
-    userDisplayName: req.body.userDisplayName,
-    userIcon: req.body.userIcon,
     prophecyId: mongoose.Types.ObjectId(req.body.prophecyId),
     parentCommentId: req.body.parentCommentId,
     content: req.body.content,
