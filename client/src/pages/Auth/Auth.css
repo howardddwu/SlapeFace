@@ -161,6 +161,7 @@ input:-webkit-autofill:active {
     text-align: center;
     font-family: 'Poppins', sans-serif;
     font-size: 11px;
+    margin-bottom: 5px;
 }
 
 .buttonWrapper{
@@ -176,25 +177,35 @@ input:-webkit-autofill:active {
 
     display: flex;
     flex-direction: row;
-    height: 50%;
+    /* height: 50%; */
+    width: 75%;
     align-self: center;
+    align-items: center;
+    justify-content: center;
     min-width: 20px;
     min-height: 40px;
 }
-.logoIcon{
+/* .logoIcon{
 
     width: 35%;
     height: 40%;
     padding-left: 7px;
-    padding-right: 3px;
+    padding-right: 3px; 
+     align-self: center;
+} */
 
-    align-self: center;
-}
 .logoBtn{
-    border: 1px solid transparent;;
+    border: 1px solid transparent;
+    width: 70%;
 }
-.logoBtn:hover{
-    border: 1px solid black;
-    transition: all 0.5s ease;
+.logoWrapper:hover, .logoBtn:hover{
+    border: 1px solid white;
+    background-color: black;
+    color: white;
+    transition: all 0.2s ease;
 }
-
+/* .button:hover{
+    border: 1px solid white;
+    background-color: black;
+    color: white;
+} */

@@ -27,6 +27,33 @@ export const logIn = async (userData, dispatch) => {
     }
 }
 
+export const GoogleLogIn = async (userId, TOKEN, dispatch) => {
+    console.log("LOGIN_START")
+    dispatch({ type: "LOGIN_START" })
+
+    try {
+        const res = await AuthApi.GooglelogIn(userId, TOKEN);
+
+        if (res.status === 200) {
+            const { data } = res;
+            console.log("LOGIN_SUCCESS")
+            dispatch({ type: "LOGIN_SUCCESS", payload: data.user, token: data.token });
+            return false;
+        }
+        else {
+            console.log("LOGIN_FAILURE")
+            dispatch({ type: "LOGIN_FAILURE" });
+            return true;
+        }
+
+
+    } catch (error) {
+        // console.log(error)
+        dispatch({ type: "LOGIN_FAILURE", payload: error });
+        return true;
+    }
+}
+
 
 
 

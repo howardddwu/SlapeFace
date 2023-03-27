@@ -27,6 +27,7 @@ const UserSchema = mongoose.Schema(
         },
         icon: {
             type: String,
+            default: null
         },
         postsCreated: {
             type: Array,
@@ -61,6 +62,16 @@ const UserSchema = mongoose.Schema(
         isAdmin: {
             type: Boolean,
             default: false
+        },
+        //used to store oauth info:
+        provider: {
+            type: String,
+            default: null
+        },
+        providerProfile: {},
+        providerUserId: {
+            type: String,
+            default: null
         },
 
         refreshToken: {

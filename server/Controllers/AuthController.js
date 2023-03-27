@@ -65,7 +65,7 @@ export const login = async (req, res) => {
 
         //due to COOKIE_OPTIONS, this creates a signed cookie and can be accessed in req.signedCookies 
         // res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-        res.cookie("refreshToken", refreshToken, {signed: true})
+        res.cookie("refreshToken", refreshToken, { signed: true })
 
         res.status(200).json({ success: true, token, user })
     } catch (error) {
@@ -78,7 +78,7 @@ export const login = async (req, res) => {
 *  LOG OUT  *
 ****************/
 export const logOut = async (req, res) => {
-    
+
 
     //get current token from header 
     const { signedCookies = {} } = req
@@ -101,7 +101,7 @@ export const logOut = async (req, res) => {
         // console.log(req.user)
 
         // res.clearCookie("refreshToken", COOKIE_OPTIONS)
-        res.clearCookie("refreshToken", {signed: true})
+        res.clearCookie("refreshToken", { signed: true })
 
         res.status(200).json({ logOut: true })
 
@@ -163,7 +163,7 @@ export const refreshToken = (req, res, next) => {
                                     res.send(err)
                                 } else {
                                     // res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS)
-                                    res.cookie("refreshToken", newRefreshToken, {signed: true})
+                                    res.cookie("refreshToken", newRefreshToken, { signed: true })
 
                                     res.send({ success: true, token })
                                 }
@@ -187,3 +187,72 @@ export const refreshToken = (req, res, next) => {
     }
 }
 
+
+
+
+
+/***************************************
+*             Google Login             *
+***************************************/
+
+export const googleCallback = (next) => {
+    try {
+        return (passport.authenticate("google", {
+            failureRedirect: "auth/google_callback_fail",
+        })
+        );
+    } catch (err) {
+        console.log("Error in AuthController/googleCallback")
+    }
+    next();
+}
+
+
+export const isLoggedIn = async (req, res, next) => {
+    //  console.log("isLoggedIn req.user: " + req.user);
+
+    if (req.isAuthenticated()) {
+        const id = req.user._id
+        const token = getToken({ _id: id })
+
+        try {
+            res.redirect(process.env.CLIENT_URL + '/dashboard?token=' + token)
+            //res.status(200).json({ success: true, token, user })
+        } catch (error) {
+            res.status(500).json(error)
+        }
+    }
+}
+
+
+
+export const googleLogin = async (req, res) => {
+
+    const userId = req.params.userId;
+    const { TOKEN } = req.body
+
+    //verify token 
+    const payload = jwt.verify(TOKEN, process.env.JWT_SECRET)
+    const userID = payload._id
+
+    //if token and given userid are good to go, create refresh token and return user to frontend
+    if (userId === userID) {
+        try {
+            const token = getToken({ _id: userID })
+            const refreshToken = getRefreshToken({ _id: userID })
+
+            const user = await userModel.findById(userID)
+            user.refreshToken.push({ refreshToken });
+            await user.save();
+
+            res.cookie("refreshToken", refreshToken, { signed: true })
+            res.status(200).json({ success: true, token, user })
+        } catch (error) {
+            res.status(500).json(error)
+        }
+    }
+    else {
+        res.status(400).json("Invalid token, token and given userID doesn't match.")
+    }
+
+}

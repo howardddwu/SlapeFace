@@ -17,5 +17,11 @@ router.get("/myProfile", passport.authenticate("jwt", { session: false }), AuthC
 router.get("/logout", passport.authenticate("jwt", { session: false }), AuthController.logOut )
 
 
+//google login
+router.get("/google/callback", AuthController.googleCallback(), AuthController.isLoggedIn);
+router.get("/google", passport.authenticate("google", { session: false }, ["profile", "email"]));
+router.post("/GoogleLogin/:userId", AuthController.googleLogin);
+
+
 export default router;
 
