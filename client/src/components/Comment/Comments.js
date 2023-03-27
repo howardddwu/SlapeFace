@@ -101,7 +101,7 @@ function Comments (props) {
     const type = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user._id, userDisplayName: user.displayname, prophecyId: ProphecyId, parentCommentId: "undefined", content: content, reply: false })
+      body: JSON.stringify({ userId: user._id, prophecyId: ProphecyId, parentCommentId: "undefined", content: content, reply: false })
 
     }
     await fetch(`${process.env.REACT_APP_API_URL}/comment/add`, type)
@@ -125,7 +125,7 @@ function Comments (props) {
     const type = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user._id, userDisplayName: user.displayname, prophecyId: ProphecyId, parentCommentId: comment._id, content: content, reply: true })
+      body: JSON.stringify({ userId: user._id, prophecyId: ProphecyId, parentCommentId: comment._id, content: content, reply: true })
 
     }
     await fetch(`${process.env.REACT_APP_API_URL}/comment/add`, type)

@@ -3,11 +3,12 @@
   width: auto;
   display: flex;
   flex-direction: row;
+  margin-top: 1%;
 }
 
 .comment-detail {
   padding-top: 0.5%;
-  width: 80%;
+  width: 100%;
   padding-bottom: 1%;
 }
 .comment-container {
@@ -15,7 +16,7 @@
   flex-direction: row;
 }
 .comment-infocontent-container {
-  width: 90%;
+  width: 100%;
 }
 .comment:hover .comment-menu {
   visibility: visible;
@@ -57,17 +58,27 @@
   display: flex;
   flex-direction: row;
   font-size: 11px;
-  margin-bottom: 3%;
+  margin-bottom: 2%;
 }
 
+.comment-icon-container {
+  margin-right: 2%;
+}
+.comment-icon {
+  border-radius: 50%;
+  width: 3vh;
+}
 .comment-info-user {
   margin-right: 10px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: bold;
+  margin-top: 1%;
 }
 
 .comment-info-createAt {
   color: gray;
+  margin-top: 1%;
+  font-size: 12px;
 }
 
 .comment-content-replyto {

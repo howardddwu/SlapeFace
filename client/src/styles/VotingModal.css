@@ -1,0 +1,72 @@
+.VotingModal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40vh;
+}
+
+.modalContainer {
+  width: auto;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title button {
+  background-color: initial;
+  border-width: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.title button:hover {
+  background-color: rgb(235, 235, 235);
+}
+
+.body {
+  font-size: medium;
+  margin-bottom: 10px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer button {
+  float: right;
+  width: 100px;
+  height: 40px;
+  margin: 10px;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.footer #cancel {
+  color: black;
+  border-style: solid;
+  background-color: white;
+}
+.footer #cancel:hover {
+  background-color: rgb(235, 233, 233);
+}
+
+.footer #submit {
+  background-color: rgba(243, 46, 89, 0.459);
+}
+
+.footer #submit:hover {
+  background-color: rgba(243, 46, 89, 0.658);
+}

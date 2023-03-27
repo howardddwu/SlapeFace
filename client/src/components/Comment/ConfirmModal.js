@@ -4,7 +4,6 @@ import '../../styles/ConfirmModal.css'
 function ConfirmModal (props) {
   const { comment, closeModal, deleteComment } = props
 
-  //当前显示userid 需要改掉
   return (
     <div className="ConfirmModal">
       <div className="modalContainer">
