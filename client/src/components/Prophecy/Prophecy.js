@@ -19,6 +19,8 @@ const Prophecy = (props) => {
   //console.log(data)
 
   function checkUserParticipated () {
+    if(!user) return false;
+
     for (let i = 0; i < data.options.length; i++) {
       if (data.options[i].VoterId.includes(user._id)) {
         return true
@@ -28,6 +30,8 @@ const Prophecy = (props) => {
   }
 
   function getUserChoice () {
+    if(!user) return "";
+
     for (let i = 0; i < data.options.length; i++) {
       if (data.options[i].VoterId.includes(user._id)) {
         return data.options[i].option
