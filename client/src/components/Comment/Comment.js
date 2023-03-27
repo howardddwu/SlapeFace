@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthProvider'
 import { FaArrowUp } from 'react-icons/fa'
 import NewCommentForm from './NewCommentForm'
@@ -6,6 +6,8 @@ import { v4 as uuid } from 'uuid' // getting unqiue id for comment
 import '../../styles/Comment.css'
 import ConfirmModal from './ConfirmModal'
 import { useNavigate } from 'react-router-dom'
+import * as UserAPI from "../../API/UserAPI.js"
+import pic1 from "../../DefaultProfile_1.jpg"
 
 function Comment (props) {
 
@@ -22,8 +24,13 @@ function Comment (props) {
 
   const [OpenModal, setOpenModal] = useState(false)
 
-  // used for force rerender the component
-  const [forceUpdate, setForceUpdate] = useState(0)
+  const [userInfo, setUserInfo] = useState('')
+
+  useEffect(() => {
+    UserAPI.getUserInfo(commentData.userId, setUserInfo)
+  }, [])
+
+
 
   // only defaultUser allow to edit and delete
   const EditDelete = user && Boolean(commentData.userId === user._id)
@@ -124,17 +131,17 @@ function Comment (props) {
     }
 
   }
-
+  console.log(userInfo)
   return (
     <div className="comment">
       <div className='comment-icon-container'>
-        <img src={commentData.userIcon} alt="" className='comment-icon' />
+        <img src={userInfo.icon ? userInfo.icon : pic1} alt="" className='comment-icon' />
       </div>
       <div className='comment-detail' style={bordercss}>
         <div className="comment-container">
           <div className="comment-infocontent-container">
             <div className="comment-info">
-              <div className='comment-info-user'>{commentData.userDisplayName}</div>
+              <div className='comment-info-user'>{userInfo.displayname}</div>
               <div className='comment-info-createAt'>{sortCommentDate(commentData.createAt)}</div>
             </div>
 
