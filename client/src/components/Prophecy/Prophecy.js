@@ -1,10 +1,13 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../context/AuthProvider'
 import { Bar } from "react-chartjs-2"
 import Chart from 'chart.js/auto'
 import Comments from '../Comment/Comments'
 import '../../styles/Prophecy.css'
 import VotingModal from './VotingModal'
+import pic1 from "../../DefaultProfile_1.jpg"
+import * as UserAPI from "../../API/UserAPI.js"
+import CountDownTimer from '../Timer/countDownTimer'
 
 const Prophecy = (props) => {
 
@@ -16,10 +19,14 @@ const Prophecy = (props) => {
   const [userParticipated, setUserParticipated] = useState(checkUserParticipated())
   const [userChoice, setUserChoice] = useState(getUserChoice())
   const [forceUpdate, setForceUpdate] = useState(0)
-  //console.log(data)
+  const [authorInfo, setAuthorInfo] = useState('')
+
+  useEffect(() => {
+    UserAPI.getUserInfo(data.author, setAuthorInfo)
+  }, [])
 
   function checkUserParticipated () {
-    if(!user) return false;
+    if (!user) return false
 
     for (let i = 0; i < data.options.length; i++) {
       if (data.options[i].VoterId.includes(user._id)) {
@@ -30,7 +37,7 @@ const Prophecy = (props) => {
   }
 
   function getUserChoice () {
-    if(!user) return "";
+    if (!user) return ""
 
     for (let i = 0; i < data.options.length; i++) {
       if (data.options[i].VoterId.includes(user._id)) {
@@ -128,16 +135,40 @@ const Prophecy = (props) => {
     setForceUpdate(forceUpdate + 1)
 
   }
+
+  //console.log(authorInfo)
   return (
     <div className='Prophecy'>
-
       <div className='Prophecy-header'>
         <h2 className='Prophecy-title'>{data.title}</h2>
         <div className='Prophecy-status'>
           {data.result !== -1 && <div style={{ "color": "red" }}>Close</div>}
           {data.result === -1 && <div style={{ "color": "green" }}>Open</div>}
         </div>
+      </div>
+      <div className='Prophecy-author'>
+        Posted by :
+        {authorInfo === null ?
+          <div>Non-Existent user</div> :
+          <div className='Prophecy-author-info'>
+            <img src={authorInfo.icon ? authorInfo.icon : pic1} alt="" className='Prophecy-author-icon' />
+            <div>{authorInfo.displayname}</div>
+          </div>
+        }
+      </div>
 
+      <div className='Prophecy-OpeningTime'>
+        {new Date(data.endTime.valueOf()) > new Date() ?
+          <div className='Prophecy-CountDown'>
+            <div>Prophecy close after : </div>
+            <CountDownTimer timeInMs={new Date(data.endTime).valueOf()} />
+          </div> :
+          data.result === -1 ?
+            <div className='Prophecy-verify'>
+              <div>Prophecy Closed, Waiting for verify </div>
+              {user._id === data.author && <button>Verify</button>}
+            </div> :
+            <div>Prophecy Closed, Correct result is {data.options[data.result].option}</div>}
       </div>
 
 
