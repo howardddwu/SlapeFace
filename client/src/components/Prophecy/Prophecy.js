@@ -4,7 +4,7 @@ import { Bar } from "react-chartjs-2"
 import Chart from 'chart.js/auto'
 import Comments from '../Comment/Comments'
 import '../../styles/Prophecy.css'
-import VotingModal from './VotingModal'
+import VotingVerifyModal from './VotingVerifyModal'
 import pic1 from "../../DefaultProfile_1.jpg"
 import * as UserAPI from "../../API/UserAPI.js"
 import CountDownTimer from '../Timer/countDownTimer'
@@ -16,6 +16,7 @@ const Prophecy = (props) => {
 
 
   const [OpenVotingModal, setOpenVotingModal] = useState(false)
+  const [OpenVerifyModal, setOpenVerifyModal] = useState(false)
   const [userParticipated, setUserParticipated] = useState(checkUserParticipated())
   const [userChoice, setUserChoice] = useState(getUserChoice())
   const [forceUpdate, setForceUpdate] = useState(0)
@@ -98,12 +99,15 @@ const Prophecy = (props) => {
     setOpenVotingModal(true)
   }
 
+  function verifyProphecy () {
+    setOpenVerifyModal(true)
+  }
+
   async function submitVote (optionIndex) {
-    console.log(optionIndex)
     setOpenVotingModal(false)
     data.options[optionIndex].VoterId.push(user._id)
     //add user votes into prophecy options
-    await fetch(`${process.env.REACT_APP_API_URL}/prophecy/addVote/` + data._id, {
+    await fetch(`${process.env.REACT_APP_API_URL}/prophecy/edit/` + data._id, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ options: data.options, numUser: data.numUser + 1 })
@@ -114,7 +118,6 @@ const Prophecy = (props) => {
       .catch(
         error => console.log('error', error)
       )
-
 
     user.votes.push(data._id)
     // add this prophecy into user model under votes(indicated user particiated this prophecy)
@@ -133,6 +136,28 @@ const Prophecy = (props) => {
     setUserParticipated(true)
     setUserChoice(data.options[optionIndex].option)
     setForceUpdate(forceUpdate + 1)
+
+  }
+
+  async function submitVerify (optionIndex) {
+    console.log(optionIndex)
+    data.result = optionIndex
+
+    //add the result to prophecy
+    await fetch(`${process.env.REACT_APP_API_URL}/prophecy/edit/` + data._id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ result: data.result })
+    })
+      .then(
+        console.log('success')
+      )
+      .catch(
+        error => console.log('error', error)
+      )
+    setOpenVerifyModal(false)
+    setForceUpdate(forceUpdate + 1)
+
 
   }
 
@@ -166,7 +191,7 @@ const Prophecy = (props) => {
           data.result === -1 ?
             <div className='Prophecy-verify'>
               <div>Prophecy Closed, Waiting for verify </div>
-              {user._id === data.author && <button>Verify</button>}
+              {user._id === data.author && <button onClick={verifyProphecy}>Verify</button>}
             </div> :
             <div>Prophecy Closed, Correct result is {data.options[data.result].option}</div>}
       </div>
@@ -183,9 +208,10 @@ const Prophecy = (props) => {
             <div>Voted !</div>
             <div>Your Choices: {userChoice}</div>
           </div>}
-        {data.result === -1 && (!userParticipated && <button onClick={votingProphecy}>Participate</button>)}
+        {(data.result === -1 && new Date(data.endTime.valueOf()) > new Date()) && (!userParticipated && <button onClick={votingProphecy}>Participate</button>)}
       </div>
-      {OpenVotingModal && <VotingModal Prophecy={data} closeModal={setOpenVotingModal} submit={submitVote} />}
+      {OpenVotingModal && <VotingVerifyModal type='Voting' Prophecy={data} closeModal={setOpenVotingModal} submit={submitVote} />}
+      {OpenVerifyModal && <VotingVerifyModal type='Verify' Prophecy={data} closeModal={setOpenVerifyModal} submit={submitVerify} />}
 
       <Comments ProphecyId={data._id} />
 

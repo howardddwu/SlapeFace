@@ -69,8 +69,8 @@ router.post('/add', async (req, res) => {
   }
 })
 
-// UPDATE and adding new vote into DB + UPDATE numUser
-router.patch("/addVote/:id", async (req, res) => {
+// UPDATE any data in prophecy
+router.patch("/edit/:id", async (req, res) => {
   try {
     const id = req.params.id
     const updated = req.body
@@ -86,6 +86,7 @@ router.patch("/addVote/:id", async (req, res) => {
     res.send({ error: "prophecy doesn't exist" })
   }
 })
+
 
 router.get("/get/:userId", getUserProphecy)
 
