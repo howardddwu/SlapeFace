@@ -3,7 +3,7 @@ import '../../styles/VotingModal.css'
 import { Input, Radio, Space } from 'antd'
 
 function VotingModal (props) {
-  const { Prophecy, closeModal, submit } = props
+  const { Prophecy, type, closeModal, submit } = props
 
   const [value, setValue] = useState(-1)
 
@@ -15,7 +15,11 @@ function VotingModal (props) {
       <div className="modalContainer">
 
         <div className="title">
-          <h2 className="title-header"> Make Your Choice </h2>
+          {type === 'Voting' ?
+            <h2 className="title-header"> Make Your Choice </h2> :
+            <h2 className="title-header"> Verify the Result </h2>
+          }
+
           <button onClick={() => closeModal(false)}>X</button>
         </div>
 
