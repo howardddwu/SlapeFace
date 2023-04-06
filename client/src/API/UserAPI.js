@@ -43,3 +43,17 @@ export const getUserInfo = async (userId, setUserInfo) => {
         console.log(error)
     }
 }
+
+export const getUserInfoData = async (userId) => {
+    let returnRes = {} // holds for return result
+
+    try {
+        await API.get('/user/getUserInfo/' + userId)
+            .then((res) => {
+                returnRes = res.data
+            })
+    } catch (error) {
+        console.log(error)
+    }
+    return (returnRes)
+}

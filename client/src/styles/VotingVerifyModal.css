@@ -1,4 +1,4 @@
-.VotingModal {
+.VotingVerifyModal {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -67,6 +67,11 @@
   background-color: rgba(243, 46, 89, 0.459);
 }
 
-.footer #submit:hover {
+.footer #submit:hover:enabled {
   background-color: rgba(243, 46, 89, 0.658);
+}
+
+.footer #submit:disabled {
+  cursor: default;
+  opacity: 0.7;
 }

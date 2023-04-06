@@ -1,17 +1,33 @@
-import React, { useState } from "react"
-import '../../styles/VotingModal.css'
+import React, { useState, useContext, useEffect } from "react"
+import '../../styles/VotingVerifyModal.css'
+import { AuthContext } from '../../context/AuthProvider'
 import { Input, Radio, Space } from 'antd'
 
-function VotingModal (props) {
+function VotingVerifyModal (props) {
   const { Prophecy, type, closeModal, submit } = props
 
+  const { user } = useContext(AuthContext)
   const [value, setValue] = useState(-1)
+  const [notEnoughPoints, setNotEnoughPoints] = useState(type === 'Voting' && user.points < 10)
+  const [voteButtonDisable, setVoteButtonDisable] = useState(true)
+  const [verifyButtonDisable, setVerifyButtonDisable] = useState(true)
 
   function onChangeVote (e) {
     setValue(e.target.value)
   }
+
+  useEffect(() => {
+    if (value !== -1 && !notEnoughPoints) {
+      setVoteButtonDisable(false)
+      setVerifyButtonDisable(false)
+    } else {
+      setVoteButtonDisable(true)
+      setVerifyButtonDisable(true)
+    }
+  }, [value])
+
   return (
-    <div className="VotingModal">
+    <div className="VotingVerifyModal">
       <div className="modalContainer">
 
         <div className="title">
@@ -34,9 +50,19 @@ function VotingModal (props) {
           </Radio.Group>
         </div>
 
+        {type === 'Voting' &&
+          <div>
+            <div>Tips: Each Vote will cost 10 points </div>
+            <div>Your current points : {user.points}</div>
+            {notEnoughPoints && <div>YOUR POINTS IS NOT ENOUGH !</div>}
+          </div>
+        }
+
         <div className="footer">
           <button id="cancel" onClick={() => closeModal(false)}>Cancel</button>
-          <button id="submit" onClick={() => submit(value)}>Vote</button>
+          {type === 'Voting' ?
+            <button id="submit" disabled={voteButtonDisable} onClick={() => submit(value)}>Vote</button> :
+            <button id="submit" disabled={verifyButtonDisable} onClick={() => submit(value)}>Verify</button>}
         </div>
 
       </div>
@@ -44,4 +70,4 @@ function VotingModal (props) {
   )
 }
 
-export default VotingModal
+export default VotingVerifyModal
