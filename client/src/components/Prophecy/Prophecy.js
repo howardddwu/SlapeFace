@@ -19,8 +19,10 @@ const Prophecy = (props) => {
   const [OpenVerifyModal, setOpenVerifyModal] = useState(false)
   const [userParticipated, setUserParticipated] = useState(checkUserParticipated())
   const [userChoice, setUserChoice] = useState(getUserChoice())
-  const [forceUpdate, setForceUpdate] = useState(0)
   const [authorInfo, setAuthorInfo] = useState('')
+  const [currentCorrectUser, setCurrentCorrectUser] = useState('')
+  const [correctVoteUserInfo, setCorrectVoteUserInfo] = useState('')
+  const [correctUserNum, setCorrectUserNum] = useState(0)
 
   useEffect(() => {
     UserAPI.getUserInfo(data.author, setAuthorInfo)
@@ -120,11 +122,13 @@ const Prophecy = (props) => {
       )
 
     user.votes.push(data._id)
+    user.points = user.points - 10
     // add this prophecy into user model under votes(indicated user particiated this prophecy)
+    // take off 10 points from user
     await fetch(`${process.env.REACT_APP_API_URL}/user/editProfile/` + user._id, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ votes: user.votes })
+      body: JSON.stringify({ points: user.points, votes: user.votes })
     })
       .then(
         console.log('success')
@@ -133,14 +137,13 @@ const Prophecy = (props) => {
         error => console.log('error', error)
       )
 
+
     setUserParticipated(true)
     setUserChoice(data.options[optionIndex].option)
-    setForceUpdate(forceUpdate + 1)
 
   }
 
   async function submitVerify (optionIndex) {
-    console.log(optionIndex)
     data.result = optionIndex
 
     //add the result to prophecy
@@ -150,18 +153,61 @@ const Prophecy = (props) => {
       body: JSON.stringify({ result: data.result })
     })
       .then(
-        console.log('success')
+        console.log('verify result success')
       )
       .catch(
         error => console.log('error', error)
       )
+
+    addPointsToUser(optionIndex)
+    setCorrectUserNum(data.options[optionIndex].VoterId.length)
     setOpenVerifyModal(false)
-    setForceUpdate(forceUpdate + 1)
 
 
   }
 
-  //console.log(authorInfo)
+  //give out the points to the user who vote on the correct result
+  async function addPointsToUser (optionIndex) {
+    for (let i = 0; i < data.options[optionIndex].VoterId.length; i++) {
+      setCurrentCorrectUser(data.options[optionIndex].VoterId[i])
+      //console.log(data.options[optionIndex].VoterId[i])
+      let info = UserAPI.getUserInfoData(data.options[optionIndex].VoterId[i])
+      console.log(info)
+
+      //console.log(correctVoteUserInfo)
+      if (info !== '') {
+        console.log(info)
+        //addPoints(info, data.numUser * 10)
+      }
+    }
+  }
+  /*
+  useEffect(() => {
+    if (currentCorrectUser !== '') {
+      //console.log(currentCorrectUser)
+      UserAPI.getUserInfo(currentCorrectUser, setCorrectVoteUserInfo)
+    }
+  }, [currentCorrectUser])
+  */
+
+  async function addPoints (userdata, pricePool) {
+    // add point to this user
+    await fetch(`${process.env.REACT_APP_API_URL}/user/editProfile/` + userdata._id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ points: Math.round(userdata.points + pricePool / correctUserNum) })
+    })
+      .then(
+        console.log('add points success')
+      )
+      .catch(
+        error => console.log('error', error)
+      )
+  }
+
+
+
+
   return (
     <div className='Prophecy'>
       <div className='Prophecy-header'>
@@ -208,13 +254,13 @@ const Prophecy = (props) => {
             <div>Voted !</div>
             <div>Your Choices: {userChoice}</div>
           </div>}
-        {(data.result === -1 && new Date(data.endTime.valueOf()) > new Date()) && (!userParticipated && <button onClick={votingProphecy}>Participate</button>)}
+        {/*{(data.result === -1 && new Date(data.endTime.valueOf()) > new Date()) && (!userParticipated && <button onClick={votingProphecy}>Participate</button>)}*/}
+        {data.result === -1 && (!userParticipated && <button onClick={votingProphecy}>Participate</button>)}
       </div>
       {OpenVotingModal && <VotingVerifyModal type='Voting' Prophecy={data} closeModal={setOpenVotingModal} submit={submitVote} />}
       {OpenVerifyModal && <VotingVerifyModal type='Verify' Prophecy={data} closeModal={setOpenVerifyModal} submit={submitVerify} />}
 
       <Comments ProphecyId={data._id} />
-
 
     </div >
   )
