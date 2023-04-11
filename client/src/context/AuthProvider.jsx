@@ -20,7 +20,7 @@ const verifyUser = (string) => {
   let token = localStorage.getItem("token");
 
   //if there is token, check if token valid
-  if (token && token.length > 5) {
+  if (token && token.length > 5 && token!=="undefined") {
     let decodedToken = jwt_decode(token);;
     let currentDate = new Date();
 

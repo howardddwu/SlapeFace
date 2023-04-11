@@ -20,7 +20,19 @@ export const logIn = async (formData) => {
     return (returnRes)
 }
 
+export const GooglelogIn = async (userId, TOKEN) => {
+    let returnRes = {} // holds for return result
 
+    try {
+        await API.post('/auth/GoogleLogin/'+userId, TOKEN, { withCredentials: true })
+            .then((res) => {
+                returnRes = res
+            })
+    } catch (error) {
+        console.log(error)
+    }
+    return (returnRes)
+}
 
 /*************
 * SIGN UP API *

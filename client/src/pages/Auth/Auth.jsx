@@ -1,15 +1,36 @@
 import { useState, useContext } from 'react'
 import { Link } from "react-router-dom";
+import { GoogleOutlined } from '@ant-design/icons';
 
 import "./Auth.css"
 import { AuthContext } from '../../context/AuthProvider';
 import * as AuthAction from "../../actions/AuthAction"
-
+import * as AuthAPI from "../../API/AuthAPI"
 
 
 const Auth = () => {
 
   const { isFetching, dispatch, user, error, token } = useContext(AuthContext);
+
+
+  /*************************************
+  *        GOOGLE AUTHENTICATION       *
+  *************************************/
+  const googleAuth = () => {
+    // console.log("google")
+    try {
+      window.open(
+        `${process.env.REACT_APP_API_URL}/auth/google/callback`,
+        "_self"
+      );
+      // const res = AuthAPI.GooglelogIn();
+      // console.log(res)
+    } catch (error) {
+      console.log("Auth page, open oauth...  \n" + error)
+    }
+  };
+
+
 
 
   const initData = {
@@ -49,7 +70,7 @@ const Auth = () => {
     if (checkForm()) {
       const ifErr = await AuthAction.logIn(data, dispatch)
 
-      if(ifErr){
+      if (ifErr) {
         setBadInfo(3)
       }
       // console.log(isFetching)
@@ -115,6 +136,21 @@ const Auth = () => {
             {isFetching ? "Lading" : "Sign in"}
           </button>
 
+
+          <hr className="hr-mid-circle" />
+
+
+          <span className='signOptions'>Or Sign in with</span>
+
+          <div className="buttonWrapper">
+            <div className="logoWrapper">
+
+              <GoogleOutlined style={{fontSize:"18px", marginTop:"3px"}}/>
+              <button className='button logoBtn' onClick={googleAuth}>
+                Google
+              </button>
+            </div>
+          </div>
 
         </form>
       </div>

@@ -11,6 +11,7 @@ import { AuthContext } from './context/AuthProvider';
 import * as AuthAction from './actions/AuthAction';
 import Rank from './pages/Rank/Rank';
 import Profile from './pages/Profile/Profile';
+import GoogleAuth from './pages/Auth/GoogleAuth';
 
 function App() {
 
@@ -87,6 +88,13 @@ function App() {
           path="/profile"
           // element={ <Home /> }
           element={user ? <Profile /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          exact
+          path="/dashboard"
+          // element={ <Home /> }
+          element={<GoogleAuth/>}
         />
 
       </Routes>
