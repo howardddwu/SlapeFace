@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.11",
+    "@mui/x-date-pickers": "^6.0.4",
     "antd": "^5.0.0",
     "axios": "^1.1.2",
     "chart.js": "^4.2.1",
