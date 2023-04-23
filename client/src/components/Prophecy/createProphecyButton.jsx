@@ -39,8 +39,12 @@ const CreateProphecyButton = () => {
   const { user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
-  //category
   const [category, setCategory] = useState([]);
+  const [dateTime, setDateTime] = useState(dayjs());
+  const [options, setOptions] = useState([]);
+  const [open, setOpen] = useState(false);
+  //category
+  
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -68,7 +72,7 @@ const CreateProphecyButton = () => {
   };
 
   //options
-  const [options, setOptions] = useState([]);
+  
   const handleAddOption = () => {
     setOptions([...options, { option: "", VoterId: [] }]);
     console.log(options);
@@ -84,11 +88,12 @@ const CreateProphecyButton = () => {
     setOptions(updatedOptions);
   };
   // time date
-  const [dateTime, setDateTime] = useState(dayjs("2022-04-17T15:30"));
+  
 
   //main window
-  const [open, setOpen] = useState(false);
+  
   const handldClickOpen = () => {
+    setDateTime(dayjs())
     setOpen(true);
   };
   const handleClose = () => {

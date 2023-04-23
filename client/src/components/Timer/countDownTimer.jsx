@@ -1,26 +1,29 @@
-import { useState, useEffect } from 'react'
-import * as Timer from './countDownTimerDetail.jsx'
-import '../../styles/countDownTimer.css'
+import { useState, useEffect } from "react";
+import * as Timer from "./countDownTimerDetail.jsx";
+import "../../styles/countDownTimer.css";
 
 const defaultRemainingTime = {
-  seconds: '00',
-  minutes: '00',
-  hours: '00',
-  days: '00',
-}
+  seconds: "00",
+  minutes: "00",
+  hours: "00",
+  days: "00",
+};
 
-const CountDownTimer = ({ timeInMs }) => {
-  const [remainingTime, setRemainTime] = useState(defaultRemainingTime)
+const CountDownTimer = ({ timeInMs, forceUpdate, setForceUpdate }) => {
+  const [remainingTime, setRemainTime] = useState(defaultRemainingTime);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      updateRemainingTime(timeInMs)
-    }, 1000)
-    return () => clearTimeout(interval)
-  }, [timeInMs])
+      updateRemainingTime(timeInMs);
+    }, 1000);
+    return () => clearTimeout(interval);
+  }, [timeInMs]);
 
   function updateRemainingTime(countdown) {
-    setRemainTime(Timer.getRemainingTime(countdown))
+    setRemainTime(Timer.getRemainingTime(countdown));
+    if (new Date().valueOf() > timeInMs) {
+      setForceUpdate(forceUpdate + 1);
+    }
   }
 
   return (
@@ -30,7 +33,7 @@ const CountDownTimer = ({ timeInMs }) => {
       <div>{remainingTime.minutes} Min </div>
       <div>{remainingTime.seconds} Sec </div>
     </div>
-  )
-}
+  );
+};
 
-export default CountDownTimer
+export default CountDownTimer;

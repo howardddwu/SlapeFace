@@ -53,10 +53,6 @@ const Home = () => {
         </div>
 
         <div style={{ marginTop: "30px" }}>
-          <CreateProphecyButton />
-        </div>
-
-        <div style={{ marginTop: "30px" }}>
           <button onClick={ByParticipated}>HOT</button>
           <button onClick={ByTime}>NEW</button>
           <div>
@@ -86,6 +82,9 @@ const Home = () => {
         <button className="button infoButton" onClick={handleLogout}>
           Log Out
         </button>
+        <div style={{ marginTop: "30px" }}>
+          <CreateProphecyButton />
+        </div>
       </div>
     </div>
   );
