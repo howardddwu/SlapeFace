@@ -17,7 +17,7 @@ function scheduleEmail(endTime,user){
             from: 'slapfaceproject@gmail.com',
             to: user.email,
             subject: 'Reminder To Verify Prophecy',
-            text: 'Hi, ' + user.username + ' \n it is time to verify your prophecy on Slapface.com',
+            text: 'Hi, ' + user.displayname + ' \n it is time to verify your prophecy on Slapface.com',
         };
         
         await transporter.sendMail(mailOptions, function(error, info){
