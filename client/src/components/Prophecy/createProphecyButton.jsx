@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext,useEffect } from "react";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Dialog from "@mui/material/Dialog";
@@ -18,6 +18,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 import { AuthContext } from "../../context/AuthProvider";
+import  "../../styles/createProphecy.css";
+
 const CreateProphecyButton = () => {
   // title
   // description
@@ -43,6 +45,7 @@ const CreateProphecyButton = () => {
   const [dateTime, setDateTime] = useState(dayjs());
   const [options, setOptions] = useState([]);
   const [open, setOpen] = useState(false);
+  const [submitButtonDisable, setSubmitButtonDisable] = useState(true)
   //category
   
   const ITEM_HEIGHT = 48;
@@ -97,27 +100,19 @@ const CreateProphecyButton = () => {
     setOpen(true);
   };
   const handleClose = () => {
+    setTitle('')
+    setDescription('')
+    setCategory([]);
+    setDateTime(dayjs());
+    setOptions([]);
     setOpen(false);
   };
 
   async function submitPost() {
     handleClose();
-    // Needs modification here
+    
 
-    //time
-    // setDateTime(new Date());
-    //test code
-    console.log("Title: " + title);
-    console.log("category: " + category);
-    console.log("Description:" + Description);
-    console.log("dateTime: " + new Date(dateTime));
-    console.log("options:", options);
-    //test code
-    console.log("submit post");
-
-    console.log("added");
-
-    //!!!!! Call api request !!!!//
+    // add prophecy to database
     const type = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -133,8 +128,31 @@ const CreateProphecyButton = () => {
     await fetch(`${process.env.REACT_APP_API_URL}/prophecy/add`, type)
       .then(console.log("success"))
       .catch((error) => console.log("error", error));
+
+    setTitle('')
+    setDescription('')
+    setCategory([]);
+    setDateTime(dayjs());
+    setOptions([]);
   }
-  console.log(user);
+  
+  //check empty for all fields
+  useEffect(() => {
+    function checkOptions(options){
+      for(let i = 0; i<options.length;i++){
+        if(options[i].option === ''){
+            return false
+        }
+      }
+      return true
+    }
+    if (title!=='' && Description!=='' && options.length!==0 && checkOptions(options) && category.length!==0) {
+      setSubmitButtonDisable(false)
+    } else {
+      setSubmitButtonDisable(true)
+    }
+  }, [title, category, Description, dateTime, options])
+
   return (
     <>
       <div>
@@ -155,7 +173,7 @@ const CreateProphecyButton = () => {
               To start to a new Prophecy, please enter the information of the
               prophecy below.
             </DialogContentText>
-            <FormControl sx={{ width: 300 }}>
+            <FormControl >
               <TextField
                 autoFocus
                 margin="dense"
@@ -168,6 +186,7 @@ const CreateProphecyButton = () => {
                   setTitle(e.target.value);
                 }}
               />
+              <span className="hints">*Required</span>
               <TextField
                 autoFocus
                 margin="dense"
@@ -180,6 +199,7 @@ const CreateProphecyButton = () => {
                   setDescription(e.target.value);
                 }}
               />
+              <span className="hints">*Required</span>
               <Select
                 multiple
                 autoWidth
@@ -194,11 +214,12 @@ const CreateProphecyButton = () => {
                   </MenuItem>
                 ))}
               </Select>
-
+              <span className="hints">*Required</span>
               {options.map((items, index) => (
-                <div key={index}>
-                  <label>
-                    Option {index + 1}:
+                <div key={index} className='options'>
+                    <div>
+                      Option {index + 1}:
+                    </div>
                     <input
                       type="text"
                       value={items.option}
@@ -206,19 +227,23 @@ const CreateProphecyButton = () => {
                         handleOptionChange(index, event.target.value);
                       }}
                     />
-                  </label>
+                  
                   <button
                     type="button"
                     onClick={() => handleRemoveOption(index)}
                   >
                     Remove
                   </button>
+                  <span className="hints ">*Required</span>
+                
                 </div>
               ))}
+              
 
               <Button type="button" onClick={handleAddOption}>
                 add option
               </Button>
+              <span className="hints">*Required</span>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DateTimePicker"]}>
                   <DateTimePicker
@@ -231,8 +256,9 @@ const CreateProphecyButton = () => {
             </FormControl>
           </DialogContent>
           <DialogActions>
+            
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={submitPost}>Submit</Button>
+            <Button disabled={submitButtonDisable} onClick={submitPost}>Submit</Button>
           </DialogActions>
         </Dialog>
       </div>

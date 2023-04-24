@@ -4,3 +4,14 @@
     justify-content: center;
     gap: 3rem;
 }
+
+.postNavigation{
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    
+}
+.postNavigation * {
+    margin-left: 15vh;
+    margin-right: 15vh;
+}

@@ -1,0 +1,9 @@
+.hints{
+    color:red;
+    font-size: 8pt;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+}

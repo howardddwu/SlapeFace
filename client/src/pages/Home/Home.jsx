@@ -11,6 +11,7 @@ import Prophecy from "../../components/Prophecy/Prophecy";
 import News from "../../components/News/News";
 import "./Home.css";
 import CreateProphecyButton from "../../components/Prophecy/createProphecyButton";
+import { Pagination } from 'antd';
 
 const Home = () => {
   const { isFetching, dispatch, user, token } = useContext(AuthContext);
@@ -41,6 +42,23 @@ const Home = () => {
     sortByParticipated(prophecies, setProphecies, setSortByCreateTime);
   }
 
+  // pagination
+  const numEachPage = 4;
+
+  const [pageSlice, setPageSlice] = useState(
+    {
+      minValue: 0,
+      maxValue: 4,
+    }
+  )
+
+  const handlePageChange = value => {
+    setPageSlice({
+      minValue: (value - 1) * numEachPage,
+      maxValue: value * numEachPage
+    });
+  };
+
   return (
     <div className="HomeContainer">
       <div className="HomeLeft">
@@ -55,8 +73,15 @@ const Home = () => {
         <div style={{ marginTop: "30px" }}>
           <button onClick={ByParticipated}>HOT</button>
           <button onClick={ByTime}>NEW</button>
+          <Pagination 
+            defaultCurrent={1} 
+            total={prophecies.length}
+            pageSize = {numEachPage}
+            onChange={handlePageChange}
+             />
           <div>
-            {prophecies.map((item) => (
+          {prophecies && prophecies.length > 0 &&
+            prophecies.slice(pageSlice.minValue, pageSlice.maxValue).map(item => (
               <Prophecy key={item._id} data={item}></Prophecy>
             ))}
           </div>
