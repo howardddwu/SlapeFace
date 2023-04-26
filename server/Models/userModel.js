@@ -56,6 +56,10 @@ const UserSchema = mongoose.Schema(
         viewHistory: {
             type: Array,
         },
+        notfirstLogin: {
+            type: Boolean,
+            default: false
+        },
 
 
 

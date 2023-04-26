@@ -112,6 +112,25 @@ const AuthReducer = (state, action) => {
             };
 
 
+        
+            case "SETSOCKET_START":
+                return {
+                    ...state,
+                    error: false,
+                };
+            case "SETSOCKET_SUCCESS":
+                return {
+                    ...state,
+                    socket: action.socket
+                };
+            case "SETSOCKET_FAILURE":
+                return {
+                    ...state,
+                    socket: null,
+                };
+    
+
+
         default:
             return state;
     }

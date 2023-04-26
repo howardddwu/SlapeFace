@@ -24,6 +24,13 @@ import CommentController from './Controllers/CommentController.js'
 
 
 import * as News from "./News/NewsController.js"
+
+
+//socket
+import http from "http" //module from nodejs
+import { Server } from "socket.io"
+import sockets from "./Socket/socket.js"
+
 //============================================================================================
 
 
@@ -64,13 +71,43 @@ const port = process.env.PORT || 8080
 const DBurl = process.env.MONGO_DB
 
 mongoose.set("strictQuery", false)
+// mongoose.connect(DBurl, {
+// 	useNewUrlParser: true,
+// 	useUnifiedTopology: true
+// }).then(() => app.listen(port, () => console.log("Listening at " + port)))
+// 	.catch((error) => console.log(error)
+// 	)
+
 mongoose.connect(DBurl, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
-}).then(() => app.listen(port, () => console.log("Listening at " + port)))
-	.catch((error) => console.log(error)
-	)
+}).then(()=>console.log("DB Connected."))
 
+
+
+//============================================================================================
+
+//create a server for http to link this server to socket server:
+const httpServer = http.createServer(app)
+
+
+//create a socket server: link socket server to http server
+const io = new Server(httpServer, {
+    //prevent cor error
+    cors: {
+        origin: [process.env.CLIENT_URL],
+        credentials: true
+    }
+})
+
+//create a connection between client and server
+io.on('connection', sockets)
+
+
+//user httpserver instead of plain express server
+httpServer.listen(port, () => {
+    console.log("Listening at " + port)
+})
 
 
 

@@ -1,0 +1,108 @@
+.GTopics {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.TopicsContainer {
+    margin-top: 2rem;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    transition: transform 1s ease-out;
+    transform: translateX(-300%);
+}
+
+.TopicsContainer.active {
+    transform: translateX(0);
+}
+
+.TopicsContainer.inactive {
+    transform: translateX(-300%);
+    /* display: none */
+}
+
+
+.TopicsText {
+    margin-bottom: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+}
+
+.GuidTopics {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+
+    max-width: 900px;
+
+    flex-wrap: wrap;
+
+}
+
+.SingleTopic {
+    display: flex;
+    flex: 1 0 21%;
+
+    flex-direction: column;
+    gap: 5px;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.TopicInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    width: 7rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.TopicPic {
+    width: 6rem;
+    height: 6rem;
+}
+
+.TopicDesc {
+    font-size: small;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+
+.TopicPageContainer {
+    margin-top: 10px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.TopicPage {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.PageNext {
+    justify-content: center;
+}
+
+.TopicPageBtn {
+    font-size: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.TopicPageBtn:hover {
+    background-color: royalblue;
+}

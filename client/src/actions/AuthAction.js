@@ -110,7 +110,7 @@ export const refreshToken = async (token, dispatch) => {
 
     try {
         const res = await AuthApi.refreshToken(token);
-        console.log(res)
+        // console.log(res)
 
         if (res.status === 200) {
             const { data } = res

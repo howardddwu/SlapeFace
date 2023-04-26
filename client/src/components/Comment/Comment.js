@@ -131,7 +131,7 @@ function Comment (props) {
     }
 
   }
-  console.log(userInfo)
+  // console.log(userInfo)
   return (
     <div className="comment">
       <div className='comment-icon-container'>

@@ -46,7 +46,8 @@ const INITIAL_STATE = {
   isFetching: false,
   error: false,
   isLogin: false,
-  loggingOut: false
+  loggingOut: false,
+  socket: null
 };
 
 
@@ -80,6 +81,7 @@ export const AuthContextProvider = ({ children }) => {
           isFetching: state.isFetching,
           error: state.error,
           isLogin: state.isLogin,
+          socket: state.socket,
           dispatch,
         }
       }>

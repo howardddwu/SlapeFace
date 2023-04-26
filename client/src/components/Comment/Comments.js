@@ -87,7 +87,7 @@ function Comments (props) {
             //limit amount of comment display
             setCurrent(CommentList.slice(0, count.next))
             CommentList.length <= 2 || count.next >= CommentList.length ? setHasMore(false) : setHasMore(true)
-            console.log("Data recieved")
+            // console.log("Data recieved")
           }
         })
         .catch(error => console.log('error', error))
