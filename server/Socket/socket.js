@@ -1,5 +1,4 @@
-import MsgController from "./controllers/MsgController.js";
-// import RoomController from "./controllers/RoomController.js";
+
 import NotificationModel from "../Models/notificationModel.js";
 import mongoose from 'mongoose';
 

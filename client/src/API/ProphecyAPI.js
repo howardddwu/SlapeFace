@@ -9,7 +9,7 @@ const getUserProphecy = async (userId, setProphecies, setUserInfo) => {
         await API.get('/prophecy/get/' + userId, { withCredentials: true })
             .then(
                 (res) => {
-                    const { data } = res;
+                    const { data } = res
                     setProphecies(data.slice(0, data.length - 2))
                     if (setUserInfo) {
                         setUserInfo(data[data.length - 1])
@@ -21,7 +21,7 @@ const getUserProphecy = async (userId, setProphecies, setUserInfo) => {
     }
 }
 
-async function getData(setProphecies) {
+async function getData (setProphecies) {
     await fetch(`${process.env.REACT_APP_API_URL}/prophecy/getAll`)
         .then((res) => {
             if (res.ok) {
@@ -50,7 +50,7 @@ async function getData(setProphecies) {
 
 
 // sort prophecies by number of user participate
-function sortByParticipated(prophecies, setProphecies, setSortByCreateTime) {
+function sortByParticipated (prophecies, setProphecies, setSortByCreateTime) {
     setSortByCreateTime(false)
     let propheciesList = prophecies.sort((objA, objB) => {
         if (objA.numUser > objB.numUser) return -1
@@ -64,7 +64,7 @@ function sortByParticipated(prophecies, setProphecies, setSortByCreateTime) {
 }
 
 // sort prophecies by created time
-function sortByTime(prophecies, setProphecies, setSortByCreateTime) {
+function sortByTime (prophecies, setProphecies, setSortByCreateTime) {
     setSortByCreateTime(true)
     let propheciesList = prophecies
         .sort(

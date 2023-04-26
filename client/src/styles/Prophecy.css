@@ -24,6 +24,38 @@
   width: 90%;
 }
 
+.Prophecy-author {
+  display: flex;
+  flex-direction: row;
+  color: gray;
+  padding-left: 0.5vh;
+}
+
+.Prophecy-author-info {
+  display: flex;
+  flex-direction: row;
+  padding-left: 0.3vh;
+}
+
+.Prophecy-author-icon {
+  border-radius: 50%;
+  width: 1.3vh;
+  padding-right: 0.3vh;
+}
+
+.Prophecy-OpeningTime {
+  margin-left: 0.5vh;
+}
+
+.Prophecy-CountDown {
+  display: flex;
+  flex-direction: row;
+}
+
+.Prophecy-verify {
+  display: flex;
+  flex-direction: row;
+}
 .Prophecy-detail {
   display: flex;
   flex-direction: row;

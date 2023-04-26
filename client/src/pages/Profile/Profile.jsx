@@ -37,6 +37,7 @@ const Profile = () => {
 
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
+    const [postType,setPostType] = useState('posted')
 
     //======================== Page Decision ==============================
     const [page, setPage] = useState("1")
@@ -66,10 +67,17 @@ const Profile = () => {
     // Get All comments from DB
     useEffect(() => {
         // getData(setProphecies)
-        getUserProphecy(user._id, setProphecies)
+        if(postType==='posted'){
+            getUserProphecy(user._id, setProphecies)
+            
+        }
+        else{
+            setProphecies([])
+        }
         // const res = await getUserProphecy(user._id)
         // console.log(res)
-    }, [])
+        
+    }, [postType])
 
     // sort prophecies by created time
     function ByTime() {
@@ -81,9 +89,6 @@ const Profile = () => {
         sortByParticipated(prophecies, setProphecies, setSortByCreateTime)
     }
 
-
-
-
     return (
         <div className='ProfileContainer'>
 
@@ -93,6 +98,12 @@ const Profile = () => {
 
                     <button onClick={ByParticipated}>HOT</button>
                     <button onClick={ByTime}>NEW</button>
+                    <div className='postNavigation'>
+                        <div onClick={()=>setPostType('posted')}>Posted</div>
+                        <div>|</div>
+                        <div onClick={()=>setPostType('voted')}>Voted</div>
+                    </div>
+                    
                     <div>
                         {prophecies.map((item) => (
                             <Prophecy key={item._id} data={item}></Prophecy>
