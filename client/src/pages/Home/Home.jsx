@@ -9,6 +9,7 @@ import * as SearchAPI from "../../API/SearchAPI";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Prophecy from "../../components/Prophecy/Prophecy";
 import News from "../../components/News/News";
+import MiniRank from "../../components/Rank/MiniRank";
 import "./Home.css";
 import CreateProphecyButton from "../../components/Prophecy/createProphecyButton";
 import { Pagination } from 'antd';
@@ -107,6 +108,9 @@ const Home = () => {
         <button className="button infoButton" onClick={handleLogout}>
           Log Out
         </button>
+        <div>
+          <MiniRank/>
+        </div>
         <div style={{ marginTop: "30px" }}>
           <CreateProphecyButton />
         </div>

@@ -265,7 +265,9 @@ const Prophecy = (props) => {
           </div>
         )}
       </div>
-
+      <div>
+        {data.description}
+      </div>
       <Bar data={votingData} options={options} />
       <div className="Prophecy-detail">
         <div className="Prophecy-info">
@@ -283,9 +285,7 @@ const Prophecy = (props) => {
           !userParticipated && (
             <button onClick={votingProphecy}>Participate</button>
           )}
-        {/* {data.result === -1 && !userParticipated && (
-          <button onClick={votingProphecy}>Participate</button>
-        )} */}
+        
       </div>
       {OpenVotingModal && (
         <VotingVerifyModal
