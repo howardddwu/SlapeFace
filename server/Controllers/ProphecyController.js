@@ -5,7 +5,7 @@ import userModel from "../Models/userModel.js";
 import scheduleEmail from "./sendEmail.js";
 const router = express.Router();
 
-//get user's all votes with user's username, displayname and pic
+//get user's all created with user's username, displayname and pic
 const getUserProphecy = async (req, res) => {
   const userId = req.params.userId;
 
@@ -15,6 +15,18 @@ const getUserProphecy = async (req, res) => {
     let { username, displayname, icon } = user;
 
     res.status(200).json(prophecies.concat({ username, displayname, icon }));
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+//get user's all voted prophecy with user's username, displayname and pic
+const getUserVotedProphecy = async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    let prophecies = await prophecyModel.find({'options.VoterId' : [userId]});
+    
+    res.end(JSON.stringify(prophecies));
   } catch (error) {
     res.status(400).json(error);
   }
@@ -75,5 +87,6 @@ router.patch("/edit/:id", async (req, res) => {
 });
 
 router.get("/get/:userId", getUserProphecy);
+router.get("/getVoted/:userId", getUserVotedProphecy);
 
 export default router;

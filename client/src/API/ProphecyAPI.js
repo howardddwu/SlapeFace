@@ -10,10 +10,39 @@ const getUserProphecy = async (userId, setProphecies, setUserInfo) => {
             .then(
                 (res) => {
                     const { data } = res
-                    setProphecies(data.slice(0, data.length - 2))
+                    console.log(data);
+                    let propheciesList = data.slice(0, data.length - 2)
+                        .sort(
+                            (objA, objB) =>
+                        Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))
+                        )
+                        .reverse()
+                    setProphecies(propheciesList)
+                    // setProphecies(data.slice(0, data.length - 2))
                     if (setUserInfo) {
                         setUserInfo(data[data.length - 1])
                     }
+                }
+            )
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const getUserVotedProphecy = async (userId, setProphecies) => {
+
+    try {
+        await API.get('/prophecy/getVoted/' + userId, { withCredentials: true })
+            .then(
+                (res) => {
+                    const { data } = res
+                    let propheciesList = data
+                        .sort(
+                            (objA, objB) =>
+                        Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))
+                        )
+                        .reverse()
+                    setProphecies(propheciesList)
                 }
             )
     } catch (error) {
@@ -76,4 +105,4 @@ function sortByTime (prophecies, setProphecies, setSortByCreateTime) {
 }
 
 
-export { getData, sortByParticipated, sortByTime, getUserProphecy }
+export { getData, sortByParticipated, sortByTime, getUserProphecy, getUserVotedProphecy }

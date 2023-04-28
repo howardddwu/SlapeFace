@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import UserProfile from './UserProfile'
 import Prophecy from "../../components/Prophecy/Prophecy.js"
-import { getData, getUserProphecy, sortByParticipated, sortByTime } from '../../API/ProphecyAPI';
+import { getData, getUserProphecy,getUserVotedProphecy, sortByParticipated, sortByTime } from '../../API/ProphecyAPI';
 import "./Profile.css"
 import { AuthContext } from '../../context/AuthProvider';
 
@@ -66,16 +66,14 @@ const Profile = () => {
     const [sortByCreateTime, setSortByCreateTime] = useState(false)
     // Get All comments from DB
     useEffect(() => {
-        // getData(setProphecies)
+        
         if(postType==='posted'){
             getUserProphecy(user._id, setProphecies)
             
         }
         else{
-            setProphecies([])
+            getUserVotedProphecy(user._id, setProphecies)
         }
-        // const res = await getUserProphecy(user._id)
-        // console.log(res)
         
     }, [postType])
 
@@ -84,10 +82,6 @@ const Profile = () => {
         sortByTime(prophecies, setProphecies, setSortByCreateTime)
     }
 
-    // sort prophecies by number of user participate
-    function ByParticipated() {
-        sortByParticipated(prophecies, setProphecies, setSortByCreateTime)
-    }
 
     return (
         <div className='ProfileContainer'>
@@ -96,8 +90,7 @@ const Profile = () => {
             {page === "1" &&
                 <div className='ProfileProphecy' style={{ marginBottom: "30px" }}>
 
-                    <button onClick={ByParticipated}>HOT</button>
-                    <button onClick={ByTime}>NEW</button>
+                    
                     <div className='postNavigation'>
                         <div onClick={()=>setPostType('posted')}>Posted</div>
                         <div>|</div>
