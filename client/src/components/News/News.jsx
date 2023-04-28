@@ -19,11 +19,11 @@ const News = () => {
         }
     }
     // pagination
-    const numEachPage = 8;
+    const numEachPage = 4;
     const [pageSlice, setPageSlice] = useState(
         {
         minValue: 0,
-        maxValue: 8,
+        maxValue: 4,
         }
     )
 

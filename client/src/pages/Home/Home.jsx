@@ -31,7 +31,10 @@ const Home = () => {
   // Get All comments from DB
   useEffect(() => {
     SearchAPI.SearchProphecy({ searchKey: "", category: [] }, setProphecies);
+    
+    
   }, []);
+console.log(prophecies);
 
   // sort prophecies by created time
   function ByTime() {
@@ -44,12 +47,12 @@ const Home = () => {
   }
 
   // pagination
-  const numEachPage = 4;
+  const numEachPage = 2;
 
   const [pageSlice, setPageSlice] = useState(
     {
       minValue: 0,
-      maxValue: 4,
+      maxValue: 2,
     }
   )
 
