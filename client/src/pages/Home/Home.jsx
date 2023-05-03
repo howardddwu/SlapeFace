@@ -12,7 +12,7 @@ import News from "../../components/News/News";
 import MiniRank from "../../components/Rank/MiniRank";
 import "./Home.css";
 import CreateProphecyButton from "../../components/Prophecy/createProphecyButton";
-import { Pagination } from 'antd';
+import { Pagination } from "antd";
 
 const Home = () => {
   const { isFetching, dispatch, user, token } = useContext(AuthContext);
@@ -31,10 +31,8 @@ const Home = () => {
   // Get All comments from DB
   useEffect(() => {
     SearchAPI.SearchProphecy({ searchKey: "", category: [] }, setProphecies);
-    
-    
   }, []);
-console.log(prophecies);
+  console.log(prophecies);
 
   // sort prophecies by created time
   function ByTime() {
@@ -49,23 +47,22 @@ console.log(prophecies);
   // pagination
   const numEachPage = 2;
 
-  const [pageSlice, setPageSlice] = useState(
-    {
-      minValue: 0,
-      maxValue: 2,
-    }
-  )
+  const [pageSlice, setPageSlice] = useState({
+    minValue: 0,
+    maxValue: 2,
+  });
 
-  const handlePageChange = value => {
+  const handlePageChange = (value) => {
     setPageSlice({
       minValue: (value - 1) * numEachPage,
-      maxValue: value * numEachPage
+      maxValue: value * numEachPage,
     });
   };
 
   return (
     <div className="HomeContainer">
       <div className="HomeLeft">
+        <h1>Trending News</h1>
         <News />
       </div>
 
@@ -73,46 +70,41 @@ console.log(prophecies);
         <div className="SearchWraper">
           <SearchBar setProphecies={setProphecies} />
         </div>
+        <div className="controllerWrapper">
+          <div className="buttonWrapper">
+            <button className="sortButton" onClick={ByParticipated}>
+              HOT
+            </button>
+            <button className="sortButton" onClick={ByTime}>
+              NEW
+            </button>
+          </div>
 
-        <div style={{ marginTop: "30px" }}>
-          <button onClick={ByParticipated}>HOT</button>
-          <button onClick={ByTime}>NEW</button>
-          <Pagination 
-            defaultCurrent={1} 
+          <Pagination
+            defaultCurrent={1}
             total={prophecies.length}
-            pageSize = {numEachPage}
+            pageSize={numEachPage}
             onChange={handlePageChange}
-             />
+          />
+        </div>
+
+        <div />
+        <div>
           <div>
-          {prophecies && prophecies.length > 0 &&
-            prophecies.slice(pageSlice.minValue, pageSlice.maxValue).map(item => (
-              <Prophecy key={item._id} data={item}></Prophecy>
-            ))}
+            {prophecies &&
+              prophecies.length > 0 &&
+              prophecies
+                .slice(pageSlice.minValue, pageSlice.maxValue)
+                .map((item) => (
+                  <Prophecy key={item._id} data={item}></Prophecy>
+                ))}
           </div>
         </div>
       </div>
 
       <div className="HomeRight">
-        <h1>User's home page</h1>
-        {user && (
-          <div>
-            <h3>User Info:</h3>
-            <p>{user.username}</p>
-            <p>{user.email}</p>
-          </div>
-        )}
-
-        <Link className="trouble" to="/ranking">
-          <button className="button infoButton">Rank</button>
-        </Link>
-        <Link className="trouble" to="/profile">
-          <button className="button infoButton">Profile</button>
-        </Link>
-        <button className="button infoButton" onClick={handleLogout}>
-          Log Out
-        </button>
         <div>
-          <MiniRank/>
+          <MiniRank />
         </div>
         <div style={{ marginTop: "30px" }}>
           <CreateProphecyButton />

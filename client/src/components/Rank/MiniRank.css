@@ -1,23 +1,25 @@
-.miniRank-container{
-    border: 2px solid black;
-    /* padding-left: 3vh;
+.miniRank-container {
+  border: 2px solid black;
+  /* padding-left: 3vh;
     padding-right: 3vh;
     padding-bottom: 1vh; */
 }
-h1{
-    text-align: center;
+h1 {
+  text-align: center;
 }
-.icon{
-    border-radius: 50%;
-    width: 2.5vh;
+.icon {
+  border-radius: 50%;
+  width: 2.5vh;
 }
-.rank-container{
-    display: flex;
-    flex-direction: row;
-    margin-top: 1vh;
+.rank-container {
+  display: flex;
+  flex-direction: row;
+  padding: 2% 0;
+  border-bottom: 1px solid;
+  justify-content: space-between;
 }
-.rank-container *{
-    margin-left: 2%;
-    margin-right: 2%;
-    font-size: 2.5vh;
+.rank-container * {
+  margin-left: 2%;
+  margin-right: 2%;
+  font-size: 2.5vh;
 }

@@ -109,7 +109,13 @@ const NavBar = ({ socket, length }) => {
                         >
                             Home
                         </Link>
-
+                        
+                        <Link 
+                              to="/profile"
+                              className="nav-links menu-links"
+                              onClick={closeMobileMenu}>
+                            Profile
+                        </Link>
 
                         <Link
                             to="/notifications"

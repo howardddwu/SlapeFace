@@ -19,6 +19,9 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 import { AuthContext } from "../../context/AuthProvider";
 import  "../../styles/createProphecy.css";
+import {categoryList} from '../../Category';
+import InputLabel from '@mui/material/InputLabel';
+import FormHelperText from '@mui/material/FormHelperText';
 
 const CreateProphecyButton = () => {
   // title
@@ -58,12 +61,7 @@ const CreateProphecyButton = () => {
       },
     },
   };
-  const categorySample = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-  ];
+
   const handleCategoryChange = (event) => {
     const {
       target: { value },
@@ -166,14 +164,14 @@ const CreateProphecyButton = () => {
           Create
         </Fab>
 
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} maxWidth={"lg"}>
           <DialogTitle>New Prophecy</DialogTitle>
           <DialogContent>
             <DialogContentText>
               To start to a new Prophecy, please enter the information of the
               prophecy below.
             </DialogContentText>
-            <FormControl >
+            <FormControl className="box">
               <TextField
                 autoFocus
                 margin="dense"
@@ -187,6 +185,7 @@ const CreateProphecyButton = () => {
                 }}
               />
               <span className="hints">*Required</span>
+            
               <TextField
                 autoFocus
                 margin="dense"
@@ -200,21 +199,29 @@ const CreateProphecyButton = () => {
                 }}
               />
               <span className="hints">*Required</span>
-              <Select
-                multiple
-                autoWidth
-                label="niasdn"
-                value={category}
-                onChange={handleCategoryChange}
-                MenuProps={MenuProps}
-              >
-                {categorySample.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
-              </Select>
-              <span className="hints">*Required</span>
+              <br />
+              
+              <FormControl>
+                <InputLabel id="category-label">Category</InputLabel>
+                <Select
+                  multiple
+                  autoWidth
+                  labelId="category-label"
+                  label="Category"
+                  value={category}
+                  onChange={handleCategoryChange}
+                  MenuProps={MenuProps}
+                >
+                  {categoryList.map((category) => (
+                    <MenuItem key={category} value={category}>
+                      {category}
+                    </MenuItem>
+                  ))}
+                </Select>
+                
+              </FormControl>
+              
+              
               {options.map((items, index) => (
                 <div key={index} className='options'>
                     <div>
@@ -247,7 +254,7 @@ const CreateProphecyButton = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DateTimePicker"]}>
                   <DateTimePicker
-                    label="Basic date time picker"
+                    label="Set End Time"
                     value={dateTime}
                     onChange={(newValue) => setDateTime(newValue)}
                   />
