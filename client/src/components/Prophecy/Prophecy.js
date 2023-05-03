@@ -8,7 +8,6 @@ import VotingVerifyModal from "./VotingVerifyModal";
 import pic1 from "../../DefaultProfile_1.jpg";
 import * as UserAPI from "../../API/UserAPI.js";
 import CountDownTimer from "../Timer/countDownTimer";
-import emailjs from "@emailjs/browser";
 
 const Prophecy = (props) => {
   const { data, socket } = props;
@@ -241,8 +240,6 @@ const Prophecy = (props) => {
       .catch((error) => console.log("error", error));
   }
 
-
-
   return (
     <div className="Prophecy">
       <div className="Prophecy-header">
@@ -295,9 +292,7 @@ const Prophecy = (props) => {
           </div>
         )}
       </div>
-      <div>
-        {data.description}
-      </div>
+      <div className="Prophecy-description">{data.description}</div>
       <Bar data={votingData} options={options} />
       <div className="Prophecy-detail">
         <div className="Prophecy-info">
@@ -315,7 +310,6 @@ const Prophecy = (props) => {
           !userParticipated && (
             <button onClick={votingProphecy}>Participate</button>
           )}
-        
       </div>
       {OpenVotingModal && (
         <VotingVerifyModal

@@ -43,35 +43,3 @@
   justify-content: center;
   align-items: center;
 }
-
-.footer button {
-  float: right;
-  width: 100px;
-  height: 40px;
-  margin: 10px;
-  border-radius: 8px;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.footer #cancel {
-  color: black;
-  border-style: solid;
-  background-color: white;
-}
-.footer #cancel:hover {
-  background-color: rgb(235, 233, 233);
-}
-
-.footer #submit {
-  background-color: rgba(243, 46, 89, 0.459);
-}
-
-.footer #submit:hover:enabled {
-  background-color: rgba(243, 46, 89, 0.658);
-}
-
-.footer #submit:disabled {
-  cursor: default;
-  opacity: 0.7;
-}
