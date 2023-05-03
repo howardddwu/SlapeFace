@@ -11,7 +11,7 @@ import CountDownTimer from "../Timer/countDownTimer";
 import emailjs from "@emailjs/browser";
 
 const Prophecy = (props) => {
-  const { data } = props;
+  const { data, socket } = props;
   const { user } = useContext(AuthContext);
 
   const [OpenVotingModal, setOpenVotingModal] = useState(false);
@@ -157,32 +157,55 @@ const Prophecy = (props) => {
   async function submitVerify(optionIndex) {
     data.result = optionIndex;
 
-    //add the result to prophecy
-    await fetch(`${process.env.REACT_APP_API_URL}/prophecy/edit/` + data._id, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ result: data.result }),
-    })
-      .then(console.log("verify result success"))
-      .catch((error) => console.log("error", error));
+    // //add the result to prophecy
+    // await fetch(`${process.env.REACT_APP_API_URL}/prophecy/edit/` + data._id, {
+    //   method: "PATCH",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ result: data.result }),
+    // })
+    //   .then(console.log("verify result success"))
+    //   .catch((error) => console.log("error", error));
 
-    addPointsToUser(optionIndex);
     setCorrectUserNum(data.options[optionIndex].VoterId.length);
+    const correctnum = data.options[optionIndex].VoterId.length
+    addPointsToUser(optionIndex, correctnum);
+
+
+    //=============================================
+    //send result notification to every participated user
+    const options = data.options
+
+    if (socket) {
+      // console.log(data)
+      const options = data.options
+      for (let i = 0; i < options.length; i++) {
+        let voterList = options[i].VoterId
+        for (let j = 0; j < voterList.length; j++) {
+          const dataform = {
+            sender: "system",
+            recipient: voterList[j],
+            content: " Prophecy: " + data.title + ". The result is " + options[optionIndex].option + ". ",
+            prophecyId: data._id
+          };
+          socket.emit("new-message", dataform);
+        }
+      }
+    }
+
     setOpenVerifyModal(false);
   }
 
   //give out the points to the user who vote on the correct result
-  async function addPointsToUser(optionIndex) {
+  async function addPointsToUser(optionIndex, correctnum) {
     for (let i = 0; i < data.options[optionIndex].VoterId.length; i++) {
       setCurrentCorrectUser(data.options[optionIndex].VoterId[i]);
       //console.log(data.options[optionIndex].VoterId[i])
-      let info = UserAPI.getUserInfoData(data.options[optionIndex].VoterId[i]);
+      let info = await UserAPI.getUserInfoData(data.options[optionIndex].VoterId[i]);
       console.log(info);
 
       //console.log(correctVoteUserInfo)
       if (info !== "") {
-        console.log(info);
-        //addPoints(info, data.numUser * 10)
+        addPoints(info, data.numUser * 10, correctnum)
       }
     }
   }
@@ -195,7 +218,14 @@ const Prophecy = (props) => {
   }, [currentCorrectUser])
   */
 
-  async function addPoints(userdata, pricePool) {
+  async function addPoints(userdata, pricePool, correctnum) {
+
+    let usePoints = userdata.points ? userdata.points : 0
+
+    // console.log("userdata.points: "+userdata.points)
+    // console.log("pricePool: "+pricePool)
+    // console.log("correctUserNum: "+correctnum)
+
     // add point to this user
     await fetch(
       `${process.env.REACT_APP_API_URL}/user/editProfile/` + userdata._id,
@@ -203,15 +233,15 @@ const Prophecy = (props) => {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          points: Math.round(userdata.points + pricePool / correctUserNum),
+          points: Math.round(usePoints + pricePool / correctnum),
         }),
       }
     )
       .then(console.log("add points success"))
       .catch((error) => console.log("error", error));
   }
-  
-  
+
+
 
   return (
     <div className="Prophecy">

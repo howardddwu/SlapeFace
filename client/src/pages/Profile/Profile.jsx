@@ -33,7 +33,7 @@ const items = [
 ];
 
 
-const Profile = () => {
+const Profile = ({socket}) => {
 
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
@@ -99,7 +99,7 @@ const Profile = () => {
                     
                     <div>
                         {prophecies.map((item) => (
-                            <Prophecy key={item._id} data={item}></Prophecy>
+                            <Prophecy key={item._id} data={item} socket={socket}></Prophecy>
                         ))}
                     </div>
                 </div>

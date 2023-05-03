@@ -8,10 +8,10 @@ import "./Notification.css"
 import { AuthContext } from '../../context/AuthProvider';
 
 
-const Notification = ({ notifications, socket, setUnread, setMsgList }) => {
+const Notification = ({ notifications, setUnread, setMsgList, socket}) => {
 
 
-    const { dispatch, user, } = useContext(AuthContext)
+    const { dispatch, user } = useContext(AuthContext)
 
 
     //============================= Pagination =================================
@@ -80,7 +80,7 @@ const Notification = ({ notifications, socket, setUnread, setMsgList }) => {
             //   const result = await PostAPI.deleteMyPosts(deletedPageID)
 
             //change db data
-            socket.emit('delete-msg', { userId: user._id, deleteID: deleteID });
+            // socket.emit('delete-msg', { userId: user._id, deleteID: deleteID });
 
             //update msg list after deletion
             setMessages(

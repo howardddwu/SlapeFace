@@ -22,7 +22,7 @@ import Notification from './pages/Notification/Notification';
 
 function App() {
 
-  const { user, token, isLogin, dispatch, } = useContext(AuthContext)
+  const { user, token, isLogin, dispatch } = useContext(AuthContext)
 
 
   const verifyUser = useCallback(async () => {
@@ -67,19 +67,12 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("App .... be called")
     if (user) {
-      console.log("there is user")
-
       setSocket(io(process.env.REACT_APP_API_URL));
-      // NoAction.setSocket(io(process.env.REACT_APP_API_URL), dispatch);
-      if (socket)
-        console.log('socket is updated')
     }
   }, [user]);
 
   useEffect(() => {
-    console.log("socket .... be changed")
 
     if (!socket) {
       console.log("no socket")
@@ -88,6 +81,8 @@ function App() {
 
     if (user) {
       socket.emit('join', { userId: user._id });
+
+      NoAction.setSocket(socket, dispatch);
 
       socket.on("loginFetch", function (data) {
         setMsgList(data.msgList)
@@ -175,7 +170,7 @@ function App() {
           exact
           path="/profile"
           // element={ <Home /> }
-          element={user ? <Profile /> : <Navigate to="/login" />}
+          element={user ? <Profile socket={socket}/> : <Navigate to="/login" />}
         />
 
         <Route
