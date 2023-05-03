@@ -101,7 +101,12 @@ const sockets = (socket) => {
         //     }
         // );
 
-        NotificationModel.updateOne({ userId: mongoose.Types.ObjectId(userId) }, { $pullAll: { msgList: [{ _id: mongoose.Types.ObjectId(deleteID) }] } })
+
+        await NotificationModel.findOneAndUpdate(
+            { userId: userId },
+            { $pull: { msgList: { _id: deleteID } } },
+            { safe: true, multi: false }
+          );
 
 
     });

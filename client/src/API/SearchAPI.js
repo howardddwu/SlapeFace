@@ -10,6 +10,11 @@ export const SearchProphecy = async (dataFrom, setProphecies) => {
             .then(
                 (res) => {
                     let { data } = res;
+
+                    setProphecies(data)
+
+
+                    //by hot in default
                     data = data.sort((objA, objB) => {
                         if (objA.numUser > objB.numUser) return -1
                         if (objB.numUser > objA.numUser) return 1
@@ -21,6 +26,7 @@ export const SearchProphecy = async (dataFrom, setProphecies) => {
                         )
                     })
                     setProphecies(data)
+
                 }
             )
     } catch (error) {
