@@ -79,24 +79,43 @@ const Prophecy = (props) => {
       {
         label: "Users Votes",
         data: data.options.map((item) => item.VoterId.length),
+        // backgroundColor: [
+        //   //如果很多选项 多加点颜色
+        //   "rgba(255, 99, 132, 0.2)",
+        //   "rgba(255, 159, 64, 0.2)",
+        //   "rgba(255, 205, 86, 0.2)",
+        //   "rgba(75, 192, 192, 0.2)",
+        //   "rgba(54, 162, 235, 0.2)",
+        //   "rgba(153, 102, 255, 0.2)",
+        //   "rgba(201, 203, 207, 0.2)",
+        // ],
+        // borderColor: [
+        //   "rgb(255, 99, 132)",
+        //   "rgb(255, 159, 64)",
+        //   "rgb(255, 205, 86)",
+        //   "rgb(75, 192, 192)",
+        //   "rgb(54, 162, 235)",
+        //   "rgb(153, 102, 255)",
+        //   "rgb(201, 203, 207)",
+        // ],
         backgroundColor: [
           //如果很多选项 多加点颜色
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(255, 205, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(201, 203, 207, 0.2)",
+          "rgba(255, 99, 132, 0.8)",
+          "rgba(255, 159, 64, 0.8)",
+          "rgba(255, 205, 86, 0.8)",
+          "rgba(75, 192, 192, 0.8)",
+          "rgba(54, 162, 235, 0.8)",
+          "rgba(153, 102, 255, 0.8)",
+          "rgba(201, 203, 207, 0.8)",
         ],
         borderColor: [
-          "rgb(255, 99, 132)",
-          "rgb(255, 159, 64)",
-          "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
-          "rgb(54, 162, 235)",
-          "rgb(153, 102, 255)",
-          "rgb(201, 203, 207)",
+          "rgba(255, 99, 132)",
+          "rgba(255, 159, 64)",
+          "rgba(255, 205, 86)",
+          "rgba(75, 192, 192)",
+          "rgba(54, 162, 235)",
+          "rgba(153, 102, 255)",
+          "rgba(201, 203, 207)",
         ],
       },
     ],
@@ -109,6 +128,23 @@ const Prophecy = (props) => {
         hoverBorderWidth: 4,
       },
     },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        }
+      },
+      y: {
+        grid: {
+          display: false
+        }
+      }
+    },
+    borderRadius: 5,
+    borderColor: "",
+
+
+    
   };
 
   function votingProphecy() {
@@ -252,54 +288,19 @@ const Prophecy = (props) => {
           )}
         </div>
       </div>
-      <div className="Prophecy-author">
-        Posted by :
-        {authorInfo === null ? (
-          <div>Non-Existent user</div>
-        ) : (
-          <div className="Prophecy-author-info">
-            <img
-              src={authorInfo.icon ? authorInfo.icon : pic1}
-              alt=""
-              className="Prophecy-author-icon"
-            />
-            <div>{authorInfo.displayname}</div>
-          </div>
-        )}
-      </div>
 
-      <div className="Prophecy-OpeningTime">
-        {new Date(data.endTime.valueOf()) > new Date() ? (
-          <div className="Prophecy-CountDown">
-            <div>Prophecy close after : </div>
-            <CountDownTimer
-              timeInMs={new Date(data.endTime).valueOf()}
-              forceUpdate={forceUpdate}
-              setForceUpdate={setForceUpdate}
-            />
-          </div>
-        ) : data.result === -1 ? (
-          <div className="Prophecy-verify">
-            <div>Prophecy Closed, Waiting for verify </div>
-            {user !== null && user._id === data.author && (
-              <button onClick={verifyProphecy}>Verify</button>
-            )}
-          </div>
-        ) : (
-          <div>
-            Prophecy Closed, Correct result is{" "}
-            {data.options[data.result].option}
-          </div>
-        )}
-      </div>
       <div className="Prophecy-description">{data.description}</div>
+
+      <hr className="hr-mid-circle" />
+
+
       <Bar data={votingData} options={options} />
       <div className="Prophecy-detail">
         <div className="Prophecy-info">
           <div>Number Vote: {data.numUser}</div>
           <div>{modifyCreatedTime(data.createdTime)}</div>
         </div>
-        {userParticipated && (
+        {/* {userParticipated && (
           <div className="Prophecy-userParticipate">
             <div>Voted !</div>
             <div>Your Choices: {userChoice}</div>
@@ -309,8 +310,82 @@ const Prophecy = (props) => {
           new Date(data.endTime.valueOf()) > new Date() &&
           !userParticipated && (
             <button onClick={votingProphecy}>Participate</button>
-          )}
+          )} */}
       </div>
+
+
+      <div className="Prophecy-TimeAndParticipateWrapper" >
+
+        <div className="Prophecy-ParticipateWrapper">
+
+          {userParticipated && (
+            <div className="Prophecy-userParticipate">
+              <div>Voted !</div>
+              <div>Your Choices: {userChoice}</div>
+            </div>
+          )}
+          {data.result === -1 &&
+            new Date(data.endTime.valueOf()) > new Date() &&
+            !userParticipated && (
+              <button className="btn btn-primary" onClick={votingProphecy}>Participate</button>
+            )}
+        </div>
+
+
+
+        <div className="Prophecy-TimeWrapper">
+
+          <div className="Prophecy-author">
+            Posted by :
+            {authorInfo === null ? (
+              <div>Non-Existent user</div>
+            ) : (
+              <div className="Prophecy-author-info">
+                <img
+                  src={authorInfo.icon ? authorInfo.icon : pic1}
+                  alt=""
+                  className="Prophecy-author-icon"
+                />
+                <div>{authorInfo.displayname}</div>
+              </div>
+            )}
+          </div>
+
+
+
+
+
+          <div className="Prophecy-OpeningTime">
+            {new Date(data.endTime.valueOf()) > new Date() ? (
+              <div className="Prophecy-CountDown">
+                <div>Prophecy close after : </div>
+                <CountDownTimer
+                  timeInMs={new Date(data.endTime).valueOf()}
+                  forceUpdate={forceUpdate}
+                  setForceUpdate={setForceUpdate}
+                />
+              </div>
+            ) : data.result === -1 ? (
+              <div className="Prophecy-verify">
+                <div>Closed, Waiting for verify </div>
+                {user !== null && user._id === data.author && (
+                  <button className="btn btn-outline-secondary btn-sm" onClick={verifyProphecy}>Verify</button>
+                )}
+              </div>
+            ) : (
+              <div>
+                Prophecy Closed, Correct result is{" "}
+                {data.options[data.result].option}
+              </div>
+            )}
+          </div>
+
+        </div>
+
+      </div>
+
+
+
       {OpenVotingModal && (
         <VotingVerifyModal
           type="Voting"
@@ -327,6 +402,9 @@ const Prophecy = (props) => {
           submit={submitVerify}
         />
       )}
+
+      <hr className="hr-mid-circle" />
+
 
       <Comments ProphecyId={data._id} />
     </div>

@@ -7,6 +7,17 @@
   padding: 0.5rem;
   border-bottom: 1px solid grey;
   padding-bottom: 2em;
+
+  background-color: white;
+  border-radius: 8px; 
+
+}
+
+.NewsRowContainer:hover{
+  background-color: rgb(226, 226, 226);
+  transition: 0.3s ease-in-out;
+
+
 }
 
 .NewsRowWrapper {
@@ -23,12 +34,12 @@ a {
   text-decoration: none;
 }
 .NewsRowTitle {
-  font-weight: 600;
+  font-weight: 500;
   font-family: Snell Roundhand, cursive;
   font-size: 28px;
   box-sizing: border-box;
   padding: 10px 0 10px 0;
-  color: blue;
+  color: rgb(54, 53, 53);
 }
 .NewsRowTitle:hover {
   text-decoration: underline;
@@ -36,9 +47,10 @@ a {
 
 .NewsRowImg {
   max-width: 100%;
+  border-radius: 10px;
 }
 
 .NewsRowDesc {
-  font-size: small;
+  font-size:medium;
   font-family: monospace;
 }

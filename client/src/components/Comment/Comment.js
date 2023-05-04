@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthProvider'
 import { FaArrowUp } from 'react-icons/fa'
+import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import NewCommentForm from './NewCommentForm'
 import { v4 as uuid } from 'uuid' // getting unqiue id for comment
 import '../../styles/Comment.css'
@@ -9,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import * as UserAPI from "../../API/UserAPI.js"
 import pic1 from "../../DefaultProfile_1.jpg"
 
-function Comment (props) {
+function Comment(props) {
 
   const navigate = useNavigate()
   const { user } = useContext(AuthContext)
@@ -35,22 +36,22 @@ function Comment (props) {
   // only defaultUser allow to edit and delete
   const EditDelete = user && Boolean(commentData.userId === user._id)
 
-  function displayReply () {
+  function displayReply() {
     setShowReplyVisible(!showReplyVisible)
   }
 
-  function createReply () {
+  function createReply() {
     setAddReplyVisible(!addReplyVisible)
     setIsEditing(false)
   }
-  function editingComment () {
+  function editingComment() {
     setIsEditing(!isEditing)
     setAddReplyVisible(false)
   }
 
-  function sortCommentDate (comment_date_info) {
+  function sortCommentDate(comment_date_info) {
 
-    function lastDayOfMonth (year, month) {
+    function lastDayOfMonth(year, month) {
       return new Date(year, month + 1, 0).getDate()
     }
     const comment_date = new Date(comment_date_info)
@@ -111,7 +112,7 @@ function Comment (props) {
     }
   }
 
-  function upVote () {
+  function upVote() {
     if (user) {
       // if user did not upvote this comment, add upvote
       if (!commentData.upVotes.includes(user._id)) {
@@ -156,9 +157,19 @@ function Comment (props) {
               </div>}
           </div>
 
-          <div className='comment-vote'>
-            <button className="upvote-button" onClick={upVote}> <FaArrowUp /> </button>  {commentData.upVotes.length}
-          </div>
+          {user ?
+            <div className='comment-vote'>
+              {commentData.upVotes.includes(user._id) ? <HeartFilled className="LikedButton" onClick={upVote} /> : <HeartOutlined className="LikeButton" onClick={upVote} />}
+              {commentData.upVotes.length}
+            </div>
+            :
+            <div className='comment-vote'>
+              <HeartFilled className="LikedButton"  /> 
+              {commentData.upVotes.length}
+            </div>
+          }
+        
+
         </div>
 
 

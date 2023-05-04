@@ -274,13 +274,13 @@ function Comments (props) {
   // 
   return (
     <div className="Comments">
-      <h4>Comments</h4>
+      {/* <h4>Comments</h4> */}
       <NewCommentForm submit="Comment" initText=" " onClickSubmit={addComment} />
       {sortByCreateTime && <div className='comments-display'>
-        <button className='comments-display-bytime-active' onClick={sortByTime}>Display by time</button> | <button className='comments-display-byvote' onClick={sortByVote}>Display by vote</button>
+        <button className='comments-display-bytime-active' onClick={sortByTime}>By time</button> | <button className='comments-display-byvote' onClick={sortByVote}>By vote</button>
       </div>}
       {!sortByCreateTime && <div className='comments-display'>
-        <button className='comments-display-bytime' onClick={sortByTime}>Display by time</button> | <button className='comments-display-byvote-active' onClick={sortByVote}>Display by vote</button>
+        <button className='comments-display-bytime' onClick={sortByTime}>By time</button> | <button className='comments-display-byvote-active' onClick={sortByVote}>By vote</button>
       </div>}
       <div className='comments-container'>
         {current.map(item => (
@@ -293,7 +293,7 @@ function Comments (props) {
             deleteComment={deleteComment}
             updateVote={updateVotes}
             bordercss={{ "borderBottom": '#eee 1px solid' }} />))}
-        {hasMore && <h3 className="comments-loadMore" onClick={onLoadMore}>loading more ...</h3>}
+        {hasMore && <h6 className="comments-loadMore" onClick={onLoadMore}>load more ...</h6>}
       </div>
 
     </div>

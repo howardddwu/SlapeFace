@@ -28,10 +28,13 @@ const CountDownTimer = ({ timeInMs, forceUpdate, setForceUpdate }) => {
 
   return (
     <div className="CountDownTimer">
-      <div>{remainingTime.days} Days </div>
-      <div>{remainingTime.hours} Hours </div>
-      <div>{remainingTime.minutes} Min </div>
-      <div>{remainingTime.seconds} Sec </div>
+      {remainingTime.days > 0 && <div>{remainingTime.days} Days </div>}
+
+      {remainingTime.days < 1 &&
+        <><div>{remainingTime.hours} Hours </div>
+          <div>{remainingTime.minutes} Min </div>
+          <div>{remainingTime.seconds} Sec </div></>
+      }
     </div>
   );
 };

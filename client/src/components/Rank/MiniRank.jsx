@@ -49,6 +49,7 @@ const MiniRank = () => {
         extra={<a href="/ranking">More</a>}
         style={{
           width: 300,
+          marginTop: '10px'
         }}
       >
         {botData &&

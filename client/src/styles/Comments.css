@@ -5,6 +5,7 @@
 .comments-container {
   height: 100%;
 }
+
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
@@ -28,10 +29,12 @@
 }
 
 .comments-loadMore {
-  margin: 0.5%;
+
+  margin-top: 1%;
   text-align: center;
   cursor: pointer;
   color: gray;
+  font-weight: 400;
 }
 
 .comments-loadMore:hover {
@@ -45,47 +48,47 @@
 }
 
 .comments-display-bytime {
-  color: rgba(72, 0, 131, 0.788);
+  color: rgb(73, 72, 72);
   font-size: 15px;
   padding: 5px;
   border: none;
   cursor: pointer;
-  background-color: #cdc0fc00;
+  background-color: inherit;
 }
 
 .comments-display-bytime-active {
-  color: rgba(72, 0, 131, 0.788);
+  color: rgb(73, 72, 72);
   font-size: 15px;
   padding: 5px;
   border: none;
-  background-color: #cdc0fc8c;
+  background-color: inherit;
   cursor: pointer;
-  border-bottom: rgb(33, 51, 150) 2px solid;
+  border-bottom: #88ABDA 3px solid;
 }
 
 .comments-display-bytime:hover {
-  border-bottom: rgb(33, 51, 150) 2px solid;
+  border-bottom: #88ABDA 3px solid;
 }
 
 .comments-display-byvote {
-  color: rgba(72, 0, 131, 0.788);
+  color: rgb(73, 72, 72);
   font-size: 15px;
   padding: 5px;
   border: none;
-  background-color: #cdc0fc00;
+  background-color: inherit;
   cursor: pointer;
 }
 
 .comments-display-byvote-active {
-  color: rgba(72, 0, 131, 0.788);
+  color: rgb(73, 72, 72);
   font-size: 15px;
   padding: 5px;
   border: none;
-  background-color: #cdc0fc8c;
+  background-color: inherit;
   cursor: pointer;
-  border-bottom: rgb(33, 51, 150) 2px solid;
+  border-bottom: #88ABDA 3px solid;
 }
 
 .comments-display-byvote:hover {
-  border-bottom: rgb(33, 51, 150) 2px solid;
+  border-bottom: #88ABDA 3px solid;
 }
