@@ -9,10 +9,7 @@ export const SearchProphecy = async (dataFrom, setProphecies) => {
         await API.post('/search/searchProphecy', dataFrom)
             .then(
                 (res) => {
-                    let { data } = res;
-
-                    setProphecies(data)
-
+                    let { data } = res
 
                     //by hot in default
                     data = data.sort((objA, objB) => {
@@ -20,11 +17,11 @@ export const SearchProphecy = async (dataFrom, setProphecies) => {
                         if (objB.numUser > objA.numUser) return 1
                         //if prophecies having same number of user participated, then display it by time
                         return (
-                            (Number(new Date(objA.createAt)) -
-                                Number(new Date(objB.createAt))) *
-                            -1
+                            (Number(new Date(objA.createdTime)) -
+                                Number(new Date(objB.createdTime))) * -1
                         )
                     })
+                    console.log(data)
                     setProphecies(data)
 
                 }

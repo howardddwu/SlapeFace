@@ -10,11 +10,11 @@ const getUserProphecy = async (userId, setProphecies, setUserInfo) => {
             .then(
                 (res) => {
                     const { data } = res
-                    console.log(data);
+                    console.log(data)
                     let propheciesList = data.slice(0, data.length - 2)
                         .sort(
                             (objA, objB) =>
-                        Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))
+                                Number(new Date(objA.createdTime)) - Number(new Date(objB.createdTime))
                         )
                         .reverse()
                     setProphecies(propheciesList)
@@ -39,7 +39,7 @@ const getUserVotedProphecy = async (userId, setProphecies) => {
                     let propheciesList = data
                         .sort(
                             (objA, objB) =>
-                        Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))
+                                Number(new Date(objA.createdTime)) - Number(new Date(objB.createdTime))
                         )
                         .reverse()
                     setProphecies(propheciesList)
@@ -65,8 +65,8 @@ async function getData (setProphecies) {
                 if (objB.numUser > objA.numUser) return 1
                 //if prophecies having same number of user participated, then display it by time
                 return (
-                    (Number(new Date(objA.createAt)) -
-                        Number(new Date(objB.createAt))) *
+                    (Number(new Date(objA.createdTime)) -
+                        Number(new Date(objB.createdTime))) *
                     -1
                 )
             })
@@ -76,33 +76,31 @@ async function getData (setProphecies) {
 }
 
 
-
-
 // sort prophecies by number of user participate
-function sortByParticipated (prophecies, setProphecies, setSortByCreateTime) {
-    setSortByCreateTime(false)
+function sortByParticipated (prophecies, setProphecies) {
     let propheciesList = prophecies.sort((objA, objB) => {
         if (objA.numUser > objB.numUser) return -1
         if (objB.numUser > objA.numUser) return 1
         //if prophecies having same number of user participated, then display it by time
         return (
-            (Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))) * -1
+            (Number(new Date(objA.createdTime)) - Number(new Date(objB.createdTime))) * -1
         )
     })
     setProphecies(propheciesList)
 }
 
 // sort prophecies by created time
-function sortByTime (prophecies, setProphecies, setSortByCreateTime) {
-    setSortByCreateTime(true)
+function sortByTime (prophecies, setProphecies) {
     let propheciesList = prophecies
         .sort(
             (objA, objB) =>
-                Number(new Date(objA.createAt)) - Number(new Date(objB.createAt))
+                Number(new Date(objA.createdTime)) - Number(new Date(objB.createdTime))
         )
         .reverse()
     setProphecies(propheciesList)
 }
+
+
 
 
 export { getData, sortByParticipated, sortByTime, getUserProphecy, getUserVotedProphecy }
