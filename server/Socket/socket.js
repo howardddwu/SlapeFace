@@ -29,15 +29,18 @@ const sockets = (socket) => {
     socket.on('new-message', async (data) => {
 
         //build new message:
-        const { sender, recipient, content, prophecyId } = data;
+        const { sender, recipient, content, prophecyId, prophecyInfo } = data;
         let msg = {
             recipient: recipient,
             sender: sender,
             content: content,
             createdAt: new Date(),
             read: false,
-            prophecyId: prophecyId ? prophecyId : null
+            prophecyId: prophecyId ? prophecyId : null,
+            prophecyInfo: prophecyInfo
         }
+
+        // console.log(prophecyInfo)
 
         // Save the message to the database
         let res = {}

@@ -140,11 +140,11 @@ const Prophecy = (props) => {
         }
       }
     },
-    borderRadius: 5,
+    borderRadius: 6,
     borderColor: "",
 
 
-    
+
   };
 
   function votingProphecy() {
@@ -215,15 +215,27 @@ const Prophecy = (props) => {
       const options = data.options
       for (let i = 0; i < options.length; i++) {
         let voterList = options[i].VoterId
+
+        //send msg to each voter:
         for (let j = 0; j < voterList.length; j++) {
+
           const dataform = {
             sender: "system",
             recipient: voterList[j],
-            content: " Prophecy: " + data.title + ". The result is " + options[optionIndex].option + ". ",
+            prophecyInfo: {
+              title: data.title,
+              result: options[optionIndex].option,
+              yourChoice: options[i].option,
+              ifCorrect: i === optionIndex ? true : false,
+            },
+            content: "Result of the Prophecy: " + data.title + ".",
             prophecyId: data._id
           };
+
           socket.emit("new-message", dataform);
         }
+
+
       }
     }
 
@@ -368,7 +380,7 @@ const Prophecy = (props) => {
             ) : data.result === -1 ? (
               <div className="Prophecy-verify">
                 <div>Closed, Waiting for verify </div>
-                {user !== null && user._id === data.author && (
+                {user !== null && user._id === data.author && socket &&(
                   <button className="btn btn-outline-secondary btn-sm" onClick={verifyProphecy}>Verify</button>
                 )}
               </div>

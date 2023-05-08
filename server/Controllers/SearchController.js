@@ -70,3 +70,14 @@ export const searchProphecy = async (req, res) => {
 
 
 
+export const searchProphecyByID = async (req, res) => {
+
+    const id = req.params.id
+
+    try {
+        const Prophecy = await ProphecyModel.findById(id)
+        res.status(200).json(Prophecy)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

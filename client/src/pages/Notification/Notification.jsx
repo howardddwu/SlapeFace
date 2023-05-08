@@ -1,14 +1,17 @@
 import { useEffect, useState, useContext } from 'react';
 
-import { Badge, Popconfirm, Pagination, Spin, Empty, Tag, Button } from 'antd';
+import { Badge, Popconfirm, Pagination, Spin, Empty, Tag, Button, Modal } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 import "./Notification.css"
 import { AuthContext } from '../../context/AuthProvider';
+import Prophecy from '../../components/Prophecy/Prophecy';
+
+import * as SearchAPI from "../../API/SearchAPI";
 
 
-const Notification = ({ notifications, setUnread, setMsgList, socket}) => {
+const Notification = ({ notifications, setUnread, setMsgList, socket }) => {
 
 
     const { dispatch, user } = useContext(AuthContext)
@@ -132,6 +135,28 @@ const Notification = ({ notifications, setUnread, setMsgList, socket}) => {
         }, [notifications]
     );
 
+
+    //======================== open model of a selected prophecy result =====
+    const openModal = async (prophecyId) => {
+        console.log(prophecyId)
+        if (prophecyId) {
+
+            const item = await SearchAPI.SearchProphecyByID(prophecyId)
+
+            console.log(item)
+
+            Modal.info({
+                // title: 'Prophecy',
+                content: (
+                    <Prophecy data={item} />
+                ),
+                width: 500
+
+                // onOk() {},
+            });
+        }
+    }
+
     return (
         <div className="NotificationBigcontainer">
             {loading && <div className="spin"><Spin tip="Loading..."> </Spin></div>}
@@ -145,18 +170,50 @@ const Notification = ({ notifications, setUnread, setMsgList, socket}) => {
 
                                 <div className="cardTimeWraper">
                                     <span className='cardTime' >{moment(item.createdAt).fromNow()}</span>
+
+                                    <div className="tagWrapper">
+                                        <Tag color="gold" style={{ fontSize: "15px" }}>#{item.sender && item.sender}</Tag>
+                                        {/* <Tag color="green" style={{ fontSize: "11px" }}>#{item.isLookForJobs ? "SeekJob" : "HaveJob"}</Tag> */}
+                                    </div>
                                 </div>
 
                                 <hr className="hr-mid-circle" />
 
-                                <div className="tagWrapper">
-                                    <Tag color="gold" style={{ fontSize: "11px" }}>#{item.sender && item.sender}</Tag>
-                                    {/* <Tag color="green" style={{ fontSize: "11px" }}>#{item.isLookForJobs ? "SeekJob" : "HaveJob"}</Tag> */}
-                                </div>
+
 
                                 <div className="titleWrapper">
-                                    <span className="cardTitle">{item.content}</span>
+                                    <span className="cardTitle" onClick={() => openModal(item.prophecyId)} >{item.content} <span className="cardTitleSub" >(Click to view detail)</span></span>
+
+                                    {item.prophecyInfo && <div className="cardInfo">
+                                        <div>
+                                            <span className="CardFixText">Your Choice: </span>
+                                            <span className="">{item.prophecyInfo.yourChoice}</span>
+                                        </div>
+
+                                        <div>
+                                            <span className="CardFixText">The Result:   </span>
+                                            <span className="">{item.prophecyInfo.result}</span>
+                                        </div>
+
+                                        {item.prophecyInfo.ifCorrect ?
+                                            <span className="CardRightText">Congratulation! You saved your face. </span>
+                                            :
+                                            <span className="CardWrongText">Woo... Looks like you are wrong. Is your face ok?  </span>
+                                        }
+                                        {item.prophecyInfo.ifCorrect ?
+                                            // <div style="padding-top:80.000%;position:relative;">
+                                            <iframe className='CardImg' src="https://gifer.com/embed/5e1" allowFullScreen ></iframe>
+                                            // </div>
+                                            :
+                                            // <img src="" alt="" />
+                                            <iframe className='CardImg' src="https://giphy.com/embed/JXuGatu6v9pUA" allowFullScreen></iframe>
+                                        }
+                                    </div>}
                                 </div>
+
+
+                                <hr className="hr-mid-circle" />
+
 
                                 {/* mark or delete message  */}
                                 <div className="cardCommentWraper">

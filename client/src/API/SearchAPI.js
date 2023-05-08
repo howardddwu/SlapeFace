@@ -30,3 +30,25 @@ export const SearchProphecy = async (dataFrom, setProphecies) => {
         console.log(error)
     }
 }
+
+
+
+export const SearchProphecyByID = async (ProphecyId) => {
+
+    let Prophecy = {}
+    try {
+        await API.get('/search/searchProphecyByID/' + ProphecyId)
+            .then(
+                (res) => {
+                    let { data } = res;
+                    Prophecy = data
+                }
+            )
+        
+        return Prophecy;
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+}

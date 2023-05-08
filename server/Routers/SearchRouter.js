@@ -12,6 +12,7 @@ router.post("/searchProphecy", SearchController.searchProphecy)
 
 
 
+router.get("/searchProphecyByID/:id", SearchController.searchProphecyByID)
 
 
 

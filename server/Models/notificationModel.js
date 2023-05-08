@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 
 
 const MessageSchema = new mongoose.Schema({
+  prophecyInfo :{type: Object, default: null},
   content: { type: String, default: "defualt content" },
   sender: { type: String, default: "system" },    //default: "system"
   recipient: String, //userID
