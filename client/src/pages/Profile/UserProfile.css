@@ -1,0 +1,12 @@
+.edit-profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 3% 25%;
+}
+.userinfo {
+  width: 100%;
+}
+Form.Item {
+  justify-content: center;
+}

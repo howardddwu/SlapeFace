@@ -1,16 +1,15 @@
 .HomeContainer {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 2vw;
   /* justify-content: space-between; */
   justify-content: center;
   /* align-items: center; */
-
-  padding: 1rem;
+  padding: 0.5vw;
 }
 
 .HomeLeft {
-  width: 28%;
+  width: 25%;
 }
 
 .HomeMiddle {
@@ -19,8 +18,7 @@
   display: table-column;
   align-items: center;
 
-  margin-right: 17%;
-
+  margin-right: 25%;
 }
 
 .HomeRight {
@@ -36,7 +34,6 @@
   right: 7%;
   /* position: sticky;
   top: 10px; */
-
 }
 .controllerWrapper {
   margin: 1em 0em 0em 0em;
@@ -92,4 +89,19 @@
   background-color: #a0c7e4;
   box-shadow: none;
   color: #2c5777;
+}
+
+@media screen and (max-width: 960px) {
+  .HomeLeft {
+    display: none;
+  }
+
+  .HomeRight {
+    display: none;
+  }
+  .HomeMiddle {
+    width: 100%;
+    padding: 2%;
+    margin: 2%;
+  }
 }

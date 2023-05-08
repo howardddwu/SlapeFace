@@ -1,133 +1,88 @@
-import React from 'react'
-import { useState, useEffect, useContext, } from 'react'
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
+import { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import UserProfile from './UserProfile'
-import Prophecy from "../../components/Prophecy/Prophecy.js"
-import { getData, getUserProphecy,getUserVotedProphecy, sortByParticipated, sortByTime } from '../../API/ProphecyAPI';
-import "./Profile.css"
-import { AuthContext } from '../../context/AuthProvider';
+import UserProfile from "./UserProfile";
+import Prophecy from "../../components/Prophecy/Prophecy.js";
+import {
+  getData,
+  getUserProphecy,
+  getUserVotedProphecy,
+  sortByParticipated,
+  sortByTime,
+} from "../../API/ProphecyAPI";
+import "./Profile.css";
+import { AuthContext } from "../../context/AuthProvider";
+import pic1 from "../../DefaultProfile_1.jpg";
 
 import {
-    IdcardOutlined,
-    HomeOutlined,
-    FileTextOutlined,
-} from '@ant-design/icons';
-import { Menu } from 'antd';
+  IdcardOutlined,
+  HomeOutlined,
+  FileTextOutlined,
+} from "@ant-design/icons";
+import { Button, Menu } from "antd";
 
-function getItem(label, key, icon, children, type) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    };
-}
+const Profile = ({ socket }) => {
+  const { user } = useContext(AuthContext);
+  const [postType, setPostType] = useState("posted");
 
-const items = [
-    getItem('Posts', '1', <FileTextOutlined />),
-    getItem('Profile', '2', <IdcardOutlined />),
-    getItem('Home', '3', <HomeOutlined />),
-];
+  //======================== Page Decision ==============================
 
+  //======================== Menu UI ==============================
 
-const Profile = ({socket}) => {
+  const [prophecies, setProphecies] = useState([]);
 
-    const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
-    const [postType,setPostType] = useState('posted')
-
-    //======================== Page Decision ==============================
-    const [page, setPage] = useState("1")
-    const handlePage = ({ item, key, keyPath, domEvent }) => {
-        setPage(key)
+  const [sortByCreateTime, setSortByCreateTime] = useState(false);
+  // Get All comments from DB
+  useEffect(() => {
+    if (postType === "posted") {
+      getUserProphecy(user._id, setProphecies);
+    } else {
+      getUserVotedProphecy(user._id, setProphecies);
     }
+  }, [postType]);
 
-    useEffect(() => {
-        if (page === "3") {
-            navigate("/");
-        }
-    }, [page])
+  // sort prophecies by created time
+  function ByTime() {
+    sortByTime(prophecies, setProphecies, setSortByCreateTime);
+  }
 
-    //======================== Menu UI ==============================
-    const [collapsed, setCollapsed] = useState(false);
-    const showMenu = () => {
-        window.innerWidth <= 910 ? setCollapsed(true) : setCollapsed(false);
-    };
-    window.addEventListener("resize", showMenu);
-    React.useEffect(() => showMenu(), []);
+  return (
+    <div className="ProfileContainer">
+      <div className="userinfo-wrapper">
+        <img
+          src={user.icon ? user.icon : pic1}
+          alt=""
+          className="profile-icon"
+        />
+        <div className="username">{user.displayname}</div>
 
-
-
-    const [prophecies, setProphecies] = useState([])
-
-    const [sortByCreateTime, setSortByCreateTime] = useState(false)
-    // Get All comments from DB
-    useEffect(() => {
-        
-        if(postType==='posted'){
-            getUserProphecy(user._id, setProphecies)
-            
-        }
-        else{
-            getUserVotedProphecy(user._id, setProphecies)
-        }
-        
-    }, [postType])
-
-    // sort prophecies by created time
-    function ByTime() {
-        sortByTime(prophecies, setProphecies, setSortByCreateTime)
-    }
-
-
-    return (
-        <div className='ProfileContainer'>
-
-
-            {page === "1" &&
-                <div className='ProfileProphecy' style={{ marginBottom: "30px" }}>
-
-                    
-                    <div className='postNavigation'>
-                        <div onClick={()=>setPostType('posted')}>Posted</div>
-                        <div>|</div>
-                        <div onClick={()=>setPostType('voted')}>Voted</div>
-                    </div>
-                    
-                    <div>
-                        {prophecies.map((item) => (
-                            <Prophecy key={item._id} data={item} socket={socket}></Prophecy>
-                        ))}
-                    </div>
-                </div>
-            }
-            {page === "2" && <UserProfile className='ProfileProphecy' />}
-
-
-
-            <div className="ProfileMenuWrapper" >
-                <Menu
-                    className="ProfileMenu"
-                    defaultSelectedKeys={[page]}
-                    mode="inline"
-                    inlineCollapsed={collapsed}
-                    items={items}
-                    onClick={handlePage}
-                />
-            </div>
-
+        <Link to="/profile/edit">
+          <Button className="edit-profile-button">Edit Profile</Button>
+        </Link>
+      </div>
+      <div className="ProfileProphecy" style={{ marginBottom: "30px" }}>
+        <div className="postNavigation">
+          <div onClick={() => setPostType("posted")}>Posted</div>
+          <div>|</div>
+          <div onClick={() => setPostType("voted")}>Voted</div>
         </div>
-    )
-}
 
-export default Profile
+        <div>
+          {prophecies.map((item) => (
+            <Prophecy key={item._id} data={item} socket={socket}></Prophecy>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
+export default Profile;
 
-
-{/* <div style={{ marginBottom: "30px" }}>
+{
+  /* <div style={{ marginBottom: "30px" }}>
 
 <button onClick={ByParticipated}>HOT</button>
 <button onClick={ByTime}>NEW</button>
@@ -136,4 +91,5 @@ export default Profile
         <Prophecy key={item._id} data={item}></Prophecy>
     ))}
 </div>
-</div> */}
+</div> */
+}
