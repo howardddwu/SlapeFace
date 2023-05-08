@@ -13,12 +13,10 @@
   margin-bottom: 10px;
 }
 
-.NewCommentForm-textInputWrapper{
-
+.NewCommentForm-textInputWrapper {
   height: max-content;
   width: 80%;
-  min-width: 240px;
-
+  min-width: 20vw;
   border: 1px solid silver;
   border-radius: 8px;
   border-width: 1px;
@@ -34,23 +32,17 @@
 .NewCommentForm-textInput {
   resize: none;
 
-
   width: 90%;
   height: 90%;
   background: transparent;
   outline: none;
   border: none;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
-
 }
-
-
-
 
 .NewCommentForm button {
   height: 2.5rem;
-
 }
 
 /* .NewCommentForm button:hover:enabled {

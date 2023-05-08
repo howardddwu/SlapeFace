@@ -85,11 +85,3 @@
 .footer #cancel:hover {
   background-color: rgb(235, 233, 233);
 }
-
-.footer #delete {
-  background-color: rgba(243, 46, 89, 0.459);
-}
-
-.footer #delete:hover {
-  background-color: rgba(243, 46, 89, 0.658);
-}

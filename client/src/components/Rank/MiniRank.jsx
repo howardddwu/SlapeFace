@@ -19,7 +19,7 @@ const MiniRank = () => {
 
   console.log(botData);
   return (
-    <div>
+    <div className="container-wrapper">
       <Card
         title="Top 5 Rank"
         extra={<a href="/ranking">More</a>}
@@ -49,7 +49,7 @@ const MiniRank = () => {
         extra={<a href="/ranking">More</a>}
         style={{
           width: 300,
-          marginTop: '10px'
+          marginTop: "10px",
         }}
       >
         {botData &&
