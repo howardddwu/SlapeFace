@@ -8,6 +8,7 @@ import { getData, sortByParticipated, sortByTime } from "../../API/ProphecyAPI";
 import * as SearchAPI from "../../API/SearchAPI";
 import "./Square.css";
 import { Pagination } from "antd";
+import MiniRank from "../../components/Rank/MiniRank";
 
 const Square = () => {
   const initData = {
@@ -107,15 +108,9 @@ const Square = () => {
       </div>
 
       <div className="SquareRight">
-        <h4>Display this page when no user logged in. ("/")</h4>
-
-        <Link className="trouble" to="/login">
-          <button className="button infoButton">Sign in</button>
-        </Link>
-
-        <Link className="trouble" to="/ranking">
-          <button className="button infoButton">Rank</button>
-        </Link>
+        <div>
+          <MiniRank />
+        </div>
       </div>
     </div>
   );

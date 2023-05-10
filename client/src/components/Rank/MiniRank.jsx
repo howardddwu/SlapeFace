@@ -30,16 +30,16 @@ const MiniRank = () => {
         {topData &&
           topData.map((item, index) => (
             <div key={index} className="rank-container">
-              <div>{index + 1}.</div>
-              <div>
+              <div className="rank">{index + 1}.</div>
+              <div className="icon-div">
                 <img
                   src={item.icon ? item.icon : pic1}
                   alt=""
                   className="icon"
                 />
               </div>
-              <div>{item.displayname}</div>
-              <div>{item.points}</div>
+              <div className="name">{item.displayname}</div>
+              <div className="points">{item.points}</div>
             </div>
           ))}
       </Card>
@@ -55,16 +55,16 @@ const MiniRank = () => {
         {botData &&
           botData.map((item, index) => (
             <div key={index} className="rank-container">
-              <div>{index + 1}.</div>
-              <div>
+              <div className="rank">{index + 1}.</div>
+              <div className="icon-div">
                 <img
                   src={item.icon ? item.icon : pic1}
                   alt=""
                   className="icon"
                 />
               </div>
-              <div>{item.displayname}</div>
-              <div>{item.points}</div>
+              <div className="name">{item.displayname}</div>
+              <div className="points">{item.points}</div>
             </div>
           ))}
       </Card>

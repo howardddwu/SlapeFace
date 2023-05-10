@@ -12,17 +12,29 @@ h1 {
 }
 .icon {
   border-radius: 50%;
-  width: 2.5vh;
+  width: 1vw;
 }
 .rank-container {
   display: flex;
   flex-direction: row;
   padding: 2% 0;
   border-bottom: 1px solid;
-  justify-content: space-between;
 }
 .rank-container * {
-  margin-left: 2%;
-  margin-right: 2%;
-  font-size: 2.5vh;
+  font-size: 1vw;
+}
+
+.name {
+  width: 40%;
+}
+
+.rank {
+  width: 15%;
+}
+
+.points {
+  width: 30%;
+}
+.icon-div {
+  width: 15%;
 }

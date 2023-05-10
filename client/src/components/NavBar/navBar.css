@@ -142,4 +142,10 @@ body {
     color: #88abda;
     font-size: 2rem;
   }
+  .greeting {
+    display: none;
+  }
+  .disabled {
+    display: block;
+  }
 }
