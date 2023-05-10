@@ -93,7 +93,9 @@ const NavBar = ({ socket, length }) => {
                 />
               </li> */}
 
-            <li className="nav-links menu-links">Hi, {user.username}</li>
+            <li className="nav-links menu-links greeting">
+              Hi, {user.username}
+            </li>
 
             <Link
               to="/"
@@ -155,14 +157,6 @@ const NavBar = ({ socket, length }) => {
           <ul className={click ? "nav-menu active" : "nav-menu"}>
             <Link
               className="nav-links menu-links"
-              to="/"
-              onClick={closeMobileMenu}
-            >
-              Square
-            </Link>
-
-            <Link
-              className="nav-links menu-links"
               to="/login"
               onClick={closeMobileMenu}
             >
@@ -175,6 +169,20 @@ const NavBar = ({ socket, length }) => {
               onClick={closeMobileMenu}
             >
               Signup
+            </Link>
+            <Link
+              to="/news"
+              className="nav-links menu-links disabled"
+              onClick={closeMobileMenu}
+            >
+              News
+            </Link>
+            <Link
+              to="/rank"
+              className="nav-links menu-links disabled"
+              onClick={closeMobileMenu}
+            >
+              Rank
             </Link>
           </ul>
         )}

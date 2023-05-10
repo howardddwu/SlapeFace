@@ -1,23 +1,20 @@
-import React from 'react'
-import pic1 from "../../../DefaultProfile_1.jpg"
-import "./RankDetail.css"
-
+import React from "react";
+import pic1 from "../../../DefaultProfile_1.jpg";
+import "./RankDetail.css";
 
 const RankDetail = ({ item, rank }) => {
+  const { icon, username, displayname, points } = item;
 
-    const { icon, username, displayname, points } = item;
+  return (
+    <div>
+      <div className="RankDetailContainer">
+        <img className="RankDetailPic" src={icon ? icon : pic1} alt="" />
+        <span>Rank: {rank}</span>
+        <span>Score: {points}</span>
+        <span>username: {username}</span>
+      </div>
+    </div>
+  );
+};
 
-    return (
-        <div>
-            <div className='RankDetailContainer'>
-                <img className='RankDetailPic' src={icon ? icon : pic1} alt="" />
-                <span>Rank: {rank}</span>
-                <span>Score: {points}</span>
-                <span>username: {username}</span>
-                <span>display name: {displayname}</span>
-            </div>
-        </div>
-    )
-}
-
-export default RankDetail
+export default RankDetail;

@@ -34,6 +34,7 @@
   right: 7%;
   /* position: sticky;
   top: 10px; */
+  align-items: center;
 }
 .controllerWrapper {
   margin: 1em 0em 0em 0em;
@@ -90,6 +91,9 @@
   box-shadow: none;
   color: #2c5777;
 }
+.mid-button {
+  display: none;
+}
 
 @media screen and (max-width: 960px) {
   .HomeLeft {
@@ -103,5 +107,9 @@
     width: 100%;
     padding: 2%;
     margin: 2%;
+    align-items: center;
+  }
+  .mid-button {
+    display: inline-block;
   }
 }
