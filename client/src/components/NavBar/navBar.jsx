@@ -74,7 +74,7 @@ const NavBar = ({ socket, length }) => {
     <>
       <nav className="navbar">
         <span className="navbar-logo">
-          <Link className="nav-links" to="/" onClick={closeMobileMenu}>
+          <Link className="nav-links logo" to="/" onClick={closeMobileMenu}>
             SlapeFace
           </Link>
         </span>
