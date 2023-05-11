@@ -10,7 +10,7 @@ import * as UserAPI from "../../API/UserAPI.js";
 import CountDownTimer from "../Timer/countDownTimer";
 
 const Prophecy = (props) => {
-  const { data, socket } = props;
+  const { data, socket, ifModal } = props;
   const { user } = useContext(AuthContext);
 
   const [OpenVotingModal, setOpenVotingModal] = useState(false);
@@ -418,7 +418,7 @@ const Prophecy = (props) => {
       <hr className="hr-mid-circle" />
 
 
-      <Comments ProphecyId={data._id} />
+      {!ifModal && <Comments ProphecyId={data._id}/> }
     </div>
   );
 };

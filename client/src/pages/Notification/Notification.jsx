@@ -9,6 +9,7 @@ import { AuthContext } from '../../context/AuthProvider';
 import Prophecy from '../../components/Prophecy/Prophecy';
 
 import * as SearchAPI from "../../API/SearchAPI";
+import MyModal from '../../components/Modal/Modal';
 
 
 const Notification = ({ notifications, setUnread, setMsgList, socket }) => {
@@ -137,25 +138,37 @@ const Notification = ({ notifications, setUnread, setMsgList, socket }) => {
 
 
     //======================== open model of a selected prophecy result =====
-    const openModal = async (prophecyId) => {
-        console.log(prophecyId)
-        if (prophecyId) {
 
-            const item = await SearchAPI.SearchProphecyByID(prophecyId)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [ProphecyData, setProphecyData] = useState(null);
 
-            console.log(item)
+    const showModal = async(prophecyId) => {
+        const data = await SearchAPI.SearchProphecyByID(prophecyId)
+        setProphecyData(data)
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
-            Modal.info({
-                // title: 'Prophecy',
-                content: (
-                    <Prophecy data={item} />
-                ),
-                width: 500
+    // const openModal = async (prophecyId) => {
+    //     if (prophecyId) {
+    //         const item = await SearchAPI.SearchProphecyByID(prophecyId)
+    //         Modal.info({
+    //             // title: 'Prophecy',
+    //             content: (
+    //                 <Prophecy data={item} />
+    //             ),
+    //             width: 500
+    //             // onOk() {},
+    //         });
+    //     }
+    // }
 
-                // onOk() {},
-            });
-        }
-    }
+
 
     return (
         <div className="NotificationBigcontainer">
@@ -173,7 +186,6 @@ const Notification = ({ notifications, setUnread, setMsgList, socket }) => {
 
                                     <div className="tagWrapper">
                                         <Tag color="gold" style={{ fontSize: "15px" }}>#{item.sender && item.sender}</Tag>
-                                        {/* <Tag color="green" style={{ fontSize: "11px" }}>#{item.isLookForJobs ? "SeekJob" : "HaveJob"}</Tag> */}
                                     </div>
                                 </div>
 
@@ -182,7 +194,10 @@ const Notification = ({ notifications, setUnread, setMsgList, socket }) => {
 
 
                                 <div className="titleWrapper">
-                                    <span className="cardTitle" onClick={() => openModal(item.prophecyId)} >{item.content} <span className="cardTitleSub" >(Click to view detail)</span></span>
+                                    {/* <span className="cardTitle" onClick={() => openModal(item.prophecyId)} >{item.content} <span className="cardTitleSub" >(Click to view detail)</span></span> */}
+
+                                    <span className="cardTitle" onClick={()=>showModal(item.prophecyId)} >{item.content} <span className="cardTitleSub" >(Click to view detail)</span></span>
+                                    <MyModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel} ProphecyData={ProphecyData} />
 
                                     {item.prophecyInfo && <div className="cardInfo">
                                         <div>
@@ -201,11 +216,8 @@ const Notification = ({ notifications, setUnread, setMsgList, socket }) => {
                                             <span className="CardWrongText">Woo... Looks like you are wrong. Is your face ok?  </span>
                                         }
                                         {item.prophecyInfo.ifCorrect ?
-                                            // <div style="padding-top:80.000%;position:relative;">
                                             <iframe className='CardImg' src="https://gifer.com/embed/5e1" allowFullScreen ></iframe>
-                                            // </div>
                                             :
-                                            // <img src="" alt="" />
                                             <iframe className='CardImg' src="https://giphy.com/embed/JXuGatu6v9pUA" allowFullScreen></iframe>
                                         }
                                     </div>}
