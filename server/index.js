@@ -142,3 +142,18 @@ setInterval( async function() {
   await News.fetchData();
 }, the_interval);
 
+
+
+import {CronJob} from "cron"
+import {updatePoints} from "../server/Controllers/RankController.js"
+
+// update the user point at every monday, 3:00 AM New York Time zone
+var job = new CronJob(
+    '0 0 3 * * 1',
+    function() {
+        updatePoints()
+    },
+    null,
+    true,
+    'America/New_York'
+);
