@@ -2,12 +2,27 @@ import React, { useState } from 'react'
 import { Button, Checkbox, Input, Select, message, TreeSelect } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
-import { treeData } from '../../Category.js'
+import { categoryList } from '../../Category.js'
 import * as SearchAPI from '../../API/SearchAPI'
 import './SearchBar.css'
 
 const SearchBar = (props) => {
   let { prophecies, setProphecies, sortByCreateTime } = props
+
+
+    //============================= Major option for select bar =================================
+    const categoryOptions = [];
+    for (let category of categoryList) {
+        categoryOptions.push({
+            value: category,
+            label: category,
+        });
+    }
+    categoryOptions.sort(function (a, b) {
+        if (a.label < b.label) { return -1; }
+        if (a.label > b.label) { return 1; }
+        return 0;
+    })
 
   const initData = {
     searchKey: '',
@@ -41,7 +56,7 @@ const SearchBar = (props) => {
         multiple
         treeDefaultExpandAll
         onChange={handleCategory}
-        treeData={treeData}
+        treeData={categoryOptions}
       />
 
       <Input

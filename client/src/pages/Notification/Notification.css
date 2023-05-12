@@ -2,14 +2,15 @@
   /* background-image: linear-gradient(to right, #DECBA4, #3E5151); */
 
   /* height: 100%;
-    width: 100%;
-    background-color: #E8ECF4;
-  
-    display: flex;
-    flex-direction: column;
-  
-    align-items: center;
-    justify-content: center; */
+  width: 100%; */
+  /* background-color: #E8ECF4; */
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
 }
 
 .NotificationContainer {
@@ -18,9 +19,9 @@
   /* background-color: #efefef; */
   background-color: white;
 
-  border-radius: 20px;
+  /* border-radius: 20px;
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 30px; */
 
 
   display: flex;
@@ -136,7 +137,7 @@
   cursor: pointer;
 }
 
-.cardTitleSub{
+.cardTitleSub {
   /* font-family: 'Poppins', sans-serif; */
   font-size: 15px;
   color: gray;
@@ -231,3 +232,5 @@ textarea::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid #efefef;
 }
+
+
