@@ -34,8 +34,11 @@
 .comment-menu:hover .comment-menu-container {
   visibility: visible;
 }
-
+.comment-menu-button:hover {
+  visibility: hidden;
+}
 .comment-menu-button {
+  visibility: visible;
   border: none;
   font-size: 20px;
   cursor: pointer;
@@ -44,14 +47,15 @@
 }
 
 .comment-menu-container {
+  position: absolute;
   background-color: rgba(140, 185, 236, 0.575);
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  /* z-index: 1; */
   visibility: hidden;
   cursor: pointer;
   border-radius: 10%;
-  width: 100%;
   font-size: 12px;
+  width: 90px;
 }
 
 .comment-info {

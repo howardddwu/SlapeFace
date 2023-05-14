@@ -21,7 +21,7 @@ import {
   HomeOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
-import { Button, Menu } from "antd";
+import { Button, Empty, Menu } from "antd";
 
 const Profile = ({ socket }) => {
   const { user } = useContext(AuthContext);
@@ -38,6 +38,7 @@ const Profile = ({ socket }) => {
   useEffect(() => {
     if (postType === "posted") {
       getUserProphecy(user._id, setProphecies);
+      console.log(1);
     } else {
       getUserVotedProphecy(user._id, setProphecies);
     }
@@ -70,9 +71,18 @@ const Profile = ({ socket }) => {
         </div>
 
         <div>
-          {prophecies.map((item) => (
-            <Prophecy key={item._id} data={item} socket={socket}></Prophecy>
-          ))}
+          {prophecies && prophecies.length > 0 ? (
+            prophecies.map((item) => (
+              <Prophecy key={item._id} data={item} socket={socket}></Prophecy>
+            ))
+          ) : (
+            <div
+              className="EmptyWrapper"
+              style={{ alignSelf: "center", marginTop: "20%" }}
+            >
+              <Empty />
+            </div>
+          )}
         </div>
       </div>
     </div>

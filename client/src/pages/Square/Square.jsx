@@ -25,12 +25,15 @@ const Square = () => {
 
   // sort prophecies by created time
   function ByTime() {
-    sortByTime(prophecies, setProphecies, setSortByCreateTime);
+    setSortByCreateTime(true);
+    sortByTime(prophecies, setProphecies);
   }
 
   // sort prophecies by number of user participate
   function ByParticipated() {
-    sortByParticipated(prophecies, setProphecies, setSortByCreateTime);
+    setSortByCreateTime(false);
+    sortByParticipated(prophecies, setProphecies);
+    // sortByParticipated(prophecies, setProphecies, setSortByCreateTime);
   }
 
   // pagination
