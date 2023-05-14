@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9fa75b48.css",
+    "main.js": "/static/js/main.6bc5fcc6.js",
+    "static/media/Health_and_Fitness.png": "/static/media/Health_and_Fitness.8caf076be2768ad5dab1.png",
+    "static/media/DefaultProfile_1.jpg": "/static/media/DefaultProfile_1.ec8d36a711f61b083995.jpg",
+    "static/media/Environmental_lssues.png": "/static/media/Environmental_lssues.365e4a12ff79e4c3ab2d.png",
+    "static/media/Sports.png": "/static/media/Sports.5038a9e1b2e4c51cf73d.png",
+    "static/media/Entertainment.png": "/static/media/Entertainment.f4188288411dd65649f7.png",
+    "static/media/Art_and_Culture.png": "/static/media/Art_and_Culture.4bf005b5a62122d3182c.png",
+    "static/media/Fashion_and_Style.webp": "/static/media/Fashion_and_Style.b4bd6d2a2d6187687f4e.webp",
+    "static/media/Religion_and_Spirituality.png": "/static/media/Religion_and_Spirituality.f03d20234f07ec3518cd.png",
+    "static/media/Science_and_Nature.webp": "/static/media/Science_and_Nature.b7dc113980e7d3acc5e6.webp",
+    "static/media/News_and_Events.png": "/static/media/News_and_Events.a104044ceda7a20400b4.png",
+    "static/media/Business_and_Finance.png": "/static/media/Business_and_Finance.51b0dfb7c5d07e732ac5.png",
+    "static/media/Relationships_and_Dating.jpg": "/static/media/Relationships_and_Dating.28112ecc64e74356f625.jpg",
+    "static/media/Politics_and_Government.png": "/static/media/Politics_and_Government.b48789c92fa783367a82.png",
+    "static/media/Personal_Development_and_Selflmprovement.webp": "/static/media/Personal_Development_and_Selflmprovement.a93224d58dba2baf67d4.webp",
+    "static/media/Gaming.png": "/static/media/Gaming.c64b312dfeb9531b7952.png",
+    "static/media/Parenting_and_Family.webp": "/static/media/Parenting_and_Family.c58eb51c91ba1c18741c.webp",
+    "index.html": "/index.html",
+    "main.9fa75b48.css.map": "/static/css/main.9fa75b48.css.map",
+    "main.6bc5fcc6.js.map": "/static/js/main.6bc5fcc6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9fa75b48.css",
+    "static/js/main.6bc5fcc6.js"
+  ]
+}
