@@ -45,6 +45,9 @@
   height: 50%;
   background-color: inherit;
 }
+.comment-menu-button:hover{
+display: none;
+}
 
 .comment-menu-container {
   position: absolute;
