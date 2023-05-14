@@ -39,7 +39,7 @@ const News = () => {
       <h1>Trending News</h1>
       <Pagination
         defaultCurrent={1}
-        total={articles.length}
+        total={articles && articles.length}
         pageSize={numEachPage}
         onChange={handlePageChange}
       />

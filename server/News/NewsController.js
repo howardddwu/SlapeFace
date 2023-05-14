@@ -2,7 +2,8 @@
 import fs from 'fs'
 
 import express from "express";
-
+import fetch from 'node-fetch'
+globalThis.fetch = fetch
 
 export const readFile = () => {
 
