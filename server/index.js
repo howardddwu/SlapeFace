@@ -38,13 +38,13 @@ import sockets from "./Socket/socket.js"
 const app = express()
 
 app.use(cookieParser(process.env.COOKIE_SECRET))
-// app.use(function (req, res, next) {
-// 	res.header('Access-Control-Allow-Origin', process.env.CLIENT_URL)
-// 	res.header('Access-Control-Allow-Credentials', true)
-// 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-// 	next()
-// })
-// app.set("trust proxy", 1)
+app.use(function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', process.env.CLIENT_URL)
+	res.header('Access-Control-Allow-Credentials', true)
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+	next()
+})
+app.set("trust proxy", 1)
 
 app.use(
     cors({
