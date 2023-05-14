@@ -25,16 +25,20 @@ const UserProfile = () => {
   //============================= Major option for select bar =================================
   const categoryOptions = [];
   for (let category of categoryList) {
-      categoryOptions.push({
-          value: category,
-          label: category,
-      });
+    categoryOptions.push({
+      value: category,
+      label: category,
+    });
   }
   categoryOptions.sort(function (a, b) {
-      if (a.label < b.label) { return -1; }
-      if (a.label > b.label) { return 1; }
-      return 0;
-  })
+    if (a.label < b.label) {
+      return -1;
+    }
+    if (a.label > b.label) {
+      return 1;
+    }
+    return 0;
+  });
   //=======================================================================
 
   const [componentDisabled, setComponentDisabled] = useState(true);
@@ -62,18 +66,17 @@ const UserProfile = () => {
     //     let {icon, ...finalForm} = userInfo;
     //     console.log(finalForm)
     // }
+
     let ifErr;
-    if (userInfo.icon)
+    if (userInfo.icon) {
       ifErr = await UserAction.editProfile(userInfo, user._id, dispatch);
-    else {
+      user.icon = userInfo.icon;
+    } else {
       let { icon, ...finalForm } = userInfo;
       ifErr = await UserAction.editProfile(finalForm, user._id, dispatch);
     }
-    if (ifErr) {
+    if (ifErr)
       message.error("Something went wrong, please re-login or try later");
-    } else {
-      window.location.reload();
-    }
   };
 
   //deal with the img file:

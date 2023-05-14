@@ -8,8 +8,7 @@ import VotingVerifyModal from "./VotingVerifyModal";
 import pic1 from "../../DefaultProfile_1.jpg";
 import * as UserAPI from "../../API/UserAPI.js";
 import CountDownTimer from "../Timer/countDownTimer";
-import { Tag } from 'antd';
-
+import { Tag } from "antd";
 
 const Prophecy = (props) => {
   const { data, socket, ifModal } = props;
@@ -133,20 +132,17 @@ const Prophecy = (props) => {
     scales: {
       x: {
         grid: {
-          display: false
-        }
+          display: false,
+        },
       },
       y: {
         grid: {
-          display: false
-        }
-      }
+          display: false,
+        },
+      },
     },
     borderRadius: 6,
     borderColor: "",
-
-
-
   };
 
   function votingProphecy() {
@@ -194,33 +190,31 @@ const Prophecy = (props) => {
   async function submitVerify(optionIndex) {
     data.result = optionIndex;
 
-    // //add the result to prophecy
-    // await fetch(`${process.env.REACT_APP_API_URL}/prophecy/edit/` + data._id, {
-    //   method: "PATCH",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ result: data.result }),
-    // })
-    //   .then(console.log("verify result success"))
-    //   .catch((error) => console.log("error", error));
+    //add the result to prophecy
+    await fetch(`${process.env.REACT_APP_API_URL}/prophecy/edit/` + data._id, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ result: data.result }),
+    })
+      .then(console.log("verify result success"))
+      .catch((error) => console.log("error", error));
 
     setCorrectUserNum(data.options[optionIndex].VoterId.length);
-    const correctnum = data.options[optionIndex].VoterId.length
+    const correctnum = data.options[optionIndex].VoterId.length;
     addPointsToUser(optionIndex, correctnum);
-
 
     //=============================================
     //send result notification to every participated user
-    const options = data.options
+    const options = data.options;
 
     if (socket) {
       // console.log(data)
-      const options = data.options
+      const options = data.options;
       for (let i = 0; i < options.length; i++) {
-        let voterList = options[i].VoterId
+        let voterList = options[i].VoterId;
 
         //send msg to each voter:
         for (let j = 0; j < voterList.length; j++) {
-
           const dataform = {
             sender: "system",
             recipient: voterList[j],
@@ -231,13 +225,11 @@ const Prophecy = (props) => {
               ifCorrect: i === optionIndex ? true : false,
             },
             content: "Result of the Prophecy: " + data.title + ".",
-            prophecyId: data._id
+            prophecyId: data._id,
           };
 
           socket.emit("new-message", dataform);
         }
-
-
       }
     }
 
@@ -249,12 +241,14 @@ const Prophecy = (props) => {
     for (let i = 0; i < data.options[optionIndex].VoterId.length; i++) {
       setCurrentCorrectUser(data.options[optionIndex].VoterId[i]);
       //console.log(data.options[optionIndex].VoterId[i])
-      let info = await UserAPI.getUserInfoData(data.options[optionIndex].VoterId[i]);
+      let info = await UserAPI.getUserInfoData(
+        data.options[optionIndex].VoterId[i]
+      );
       console.log(info);
 
       //console.log(correctVoteUserInfo)
       if (info !== "") {
-        addPoints(info, data.numUser * 10, correctnum)
+        addPoints(info, data.numUser * 10, correctnum);
       }
     }
   }
@@ -268,8 +262,7 @@ const Prophecy = (props) => {
   */
 
   async function addPoints(userdata, pricePool, correctnum) {
-
-    let usePoints = userdata.points ? userdata.points : 0
+    let usePoints = userdata.points ? userdata.points : 0;
 
     // console.log("userdata.points: "+userdata.points)
     // console.log("pricePool: "+pricePool)
@@ -303,17 +296,17 @@ const Prophecy = (props) => {
         </div>
       </div>
       <div className="ProphecytagWrapper">
-        {data.category && data.category.length > 0 &&
-          data.category.map((item, index) =>
-            <Tag color="green" style={{ fontSize: "15px" }}>#{item}</Tag>
-
-          )
-        }
+        {data.category &&
+          data.category.length > 0 &&
+          data.category.map((item, index) => (
+            <Tag color="green" style={{ fontSize: "15px" }}>
+              #{item}
+            </Tag>
+          ))}
       </div>
       <div className="Prophecy-description">{data.description}</div>
 
       <hr className="hr-mid-circle" />
-
 
       <Bar data={votingData} options={options} />
       <div className="Prophecy-detail">
@@ -330,14 +323,10 @@ const Prophecy = (props) => {
             )
           }
         </div> */}
-
       </div>
 
-
-      <div className="Prophecy-TimeAndParticipateWrapper" >
-
+      <div className="Prophecy-TimeAndParticipateWrapper">
         <div className="Prophecy-ParticipateWrapper">
-
           {userParticipated && (
             <div className="Prophecy-userParticipate">
               <div>Voted !</div>
@@ -347,14 +336,13 @@ const Prophecy = (props) => {
           {data.result === -1 &&
             new Date(data.endTime.valueOf()) > new Date() &&
             !userParticipated && (
-              <button className="btn btn-primary" onClick={votingProphecy}>Participate</button>
+              <button className="btn btn-primary" onClick={votingProphecy}>
+                Participate
+              </button>
             )}
         </div>
 
-
-
         <div className="Prophecy-TimeWrapper">
-
           <div className="Prophecy-author">
             Posted by :
             {authorInfo === null ? (
@@ -371,10 +359,6 @@ const Prophecy = (props) => {
             )}
           </div>
 
-
-
-
-
           <div className="Prophecy-OpeningTime">
             {new Date(data.endTime.valueOf()) > new Date() ? (
               <div className="Prophecy-CountDown">
@@ -389,7 +373,12 @@ const Prophecy = (props) => {
               <div className="Prophecy-verify">
                 <div>Closed, Waiting for verify </div>
                 {user !== null && user._id === data.author && socket && (
-                  <button className="btn btn-outline-secondary btn-sm" onClick={verifyProphecy}>Verify</button>
+                  <button
+                    className="btn btn-outline-secondary btn-sm"
+                    onClick={verifyProphecy}
+                  >
+                    Verify
+                  </button>
                 )}
               </div>
             ) : (
@@ -399,12 +388,8 @@ const Prophecy = (props) => {
               </div>
             )}
           </div>
-
         </div>
-
       </div>
-
-
 
       {OpenVotingModal && (
         <VotingVerifyModal
@@ -424,7 +409,6 @@ const Prophecy = (props) => {
       )}
 
       <hr className="hr-mid-circle" />
-
 
       {!ifModal && <Comments ProphecyId={data._id} />}
     </div>

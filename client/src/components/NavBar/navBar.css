@@ -51,7 +51,6 @@ body {
   transition: all 0.2s ease-out;
 }
 
-
 .logo:hover {
   border-bottom: none;
   color: #88abda;
@@ -89,6 +88,12 @@ body {
 }
 .disabled {
   display: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .greeting {
+    display: none;
+  }
 }
 
 /* The followings are used for the mobile version */
@@ -150,9 +155,7 @@ body {
     color: #88abda;
     font-size: 2rem;
   }
-  .greeting {
-    display: none;
-  }
+
   .disabled {
     display: block;
   }
