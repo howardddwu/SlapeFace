@@ -110,12 +110,20 @@
   margin-top: 7px;
   display: flex;
   flex-direction: row;
+
+  justify-content: space-between;
 }
 
 .Prophecy-info {
   width: 60%;
   font-size: 12px;
 }
+
+/* .ProphecytagWrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+} */
 
 .Prophecy-userParticipate {
   color: green;

@@ -8,6 +8,8 @@ import VotingVerifyModal from "./VotingVerifyModal";
 import pic1 from "../../DefaultProfile_1.jpg";
 import * as UserAPI from "../../API/UserAPI.js";
 import CountDownTimer from "../Timer/countDownTimer";
+import { Tag } from 'antd';
+
 
 const Prophecy = (props) => {
   const { data, socket, ifModal } = props;
@@ -300,7 +302,14 @@ const Prophecy = (props) => {
           )}
         </div>
       </div>
+      <div className="ProphecytagWrapper">
+        {data.category && data.category.length > 0 &&
+          data.category.map((item, index) =>
+            <Tag color="green" style={{ fontSize: "15px" }}>#{item}</Tag>
 
+          )
+        }
+      </div>
       <div className="Prophecy-description">{data.description}</div>
 
       <hr className="hr-mid-circle" />
@@ -312,17 +321,16 @@ const Prophecy = (props) => {
           <div>Number Vote: {data.numUser}</div>
           <div>{modifyCreatedTime(data.createdTime)}</div>
         </div>
-        {/* {userParticipated && (
-          <div className="Prophecy-userParticipate">
-            <div>Voted !</div>
-            <div>Your Choices: {userChoice}</div>
-          </div>
-        )}
-        {data.result === -1 &&
-          new Date(data.endTime.valueOf()) > new Date() &&
-          !userParticipated && (
-            <button onClick={votingProphecy}>Participate</button>
-          )} */}
+
+        {/* <div className="ProphecytagWrapper">
+          {data.category && data.category.length > 0 &&
+            data.category.map((item, index) =>
+              <Tag color="green" style={{ fontSize: "15px" }}>#{item}</Tag>
+
+            )
+          }
+        </div> */}
+
       </div>
 
 
@@ -380,7 +388,7 @@ const Prophecy = (props) => {
             ) : data.result === -1 ? (
               <div className="Prophecy-verify">
                 <div>Closed, Waiting for verify </div>
-                {user !== null && user._id === data.author && socket &&(
+                {user !== null && user._id === data.author && socket && (
                   <button className="btn btn-outline-secondary btn-sm" onClick={verifyProphecy}>Verify</button>
                 )}
               </div>
@@ -418,7 +426,7 @@ const Prophecy = (props) => {
       <hr className="hr-mid-circle" />
 
 
-      {!ifModal && <Comments ProphecyId={data._id}/> }
+      {!ifModal && <Comments ProphecyId={data._id} />}
     </div>
   );
 };
