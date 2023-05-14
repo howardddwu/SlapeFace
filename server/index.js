@@ -47,11 +47,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 // app.set("trust proxy", 1)
 
 app.use(
-	cors({
-		methods: "*",
-		origin: true,
-		credentials: true,
-	})
+    cors({
+        methods: "*",
+        origin: true,
+        credentials: true,
+    })
 )
 
 app.use(bodyParser.json({ limit: '50mb', extended: true }))
@@ -79,9 +79,9 @@ mongoose.set("strictQuery", false)
 // 	)
 
 mongoose.connect(DBurl, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-}).then(()=>console.log("DB Connected."))
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log("DB Connected."))
 
 
 
@@ -115,7 +115,7 @@ httpServer.listen(port, () => {
 
 
 app.get("/", function (req, res) {
-	res.send({ status: "success" })
+    res.send({ status: "success" })
 }
 )
 
@@ -132,27 +132,36 @@ app.use('/search', SearchRoute)
 
 
 
-News.firstTimeFetch();
+// News.firstTimeFetch();
 
-var hours = 6;
-var the_interval = hours * 60 * 60 * 1000;
+// var hours = 6;
+// var the_interval = hours * 60 * 60 * 1000;
 
-setInterval( async function() {
-  console.log("Six hour fetch news. ");
-  await News.fetchData();
-}, the_interval);
+// setInterval( async function() {
+//   console.log("Six hour fetch news. ");
+//   await News.fetchData();
+// }, the_interval);
 
 
 
-import {CronJob} from "cron"
-import {updatePoints} from "../server/Controllers/RankController.js"
+import { CronJob } from "cron"
+import { updatePoints } from "../server/Controllers/RankController.js"
 
 // update the user point at every monday, 3:00 AM New York Time zone
 var job = new CronJob(
     '0 0 3 * * 1',
-    function() {
+    function () {
         updatePoints()
     },
+    null,
+    true,
+    'America/New_York'
+);
+
+News.firstTimeFetch();
+var newsJob = new CronJob(
+    '00 00 7 * * 0-6',
+    () => News.fetchData(),
     null,
     true,
     'America/New_York'

@@ -1,4 +1,4 @@
-import { setTimeout } from "timers/promises";
+// import { setTimeout } from "timers/promises";
 import fs from 'fs'
 
 import express from "express";
@@ -83,7 +83,7 @@ export const checkStatus = async () => {
 
 
 export const firstTimeFetch = async () => {
-    await setTimeout(10000);
+    // await setTimeout(10000);
     const ifReFetch = await checkStatus();
     if (ifReFetch) {
         console.log("Running Server, Fetching news data.");
