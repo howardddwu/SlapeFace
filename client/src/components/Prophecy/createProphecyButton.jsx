@@ -227,7 +227,7 @@ const CreateProphecyButton = (props) => {
               </FormControl>
 
               {options.map((items, index) => (
-                <div key={index} className="options">
+                <div key={index} className="options ">
                   <div>Option {index + 1}:</div>
                   <input
                     type="text"
@@ -240,6 +240,7 @@ const CreateProphecyButton = (props) => {
                   <button
                     type="button"
                     onClick={() => handleRemoveOption(index)}
+                    className="btn btn-primary"
                   >
                     Remove
                   </button>
