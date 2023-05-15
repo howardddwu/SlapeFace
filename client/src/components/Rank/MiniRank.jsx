@@ -46,7 +46,7 @@ const MiniRank = () => {
 
       <Card
         title="Bottom 5 Rank"
-        extra={<a href="/ranking">More</a>}
+        extra={<Link to="/ranking">More</Link>}
         style={{
           width: 300,
           marginTop: "10px",
