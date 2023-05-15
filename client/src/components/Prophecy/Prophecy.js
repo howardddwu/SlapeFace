@@ -9,8 +9,13 @@ import pic1 from "../../DefaultProfile_1.jpg";
 import * as UserAPI from "../../API/UserAPI.js";
 import CountDownTimer from "../Timer/countDownTimer";
 import { Tag } from "antd";
+import { useNavigate } from "react-router-dom"
+
 
 const Prophecy = (props) => {
+
+  const navigate = useNavigate()
+
   const { data, socket, ifModal } = props;
   const { user } = useContext(AuthContext);
 
@@ -145,8 +150,14 @@ const Prophecy = (props) => {
     borderColor: "",
   };
 
+
   function votingProphecy() {
-    setOpenVotingModal(true);
+    if (user) {
+      setOpenVotingModal(true);
+    } else {
+      navigate(`/login`)
+    }
+
   }
 
   function verifyProphecy() {

@@ -36,7 +36,8 @@ const Rank = () => {
 
   const handleDetial = (e) => {
     const selected = e.currentTarget.id;
-    setDetail([+selected + 1, rows[selected]]);
+    var target = (currentPage-1)*8 + (+selected)
+    setDetail([+target + 1, rows[target]]);
   };
 
   // pagination
