@@ -7,7 +7,6 @@ import {
   Checkbox,
   Form,
   Input,
-  Select,
   Upload,
   message,
   TreeSelect,
@@ -60,13 +59,6 @@ const UserProfile = () => {
   };
 
   const handleEditSubmit = async () => {
-    // if(userInfo.icon)
-    //     console.log(userInfo)
-    // else{
-    //     let {icon, ...finalForm} = userInfo;
-    //     console.log(finalForm)
-    // }
-
     let ifErr;
     if (userInfo.icon) {
       ifErr = await UserAction.editProfile(userInfo, user._id, dispatch);
@@ -77,6 +69,9 @@ const UserProfile = () => {
     }
     if (ifErr)
       message.error("Something went wrong, please re-login or try later");
+    else{
+      message.success("Update Successfully!", 1.5);
+    }
   };
 
   //deal with the img file:
@@ -124,6 +119,7 @@ const UserProfile = () => {
 
   return (
     <div className="edit-profile-wrapper">
+
       {/* show user's all profile infomation */}
       <div className="userinfo">
         <Checkbox
