@@ -17,7 +17,6 @@ const MiniRank = () => {
     }
   }, []);
 
-  console.log(botData);
   return (
     <div className="container-wrapper">
       <Card

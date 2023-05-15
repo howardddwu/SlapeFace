@@ -21,7 +21,6 @@ export const SearchProphecy = async (dataFrom, setProphecies) => {
                                 Number(new Date(objB.createdTime))) * -1
                         )
                     })
-                    console.log(data)
                     setProphecies(data)
 
                 }
