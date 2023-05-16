@@ -59,17 +59,17 @@ Provide a platform for people to share and verify prophecies. The motivation beh
 
 ### Login page
 <p align="center">
-<img src="https://user-images.githubusercontent.com/70027806/207454748-4171cec0-6af6-4e0f-b78a-b187058052a3.png" width="400"/>
+<img width="376" alt="image" src="https://github.com/xqcxqc/SlapeFace/assets/76079094/43844446-350c-4b5a-97c2-73f63a5c59c2">
 </p>
 
-We implemented **Google** and **Github** login for better user experience, but users can also register their own accounts on our site.
+We implemented **Google** login for better user experience, but users can also register their own accounts on our site.
 
 
 ### Home page
 <p align="center">
-<img src="https://user-images.githubusercontent.com/70027806/206892846-9977ee96-f539-4552-9e60-bcac392df409.png" width="800"/>
-</p>
 
+<img width="1512" alt="image" src="https://github.com/xqcxqc/SlapeFace/assets/76079094/ee245636-85ff-4e2a-8d02-c6747aa8ec46">
+</p>
 Including three sections: 
   - Left-side: Trending News
   - Middle: List of Prophecy created by users
@@ -77,14 +77,19 @@ Including three sections:
 
 ### Rank page
 <p align="center">
-<img src="https://user-images.githubusercontent.com/70027806/206890363-59fdcc30-f144-46cc-b55e-e038171a6a48.png" width="800"/>
+<img width="1512" alt="image" src="https://github.com/xqcxqc/SlapeFace/assets/76079094/d34a4806-aa42-4943-ad22-c5b5aea777bc">
 </p>
 
 Display the users with highest points respect to time. 
 
 ### Profile Page
 <p align="center">
-<img src="https://user-images.githubusercontent.com/70027806/206890363-59fdcc30-f144-46cc-b55e-e038171a6a48.png" width="800"/>
+<img width="1512" alt="image" src="https://github.com/xqcxqc/SlapeFace/assets/76079094/3645d116-aabd-4141-8153-8545001ec02c">
+</p>
+
+### Prophecy
+<p align="center">
+screenshot needed
 </p>
 
 Users can view all prophecies they created and participated. Abd allow user to edit their info there. 
